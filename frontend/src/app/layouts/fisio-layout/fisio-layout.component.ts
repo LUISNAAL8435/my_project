@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { SiderbarComponent} from '../../shared/components/fisio/siderbar/siderbar';
 
 @Component({
   selector: 'app-fisio-layout',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, RouterModule, SiderbarComponent],
   templateUrl: './fisio-layout.component.html',
-  styleUrl: './fisio-layout.component.scss'
+  styleUrls: ['./fisio-layout.component.scss']
 })
-export class FisioLayoutComponent {
+export class FisiolayoutComponent {
+  isSidebarExpanded = false;
 
+  onSidebarStateChange(isExpanded: boolean): void {
+    this.isSidebarExpanded = isExpanded;
+  }
 }

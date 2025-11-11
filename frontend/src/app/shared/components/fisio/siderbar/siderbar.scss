@@ -1,0 +1,56 @@
+/* Tokens */
+.sidebar {
+  --w-collapsed: 72px;
+  --w-expanded: 240px;
+  --bg-from: #1e3a8a;
+  --bg-to: #0f172a;
+  --bg-hover-from: #1d4ed8;
+  --bg-hover-to: #1e1b4b;
+  --txt: #e0f2fe;
+  --muted: #93c5fd;
+  --accent: #93c5fd;
+  --active-bg: #2563eb;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
+  --transition: 200ms ease;
+
+  position: sticky;
+  top: 0;
+  height: 100vh; /* Cambiado a 100vh */
+  width: var(--w-collapsed);
+  background: linear-gradient(180deg, var(--bg-from) 0%, var(--bg-to) 100%);
+  color: var(--txt);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow);
+  transition: width var(--transition), background var(--transition);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  z-index: 50;
+
+  &.expanded {
+    width: var(--w-expanded);
+    background: linear-gradient(180deg, var(--bg-hover-from) 0%, var(--bg-hover-to) 100%);
+  }
+}
+
+/* Asegurar que el contenedor padre también tenga altura completa */
+:host {
+  display: block;
+  height: 100vh;
+}
+
+/* Elimina bordes/sombras que vengan de estilos globales */
+.sidebar .item.active {
+  border-left: none !important;
+  box-shadow: none !important;
+}
+
+/* Responsive: en pantallas muy pequeñas deja el colapsado por defecto */
+@media (max-width: 768px) {
+  .sidebar {
+    --w-collapsed: 64px;
+    --w-expanded: 220px;
+    height: 100vh;
+  }
+}

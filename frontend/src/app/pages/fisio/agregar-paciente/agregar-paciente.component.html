@@ -1,0 +1,191 @@
+<div class="agregar-paciente-container h-full">
+  <!-- Header con botones pequeños -->
+  <div class="bg-blue-50 px-6 py-4 border-b border-blue-200 sticky top-0 z-10">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div class="mb-4 sm:mb-0 text-center sm:text-left">
+        <h2 class="text-2xl font-bold text-blue-800 mb-1">
+          {{modoEdicion ? 'Editar Paciente' : 'Registrar pacientes'}}
+        </h2>
+        <h1 class="text-base font-semibold text-gray-700">
+          {{modoEdicion ? 'Actualice los datos del paciente' : 'Capture los datos del paciente'}}
+        </h1>
+      </div>
+      <div class="flex gap-2">
+        <button 
+          type="button"
+          (click)="onGuardar()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition-all font-bold text-sm"
+        >
+          {{modoEdicion ? 'Actualizar' : 'Guardar'}} Paciente
+        </button>
+        <button 
+          type="button"
+          (click)="onCancelar()"
+          class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:ring-2 focus:ring-gray-300 transition-all font-bold text-sm"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario compacto en 2 columnas -->
+  <div class="p-6 w-full">
+    <form [formGroup]="formulario" class="w-full space-y-6">
+      
+      <!-- Primera fila: Folio -->
+      <div class="space-y-2 w-full">
+        <label for="folio" class="block text-sm font-semibold text-gray-700">Folio</label>
+        <input 
+          type="text" 
+          id="folio" 
+          formControlName="folio"
+          class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+          placeholder="Ingrese el número de folio"
+          [class.border-red-500]="formulario.get('folio')?.invalid && formulario.get('folio')?.touched"
+          [readonly]="modoEdicion"
+        >
+        <div *ngIf="formulario.get('folio')?.invalid && formulario.get('folio')?.touched" 
+             class="text-red-500 text-xs">
+          El folio es requerido
+        </div>
+        <p *ngIf="modoEdicion" class="text-xs text-gray-500">El folio no se puede modificar</p>
+      </div>
+
+      <!-- Segunda fila: 2 columnas - Fechas -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label for="fechaValoracion" class="block text-sm font-semibold text-gray-700">Fecha de valoración</label>
+          <input 
+            type="date" 
+            id="fechaValoracion" 
+            formControlName="fechaValoracion"
+            class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+          >
+        </div>
+        <div class="space-y-2">
+          <label for="fechaAlta" class="block text-sm font-semibold text-gray-700">Fecha de alta</label>
+          <input 
+            type="date" 
+            id="fechaAlta" 
+            formControlName="fechaAlta"
+            class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+          >
+        </div>
+      </div>
+
+      <!-- Tercera fila: 2 columnas - Nombres y Apellidos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label for="nombres" class="block text-sm font-semibold text-gray-700">Nombres</label>
+          <input 
+            type="text" 
+            id="nombres" 
+            formControlName="nombres"
+            class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+            placeholder="Ingrese los nombres del paciente"
+            [class.border-red-500]="formulario.get('nombres')?.invalid && formulario.get('nombres')?.touched"
+          >
+          <div *ngIf="formulario.get('nombres')?.invalid && formulario.get('nombres')?.touched" 
+               class="text-red-500 text-xs">
+            Los nombres son requeridos
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label for="apellidos" class="block text-sm font-semibold text-gray-700">Apellidos</label>
+          <input 
+            type="text" 
+            id="apellidos" 
+            formControlName="apellidos"
+            class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+            placeholder="Ingrese los apellidos del paciente"
+            [class.border-red-500]="formulario.get('apellidos')?.invalid && formulario.get('apellidos')?.touched"
+          >
+          <div *ngIf="formulario.get('apellidos')?.invalid && formulario.get('apellidos')?.touched" 
+               class="text-red-500 text-xs">
+            Los apellidos son requeridos
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuarta fila: 2 columnas - Sexo y Teléfono -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Sexo -->
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-700">Sexo</label>
+          <div class="flex space-x-2">
+            <button 
+              type="button" 
+              (click)="seleccionarSexo('Masculino')"
+              [class.bg-blue-600]="sexoSeleccionado === 'Masculino'"
+              [class.text-white]="sexoSeleccionado === 'Masculino'"
+              [class.border-blue-600]="sexoSeleccionado === 'Masculino'"
+              [class.bg-gray-100]="sexoSeleccionado !== 'Masculino'"
+              [class.text-gray-700]="sexoSeleccionado !== 'Masculino'"
+              [class.border-gray-300]="sexoSeleccionado !== 'Masculino'"
+              class="flex-1 px-3 py-2 border rounded-lg font-medium text-sm transition-all hover:bg-gray-200 hover:border-gray-400"
+            >
+              Masculino
+            </button>
+            <button 
+              type="button" 
+              (click)="seleccionarSexo('Femenino')"
+              [class.bg-pink-600]="sexoSeleccionado === 'Femenino'"
+              [class.text-white]="sexoSeleccionado === 'Femenino'"
+              [class.border-pink-600]="sexoSeleccionado === 'Femenino'"
+              [class.bg-gray-100]="sexoSeleccionado !== 'Femenino'"
+              [class.text-gray-700]="sexoSeleccionado !== 'Femenino'"
+              [class.border-gray-300]="sexoSeleccionado !== 'Femenino'"
+              class="flex-1 px-3 py-2 border rounded-lg font-medium text-sm transition-all hover:bg-gray-200 hover:border-gray-400"
+            >
+              Femenino
+            </button>
+          </div>
+          <div *ngIf="formulario.get('sexo')?.invalid && formulario.get('sexo')?.touched" 
+               class="text-red-500 text-xs">
+            El sexo es requerido
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="space-y-2">
+          <label for="telefono" class="block text-sm font-semibold text-gray-700">Teléfono</label>
+          <input 
+            type="tel" 
+            id="telefono" 
+            formControlName="telefono"
+            class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+            placeholder="Ingrese el número de teléfono"
+          >
+        </div>
+      </div>
+
+      <!-- Quinta fila: 2 columnas - Diagnóstico y Motivo -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Diagnóstico médico -->
+        <div class="space-y-2">
+          <label for="diagnostico" class="block text-sm font-semibold text-gray-700">Diagnóstico médico</label>
+          <textarea 
+            id="diagnostico" 
+            rows="3" 
+            formControlName="diagnostico"
+            class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
+            placeholder="Ingrese el diagnóstico médico del paciente"
+          ></textarea>
+        </div>
+
+        <!-- Motivo consulta -->
+        <div class="space-y-2">
+          <label for="motivoConsulta" class="block text-sm font-semibold text-gray-700">Motivo consulta</label>
+          <textarea 
+            id="motivoConsulta" 
+            rows="3" 
+            formControlName="motivoConsulta"
+            class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
+            placeholder="Ingrese el motivo de la consulta"
+          ></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

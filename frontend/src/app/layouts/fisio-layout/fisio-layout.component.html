@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<div class="app-layout flex w-full" [class.sidebar-expanded]="isSidebarExpanded">
+  <app-siderbar 
+    class="siderbar" 
+    (sidebarStateChange)="onSidebarStateChange($event)">
+  </app-siderbar>
+  
+  <main class="main-content flex-1 min-h-screen overflow-hidden">
+    <router-outlet></router-outlet>
+  </main>
+</div>

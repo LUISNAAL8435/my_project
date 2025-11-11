@@ -1,0 +1,168 @@
+<div
+  class="sticky top-0 z-50 flex h-screen flex-col border-r border-white/10 bg-gradient-to-b from-[#1e3a8a] to-[#0f172a] text-white shadow-[0_10px_30px_rgba(59,130,246,0.25)] transition-all duration-200 ease-in-out p-3"
+  [ngClass]="hovering ? 'w-[240px] from-[#1d4ed8] to-[#1e1b4b]' : 'w-[72px]'"
+  (mouseenter)="hovering = true"
+  (mouseleave)="hovering = false"
+>
+
+  <!-- Logo -->
+  <div class="flex items-center gap-3 px-2 py-2 rounded-2xl mb-2 transition-all duration-200">
+    <div class="size-10 bg-white/10 rounded-xl flex items-center justify-center font-bold text-lg shadow-[0_4px_12px_rgba(59,130,246,0.25)]">
+      F
+    </div>
+    <span
+      class="font-extrabold text-[16px] tracking-wide whitespace-nowrap transition-all duration-200"
+      [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+    >
+      Fisiocenter
+    </span>
+  </div>
+
+  <!-- Menú -->
+  <nav class="flex flex-col gap-1 mt-1">
+    <!-- Dashboard -->
+    <div
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Dashboard'"
+      (click)="setActive('Dashboard')"
+    >
+      <span class="material-icons text-[24px]">dashboard</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Dashboard
+      </span>
+
+      <!-- Tooltip colapsado -->
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Dashboard
+      </span>
+    </div>
+
+    <!-- Pacientes -->
+    <a
+      routerLink= "/fisio/pacientes"
+      routerLinkActive="!bg-[#2563eb] !text-[#93c5fd]"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Pacientes'"
+      (click)="setActive('Pacientes')"
+    >
+      <span class="material-icons text-[24px]">people</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Pacientes
+      </span>
+
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Pacientes
+      </span>
+    </a>
+
+    <!-- Agenda -->
+    <a
+      routerLink= "/fisio/agenda"
+      routerLinkActive="!bg-[#2563eb] !text-[#93c5fd]"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Agenda'"
+      (click)="setActive('Agenda')"
+    >
+      <span class="material-icons text-[24px]">calendar_today</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Agenda
+      </span>
+
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Agenda
+      </span>
+    </a>
+
+    <!-- Citas -->
+    <a
+      routerLink= "/fisio/citas"
+      routerLinkActive="!bg-[#2563eb] !text-[#93c5fd]"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Citas'"
+      (click)="setActive('Citas')"
+    >
+      <span class="material-icons text-[24px]">event_available</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Citas
+      </span>
+
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Citas
+      </span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <div class="flex flex-col gap-1 mt-auto pt-2 border-t border-dashed border-white/10">
+    <!-- Ajustes -->
+    <div
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Ajustes'"
+      (click)="setActive('Ajustes')"
+    >
+      <span class="material-icons text-[24px]">settings</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Ajustes
+      </span>
+
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] text-[#e0f2fe] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Ajustes
+      </span>
+    </div>
+
+    <!-- Cerrar Sesión -->
+    <div
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Cerrar Sesión'"
+      (click)="setActive('Cerrar Sesión')"
+    >
+      <span class="material-icons text-[24px]">logout</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Cerrar Sesión
+      </span>
+
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] text-[#e0f2fe] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Cerrar Sesión
+      </span>
+    </div>
+  </div>
+</div>
