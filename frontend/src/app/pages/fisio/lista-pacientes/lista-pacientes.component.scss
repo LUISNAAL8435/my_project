@@ -1,0 +1,17 @@
+.lista-pacientes-container ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lista-pacientes-container ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
