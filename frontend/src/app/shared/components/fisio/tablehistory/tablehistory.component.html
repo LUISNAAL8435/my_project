@@ -1,0 +1,31 @@
+<div class="flex w-full h-full flex-col justify-center">
+<div class="flex border border-gray-200 flex-col w-full p-4 rounded-2xl shadow-md">
+  <h2 class="text-sm sm:text-base md:text-lg font-semibold mb-4 text-gray-700 border-b pb-2">
+    {{ title }}
+  </h2>
+  <table class="min-w-full border border-gray-300 rounded-lg">
+    <tbody>
+      <tr *ngFor="let key of objectKeys(data)" class="border-b">
+        <td class="text-xs sm:text-sm md:text-base p-2 capitalize text-gray-700 font-medium">{{ key }}</td>
+        <td class="p-2 text-center">
+          <input
+            type="checkbox"
+            [(ngModel)]="data[key].respuesta"
+            (change)="emitChange()"
+          />
+        </td>
+        <td class="p-2 text-center">
+        <input
+          type="text"
+          placeholder="Observación..."
+          [(ngModel)]="data[key].observacion"
+          (ngModelChange)="emitChange()"
+          [disabled]="!data[key].respuesta"
+          class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200 text-xs sm:text-sm md:text-base"
+        />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

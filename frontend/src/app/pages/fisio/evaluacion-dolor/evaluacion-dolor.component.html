@@ -1,0 +1,77 @@
+<div class="flex w-full justify-center">
+    <div class="flex flex-col w-full p-4 rounded-2xl shadow-md">
+                <h2 class="text-sm sm:text-base md:text-lg flex h-10 w-full items-center justify-center">EVALUACIÓN DOLOR</h2>
+                <table class="min-w-full border border-gray-300 rounded-lg">
+                    <thead class="bg-gray-100 text-gray-700 uppercase">
+                        <tr>
+                            <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b"></th>
+                            <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b"></th>                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Donde le duele?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input [(ngModel)]="this.evalucacionDeDolor.donde_le_duele" type="text" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Intensidad del dolor?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor" [(ngModel)]="this.evalucacionDeDolor.nivelDeDolor"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="leve">Leve</option>
+                                <option value="moderada">Moderada</option>
+                                <option value="intensa">Intensa</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Parestesia?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.parestesia" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Disestesia?j</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.disestesia" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Sensación de electricidad?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.sensacionDeElectricidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿El dolor se irradia a otra zona?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.elDolorSeIrradiaEnOtraZona" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿El dolor empezó después del mecanismo de lesión?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.elDolorEmpezoDespuesDelMecanismoDeLesion" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿El dolor empezó de la nada?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.elDolorEmpezoDeLaNada" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Qué exacerba su dolor?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.queExacerbaSuDolor" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Qué inhibe su dolor?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.queInhibeSuDolor" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿El dolor se mantiene de forma puntual o en la zona?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.elDolorSeMantieneDeFormaPuntualOEnLaZona" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                    <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿El dolor se desplaza a otra zona?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input type="text" [(ngModel)]="this.evalucacionDeDolor.elDolorSeDesplazaAOtraZona" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                    <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Dolor tipo ardor?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input [(ngModel)]="this.evalucacionDeDolor.dolorTipoArdor" type="text" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">¿Dolor tipo punzante?</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2"><input [(ngModel)]="this.evalucacionDeDolor.dolorTipoPunzante" type="text" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200"></td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+</div>

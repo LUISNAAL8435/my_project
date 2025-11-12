@@ -1,0 +1,353 @@
+<div class="flex w-full h-full flex-col justify-center space-y-2">
+<div class="flex flex-col w-full p-4 rounded-2xl shadow-md">
+            <h2 class=" flex h-10 w-full items-center justify-center">Test miembro superior</h2>
+            <table class="min-w-full border border-gray-300 rounded-lg">
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Miotoma</th>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Musculo</th>  
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Estado</th>                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C5</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Deltoides</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="deltoides" [(ngModel)]="this.testMiembroSuperior.c5.estado" id="idDeltoides" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C6</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Bíceps braquial y extensores de muñeca</td>
+                        <td class="p-2">
+                            <select name="deltoides" [(ngModel)]="this.testMiembroSuperior.c6.estado" id="idDeltoides" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C7</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Flexor radial del campo y tríceps</td>
+                        <td class="p-2">
+                            <select name="deltoides" id="idDeltoides" [(ngModel)]="this.testMiembroSuperior.c7.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C8</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Abductor del primer dedo</td>
+                        <td class="p-2">
+                            <select name="deltoides" id="idDeltoides" [(ngModel)]="this.testMiembroSuperior.c8.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">T1</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Primer musculo interóseo dorsal</td>
+                        <td class="p-2">
+                            <select name="deltoides" id="idDeltoides" [(ngModel)]="this.testMiembroSuperior.t1.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+
+    <div class="flex flex-col w-full p-4 rounded-2xl shadow-md overflow-x-auto">
+        <h2 class="text-xs sm:text-base md:text-lg flex h-10 w-full items-center justify-center">Test miembro superior</h2>
+            <table class="min-w-full border border-gray-300 rounded-lg">
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Miotoma</th>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Zonas</th>  
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Estado</th>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Alterada</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C5</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Región lateral del hombro y brazo</td>
+                        <td class="p-2">
+                            <select name="c5" id="idc5" [(ngModel)]="this.test2MiembroSuperior.c5.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="c55" id="idc55" [(ngModel)]="this.test2MiembroSuperior.c5.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                     <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C6</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Región lateral del brazo-antebrazo y mano</td>
+                        <td class="p-2">
+                            <select name="C6" id="idC6" [(ngModel)]="this.test2MiembroSuperior.c6.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="c66" id="idc66" [(ngModel)]="this.test2MiembroSuperior.c6.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C7</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Parte media de la mano y dedo medio</td>
+                        <td class="p-2">
+                            <select name="C7" id="idC7" [(ngModel)]="this.test2MiembroSuperior.c7.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="c77" id="idc77" [(ngModel)]="this.test2MiembroSuperior.c7.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">C8</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Cara interna de antebrazo y mano</td>
+                        <td class="p-2">
+                            <select name="C8" id="idC8" [(ngModel)]="this.test2MiembroSuperior.c8.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="c88" id="idc88" [(ngModel)]="this.test2MiembroSuperior.c8.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                   <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">T1</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Parte medial del antebrazo y brazo</td>
+                        <td class="p-2">
+                            <select name="T1" id="idT1" [(ngModel)]="this.test2MiembroSuperior.t1.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="T11" id="T11" [(ngModel)]="this.test2MiembroSuperior.t1.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+
+<div class="flex flex-col w-full p-4 rounded-2xl shadow-md">
+            <h2 class="text-xs sm:text-base md:text-lg flex h-10 w-full items-center justify-center">Test miembro inferior</h2>
+            <table class="min-w-full border border-gray-300 rounded-lg">
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Miotoma</th>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Musculo</th>  
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Estado</th>                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L2</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Psoas</td>
+                        <td class="p-2">
+                            <select name="L2" id="idL2" [(ngModel)]="this.testMiembroInferior.l2.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L3</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">cuádriceps</td>
+                        <td class="p-2">
+                            <select name="L3" id="idL3" [(ngModel)]="this.testMiembroInferior.l3.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L4</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Tibia anterior</td>
+                        <td class="p-2">
+                            <select name="L4" id="idL4" [(ngModel)]="this.testMiembroInferior.l4.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L5</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">	Extensor del hallux</td>
+                        <td class="p-2">
+                            <select name="L5" id="L5" [(ngModel)]="this.testMiembroInferior.l5.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">S1</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Tríceps sural</td>
+                        <td class="p-2">
+                            <select name="S1" id="idS1" [(ngModel)]="this.testMiembroInferior.s1.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">S2</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Isquiotibiales</td>
+                        <td class="p-2">
+                            <select name="S2" id="idS2" [(ngModel)]="this.testMiembroInferior.s2.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Debil</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+
+    <div class="flex flex-col w-full p-4 rounded-2xl shadow-md overflow-x-auto">
+        <h2 class="text-xs sm:text-base md:text-lg flex h-10 w-full items-center justify-center">Test miembro inferior</h2>
+            <table class="min-w-full border border-gray-300 rounded-lg">
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Miotoma</th>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Zonas</th>  
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Estado</th>
+                        <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b">Alterada</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L2</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Cara anterior del muslo</td>
+                        <td class="p-2">
+                            <select name="L2" id="idL2" [(ngModel)]="this.test2MiembroInferior.l2.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="L22" id="idL22" [(ngModel)]="this.test2MiembroInferior.l2.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                     <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L3</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Cóndilo femoral izquierdo</td>
+                        <td class="p-2">
+                            <select name="L3" id="idL3" [(ngModel)]="this.test2MiembroInferior.l3.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="L33" id="idL33" [(ngModel)]="this.test2MiembroInferior.l3.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L4</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Maléolo interno</td>
+                        <td class="p-2">
+                            <select name="L4" id="idL4" [(ngModel)]="this.test2MiembroInferior.l4.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="L44" id="idL44" [(ngModel)]="this.test2MiembroInferior.l4.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">L5</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Cara dorsal del pie</td>
+                        <td class="p-2">
+                            <select name="L5" id="idL5" [(ngModel)]="this.test2MiembroInferior.l5.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="L55" id="idL55" [(ngModel)]="this.test2MiembroInferior.l5.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                   <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">S1</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Borde externo del talón</td>
+                        <td class="p-2">
+                            <select name="S1" id="idS1" [(ngModel)]="this.test2MiembroInferior.s1.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="S11" id="idS11" [(ngModel)]="this.test2MiembroInferior.s1.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                   <tr class="hover:bg-gray-50">
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">S2</td>
+                        <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Lineal media de la fosa popitlea</td>
+                        <td class="p-2">
+                            <select name="S2" id="idS2" [(ngModel)]="this.test2MiembroInferior.s2.estado" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="debil">Anestesia</option>
+                            </select>
+                        </td>
+                        <td class="p-2">
+                            <select name="S22" id="idS22" [(ngModel)]="this.test2MiembroInferior.s2.alterada" class="text-xs sm:text-base md:text-lg border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="aumentada">Aumentada</option>
+                                <option value="disminuida">Disminuida</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
