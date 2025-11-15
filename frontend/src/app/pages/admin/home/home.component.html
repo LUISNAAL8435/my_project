@@ -1,0 +1,181 @@
+<div class="min-h-screen bg-[#f0f8ff] flex">
+  <!-- Contenedor principal -->
+  <div class="w-full h-full flex flex-col lg:flex-row">
+    
+    <!-- Sidebar izquierdo (25% en desktop) -->
+    <div class="w-full lg:w-1/4 h-auto lg:h-full bg-white border-[3px] border-[#1e90ff] flex flex-col">
+      
+      <!-- Título Fisiocenter - Fondo #A6C3F1 -->
+      <div class="bg-[#A6C3F1] border-b-[2px] border-[#1e90ff] p-4 lg:h-[16.5%]">
+        <div class="flex justify-between items-start mb-2">
+          <h1 class="text-xl lg:text-2xl font-bold text-[#1e90ff] tracking-[2px] m-0">Fisiocenter</h1>
+          <button class="bg-white border-[2px] border-[#1e90ff] rounded-[5px] p-1 hover:bg-blue-50 transition-colors" 
+                  (click)="irEliminarCuneta()">
+            <img src="/ajuste.png" width="20" height="20" alt="Ajuste">
+          </button>
+        </div>
+        <h1 class="text-base lg:text-lg font-bold text-[#1e90ff] tracking-[1px]">Clínica de Fisioterapia</h1>
+      </div>
+
+      <!-- Sección de bienvenida - Fondo #BED3EC -->
+      <div class="bg-[#BED3EC] border-b-[2px] border-[#1e90ff] flex items-center justify-center text-center h-32 lg:h-[200px] p-4">
+        <div>
+          <label class="text-lg lg:text-2xl font-bold text-[#1e90ff] block mb-2 lg:mb-4">"BIENVENIDO"</label>
+          <div class="flex justify-center mb-2">
+            <img src="/imgperfil.png" alt="Fisiocenter Logo" class="w-16 lg:w-[100px]">
+          </div>
+          <label class="text-base lg:text-xl font-bold text-[#1e90ff]">{{username}}</label>
+        </div>
+      </div>
+
+      <!-- Menú de opciones - Fondo #A6C3F1 -->
+      <div class="flex-1 bg-[#A6C3F1] flex lg:block">
+        <div class="w-full flex lg:flex-col">
+          <!-- Pacientes -->
+          <div class="flex-1 lg:w-full lg:flex lg:justify-center">
+            <button class="w-full p-3 lg:p-4 bg-[#A6C3F1] text-[#1e90ff] border-b-[2px] lg:border-b-[2px] border-[#1e90ff] font-bold text-sm lg:text-lg flex items-center justify-center gap-1 lg:gap-2 hover:bg-[#9ab5e0] transition-colors"
+                    (click)="Mostrarcontenido(0)">
+              <img src="/contacto.png" alt="" class="w-4 h-4 lg:w-5 lg:h-5">
+              <span class="hidden xs:inline">Pacientes</span>
+            </button>
+          </div>
+          
+          <!-- Agenda -->
+          <div class="flex-1 lg:w-full lg:flex lg:justify-center">
+            <button class="w-full p-3 lg:p-4 bg-[#A6C3F1] text-[#1e90ff] border-b-[2px] lg:border-b-[2px] border-[#1e90ff] font-bold text-sm lg:text-lg flex items-center justify-center gap-1 lg:gap-2 hover:bg-[#9ab5e0] transition-colors"
+                    (click)="Mostrarcontenido(1)">
+              <img src="/calendar.png" alt="calendar" class="w-4 h-4 lg:w-5 lg:h-5">
+              <span class="hidden xs:inline">Agenda</span>
+            </button>
+          </div>
+          
+          <!-- Citas -->
+          <div class="flex-1 lg:w-full lg:flex lg:justify-center">
+            <button class="w-full p-3 lg:p-4 bg-[#A6C3F1] text-[#1e90ff] border-b-[2px] lg:border-b-[2px] border-[#1e90ff] font-bold text-sm lg:text-lg flex items-center justify-center gap-1 lg:gap-2 hover:bg-[#9ab5e0] transition-colors"
+                    (click)="Mostrarcontenido(2)">
+              <img src="/lapiz_hoja.png" alt="citas" class="w-4 h-4 lg:w-5 lg:h-5">
+              <span class="hidden xs:inline">Citas</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido principal (75% en desktop) -->
+    <div class="flex-1 h-full flex flex-col">
+      
+      <!-- Sección de pacientes -->
+      <div *ngIf="contenedor == 0" class="h-full flex flex-col">
+        
+        <!-- Header con botón registrar - Fondo #BED3EC -->
+        <div class="h-16 lg:h-[10%] bg-[#BED3EC] border-b-[2px] border-[#1e90ff] flex items-center justify-end p-2 lg:p-4">
+          <button class="px-4 lg:px-[50px] py-2 lg:py-[10px] bg-white border-[2px] border-[#1e90ff] rounded-[5px] text-[#1e90ff] tracking-[1px] lg:tracking-[2px] hover:bg-[#1e90ff] hover:text-white transition-colors mr-2 lg:mr-[10px] font-bold text-sm lg:text-base"
+                  (click)="getDatosFisio()">
+            <span class="hidden sm:inline">Registrar pacientes</span>
+            <span class="sm:hidden">Registrar</span>
+          </button>
+        </div>
+
+        <!-- Área de búsqueda y lista -->
+        <div class="flex-1 border-[2px] border-[#1e90ff] m-2 lg:m-4 flex flex-col bg-white">
+          
+          <!-- Buscador -->
+          <div class="h-14 lg:h-[60px] bg-white border-b-[2px] border-[#1e90ff] flex items-center justify-center gap-2 p-2 lg:p-4">
+            <input type="text" 
+                   class="h-8 lg:h-[40px] w-[70%] lg:w-[80%] px-2 lg:px-4 border-[2px] border-[#1e90ff] rounded-[10px] text-[#1e90ff] text-center text-sm lg:text-xl focus:border-[#1e90ff] focus:outline-none placeholder-blue-300"
+                   [(ngModel)]="nombre" 
+                   placeholder="BUSCAR PACIENTE..." 
+                   (keyup.enter)="buscarPaciente()" 
+                   (input)="buscarPaciente()">
+            <img src="/lupa.png" alt="iconoLupa" class="w-6 h-6 lg:w-8 lg:h-8">
+          </div>
+
+          <!-- Lista de pacientes -->
+          <div class="flex-1 bg-white flex justify-center items-center p-2 lg:p-4">
+            <div class="w-full lg:w-[90%] h-[90%] bg-white rounded-[5px] overflow-auto scrollbar-hide">
+              <div class="space-y-2">
+                <!-- Paciente ejemplo - Fondo #A6C3F1 -->
+                <div *ngFor="let dato of datos" 
+                     class="bg-[#A6C3F1] border-[2px] border-[#1e90ff] flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 lg:p-4 hover:bg-[#9ab5e0] transition-colors gap-2">
+                  
+                  <!-- Información del paciente -->
+                  <div class="flex-1">
+                    <span class="text-lg lg:text-2xl text-[#1e90ff] tracking-[1px] lg:tracking-[2px] block leading-tight">
+                      {{dato.nombres}} {{dato.apellidos}}<br>
+                      <span class="text-xs lg:text-sm text-[#1e90ff]">Folio:{{dato.folio}}</span>
+                    </span>
+                  </div>
+
+                  <!-- Botones de acción -->
+                  <div class="flex gap-1 lg:gap-2 items-center justify-end w-full sm:w-auto">
+                    <button class="bg-white border-[2px] border-[#1e90ff] rounded-[5px] p-1 lg:p-2 hover:bg-yellow-50 transition-colors"
+                            (click)="irNotaRapida(dato)">
+                      <img src="/rayo.png" alt="Nota Rápida" class="w-6 h-6 lg:w-8 lg:h-8">
+                    </button>
+                    <button class="bg-white border-[2px] border-[#1e90ff] rounded-[5px] p-1 lg:p-2 hover:bg-green-50 transition-colors"
+                            (click)="editar(dato.id)">
+                      <img src="/lapiz_hoja.png" alt="Editar" class="w-6 h-6 lg:w-8 lg:h-8">
+                    </button>
+                    <button class="bg-white border-[2px] border-[#1e90ff] rounded-[5px] px-2 lg:px-4 py-1 lg:py-2 text-[#1e90ff] hover:bg-blue-50 transition-colors font-medium text-xs lg:text-base"
+                            (click)="verHistorial(dato.id)">
+                      <span class="hidden sm:inline">Ver Historial</span>
+                      <span class="sm:hidden">Historial</span>
+                    </button>
+                    <button class="bg-white border-[2px] border-[#1e90ff] rounded-[5px] p-1 lg:p-2 hover:bg-red-50 transition-colors"
+                            (click)="eliminarPacientee(dato.id)">
+                      <img src="/basura.png" alt="Eliminar" class="w-6 h-6 lg:w-8 lg:h-8">
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Mensaje cuando no hay pacientes -->
+                <div *ngIf="datos.length === 0" class="text-center py-8 bg-white border-[2px] border-[#1e90ff] rounded-[5px] p-4">
+                  <p class="text-lg lg:text-xl text-[#1e90ff]">No hay pacientes registrados</p>
+                  <p class="text-sm lg:text-base text-[#1e90ff]">Haz clic en "Registrar pacientes" para agregar uno</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de agenda - MEJORADO PARA PC -->
+      <div *ngIf="contenedor == 1" class="h-full flex flex-col">
+        <div class="h-16 lg:h-[10%] bg-[#BED3EC] border-b-[2px] border-[#1e90ff] flex items-center justify-start p-2 lg:p-4">
+          <h2 class="text-xl lg:text-2xl font-bold text-[#1e90ff] ml-4">Agenda</h2>
+        </div>
+        <div class="flex-1 flex items-center justify-center p-4 lg:p-8">
+          <div class="bg-white border-2 border-[#1e90ff] rounded-lg p-6 lg:p-12 text-center max-w-2xl w-full">
+            <div class="text-[#1e90ff] mb-4">
+              <img src="/calendar.png" alt="Agenda" class="w-16 h-16 lg:w-24 lg:h-24 mx-auto mb-4">
+              <h3 class="text-2xl lg:text-3xl font-bold mb-2">Agenda de Citas</h3>
+              <p class="text-lg lg:text-xl">Esta funcionalidad estará disponible pronto</p>
+            </div>
+            <div class="mt-6 p-4 bg-[#A6C3F1] rounded-lg border border-[#1e90ff]">
+              <p class="text-sm lg:text-base text-[#1e90ff]">Podrás gestionar tu agenda de citas, ver disponibilidad y programar nuevas sesiones</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de citas - MEJORADO PARA PC -->
+      <div *ngIf="contenedor == 2" class="h-full flex flex-col">
+        <div class="h-16 lg:h-[10%] bg-[#BED3EC] border-b-[2px] border-[#1e90ff] flex items-center justify-start p-2 lg:p-4">
+          <h2 class="text-xl lg:text-2xl font-bold text-[#1e90ff] ml-4">Citas</h2>
+        </div>
+        <div class="flex-1 flex items-center justify-center p-4 lg:p-8">
+          <div class="bg-white border-2 border-[#1e90ff] rounded-lg p-6 lg:p-12 text-center max-w-2xl w-full">
+            <div class="text-[#1e90ff] mb-4">
+              <img src="/lapiz_hoja.png" alt="Citas" class="w-16 h-16 lg:w-24 lg:h-24 mx-auto mb-4">
+              <h3 class="text-2xl lg:text-3xl font-bold mb-2">Gestión de Citas</h3>
+              <p class="text-lg lg:text-xl">Esta funcionalidad estará disponible pronto</p>
+            </div>
+            <div class="mt-6 p-4 bg-[#A6C3F1] rounded-lg border border-[#1e90ff]">
+              <p class="text-sm lg:text-base text-[#1e90ff]">Podrás crear, editar y gestionar todas las citas de tus pacientes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
