@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Paciente } from '../../../../core/interfaces/fisio/patients.models';
 @Component({
   selector: 'app-header-pacient',
   imports: [],
@@ -8,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class HeaderPacientComponent {
  @Output() clickGenerico = new EventEmitter<void>();
-
+ @Input() paciente!: Paciente;
   emitirEvento() {
     this.clickGenerico.emit(); // 🔥 Emite el evento al padre
   }

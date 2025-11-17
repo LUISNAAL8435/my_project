@@ -1,4 +1,5 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,OnInit,ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HeaderPacientComponent } from "../../../shared/components/fisio/header-pacient/header-pacient.component";
 import { TablehistoryComponent } from '../../../shared/components/fisio/tablehistory/tablehistory.component';
 import { AntecedentesHeredofamiliares, AntecedentesNoPatologicos, AntecedentesPersonalesPatologicos,AntecedentesCompletos } from '../../../core/interfaces/fisio/enfermedades.models';
@@ -9,6 +10,7 @@ import { TestComponent } from "../test/test.component";
 import { EvaluacionDolorComponent } from "../evaluacion-dolor/evaluacion-dolor.component";
 import { NeurologicaComponent } from "../neurologica/neurologica.component";
 import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
+import { Paciente } from '../../../core/interfaces/fisio/patients.models';
 
 @Component({
   selector: 'app-historal',
@@ -16,10 +18,14 @@ import { GenericServiceService } from '../../../services/serviFisio/generic-serv
   templateUrl: './historal.component.html',
   styleUrl: './historal.component.scss'
 })
-export class HistoralComponent {
+export class HistoralComponent implements OnInit {
+      paciente!: Paciente;
+      id!: number;
+      
       @ViewChild('test') testComponent!:TestComponent
       @ViewChild('evaluation') evaliationDolor!:EvaluacionDolorComponent
       @ViewChild('neurologica') enviarneorologica!:NeurologicaComponent
+      @ViewChild('ginecolog') enviarDatosObsGine!: SocioeconomicStudyComponent
   contenedor:number=0;
   titulo = 'Antecedentes Personal No Patológico';
   antecedentes: AntecedentesNoPatologicos={
@@ -49,6 +55,7 @@ titulo3='Antecedentes Personales Patológicos';
        cirugias:{ respuesta: false, observacion: '' },
        fracturas:{ respuesta: false, observacion: '' },
   };
+  //-------------------------------------
   grupoFamliarSelec:number=0;
   titulo4='GRUPO FAMILIAR';
   label1='Núm. De Integrantes';
@@ -150,11 +157,105 @@ salud=[
       { value: 2 ,label: 'Particular'},
 ]
 
-constructor(private genericService:GenericServiceService){}
+constructor(private genericService:GenericServiceService, private router:Router, private route:ActivatedRoute){
+          // Obtenemos el folio desde la URL
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+
+      // Obtenemos el paciente completo si venía en state
+      const navigation = this.router.getCurrentNavigation();
+      const pacienteState = navigation?.extras?.state?.['paciente'];
+
+      if (pacienteState) {
+       // 👌 Navegación normal → venía en el state
+    this.paciente = pacienteState;
+  } else {
+    // 🔄 REFRESH o acceso directo → cargar desde API
+    this.cargarPacienteDesdeBackend();
+  }
+}
+ngOnInit() {
+  this.cargarAntecedentes();
+  this.cargarEstudio(); 
+}
+cargarEstudio() {
+  this.genericService.getById<any[]>('estudio', this.id).subscribe({
+    next: (res) => {
+      console.log("📥 Estudio socioeconómico recibido:", res);
+
+      res.forEach(item => {
+        switch(item.titulo) {
+
+          case 'GRUPO FAMILIAR':
+            this.grupoFamliarSelec = item.datos.num_integrantes.valor;
+            this.adultosSelec = item.datos.num_adultos.valor;
+            this.ninosSelec = item.datos.num_ninos.valor;
+            this.productivasSelec = item.datos.personas_economicamente_productivas.valor;
+            break;
+
+          case 'VIVIENDA':
+            this.vivendaSelec = item.datos.situacion_vivienda.valor;
+            this.CuartosSelec = item.datos.num_cuartos.valor;
+            this.serviciosSelec = item.datos.servicios.valor;
+            break;
+
+          case 'TRANSPORTE':
+            this.transporteSelec = item.datos.transporte.valor;
+            break;
+
+          case 'OCUPACION':
+            this.ocupacionSelec = item.datos.ocupacion.valor;
+            break;
+
+          case 'SALARIO':
+            this.salarioSelec = item.datos.salario.valor;
+            break;
+
+          case 'SERVICIOS DE SALUD':
+            this.saludSelec = item.datos.servicio_salud.valor;
+            break;
+        }
+      });
+
+      console.log("✔ Datos socioeconómicos cargados en los selects");
+    },
+    error: (err) => console.error("❌ Error obteniendo estudio", err)
+  });
+}
+
+cargarAntecedentes() {
+  this.genericService.getById<any[]>('antecedentes', this.id).subscribe({
+    next: (res) => {
+      console.log("📥 Antecedentes recibidos:", res);
+
+      // Ordenar y colocarlos en tus variables ya existentes
+      res.forEach(item => {
+        if (item.titulo === 'Antecedentes Personal No Patológico') {
+          this.antecedentes = item.datos;
+        } 
+        else if (item.titulo === 'Antecedentes heredofamiliares') {
+          this.antecedentes2 = item.datos;
+        } 
+        else if (item.titulo === 'Antecedentes Personales Patológicos') {
+          this.antecedentes3 = item.datos;
+        }
+      });
+
+      console.log("✔ Datos asignados a las variables del formulario");
+    },
+    error: (err) => console.error("❌ Error obteniendo antecedentes", err)
+  });
+}
+
+cargarPacienteDesdeBackend() {
+  this.genericService.getById<Paciente>('patients',this.id).subscribe({
+    next: (pac) => this.paciente = pac,
+    error: (err) => console.log('Error cargando paciente', err)
+  });
+}
 enviarEstudioSocio(){
       const grupos = [
             {
-            paciente_id:1,
+            paciente_id:this.id,
             titulo: 'GRUPO FAMILIAR',
             datos:{
             num_integrantes: { valor: this.grupoFamliarSelec},
@@ -164,7 +265,7 @@ enviarEstudioSocio(){
             }
             },
             {
-            paciente_id:1,
+            paciente_id:this.id,
             titulo: 'VIVIENDA',
             datos:{
             situacion_vivienda: { valor: this.vivendaSelec},
@@ -173,28 +274,28 @@ enviarEstudioSocio(){
             }                  
             },
             {
-            paciente_id:1,
+            paciente_id:this.id,
             titulo: 'TRANSPORTE',
             datos:{
             transporte: { valor: this.transporteSelec},
             }                 
             },
             {
-            paciente_id:1,
-            titulo: 'OCUPACIÓN',
+            paciente_id:this.id,
+            titulo: 'OCUPACION',
             datos:{
-            OCUPACIÓN: { valor: this.ocupacionSelec},
+            ocupacion: { valor: this.ocupacionSelec},
             }                 
             },
             {
-            paciente_id:1,
+            paciente_id:this.id,
             titulo: 'SALARIO',
             datos:{
             salario: { valor: this.salarioSelec},
             }  
             },
             {
-            paciente_id:1,
+            paciente_id:this.id,
             titulo: 'SERVICIOS DE SALUD',
             datos:{
             servicio_salud: { valor: this.saludSelec},
@@ -210,7 +311,7 @@ enviarEstudioSocio(){
       });
 }
 enviarAntecedentes() {
-  const pacienteId = 1; // temporal, luego dinámico
+  const pacienteId = this.id; // temporal, luego dinámico
 
   const grupos = [
     {
@@ -253,6 +354,8 @@ onBotonOk(){
       }
       else if(this.contenedor===1){
             this.enviarEstudioSocio();
+      }else if(this.contenedor===2){
+            this.enviarDatosObsGine.enviarDatosObstGine()
       }else if(this.contenedor===3){
             this.testComponent.enviarTest();
       }else if(this.contenedor===4){

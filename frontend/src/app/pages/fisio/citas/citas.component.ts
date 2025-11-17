@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
 
 export interface Cita {
   id: string;
@@ -18,51 +19,54 @@ export interface Cita {
 })
 export class CitasComponent implements OnInit {
   // Inputs para recibir datos desde el componente padre
-  @Input() citasRealizadas: Cita[] = [];
-  @Input() citasVencidas: Cita[] = [];
 
+  private Service=inject(GenericServiceService)
   // Datos de ejemplo para demostración
-  citasRealizas: Cita[] = [];
-  citasVencidasList: Cita[] = [];
+  citasRealizas:any[]=[];
+  citasVencidasList:any[] = [];
 
   constructor() {}
 
   ngOnInit(): void {
     // Usar los datos de entrada o los de ejemplo
-    this.citasRealizas = this.citasRealizadas.length > 0 ? this.citasRealizadas : this.getCitasRealizadasEjemplo();
-    this.citasVencidasList = this.citasVencidas.length > 0 ? this.citasVencidas : this.getCitasVencidasEjemplo();
+     this.getCitasRealizadasEjemplo();
+     this.getCitasVencidasEjemplo();
   }
 
   // Métodos para datos de ejemplo (solo para desarrollo/demo)
-  private getCitasRealizadasEjemplo(): Cita[] {
-    return [
-      {
-        id: '1',
-        nombre: 'Juan Pérez García',
-        fecha: new Date('2024-01-15'),
-        hora: '10:00 AM',
-        estado: true
-      },
-      {
-        id: '2', 
-        nombre: 'María López Hernández',
-        fecha: new Date('2024-01-14'),
-        hora: '11:30 AM',
-        estado: true
-      }
-    ];
-  }
+private getCitasRealizadasEjemplo() {
+  this.Service.getById<any>("ScheduleAppointments", 1).subscribe({
+    next: (data) => {
 
-  private getCitasVencidasEjemplo(): Cita[] {
-    return [
-      {
-        id: '3',
-        nombre: 'Carlos Rodríguez',
-        fecha: new Date('2024-01-10'),
-        hora: '09:00 AM',
-        estado: false
-      }
-    ];
+      // Filtrar solo las citas confirmadas
+      this. citasRealizas = data.filter((cita: any) => cita.estado_cita === "confirmada");
+
+      console.log("Citas realizadas:", this. citasRealizas);
+    },
+    error: (err) => console.error(err)
+  });
+}
+
+  private getCitasVencidasEjemplo(){
+  this.Service.getById<any>("ScheduleAppointments", 1).subscribe({
+    next: (data) => {
+
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);  // Normalizar día
+
+      this.citasVencidasList = data.filter((cita: any) => {
+
+        const fechaCita = new Date(cita.fecha_cita);
+        fechaCita.setHours(0, 0, 0, 0);
+
+        // Cita vencida = fecha ya pasó
+        return fechaCita < hoy && cita.estado_cita != "confirmada";
+      });
+
+      console.log("Citas vencidas:", this.citasVencidasList);
+    },
+    error: (err) => console.error(err)
+  });
   }
 
   // Métodos de utilidad para el template

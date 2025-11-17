@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-
+import { Paciente } from '../../../core/interfaces/fisio/patients.models';
+import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
 @Component({
   selector: 'app-agregar-paciente',
   standalone: true,
@@ -18,7 +19,7 @@ export class AgregarPacienteComponent implements OnInit {
   modoEdicion: boolean = false;
   sexoSeleccionado: string = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private Service:GenericServiceService) {
     this.formulario = this.crearFormulario();
   }
 
@@ -31,28 +32,34 @@ export class AgregarPacienteComponent implements OnInit {
 
   crearFormulario(): FormGroup {
     return this.fb.group({
-      folio: ['', [Validators.required]],
-      fechaValoracion: [''],
-      fechaAlta: [''],
-      nombres: ['', [Validators.required, Validators.minLength(2)]],
-      apellidos: ['', [Validators.required]],
-      sexo: ['', [Validators.required]],
+      folio: ['', Validators.required],
+      fecha_valoracion: [''],
+      fecha_alta: [''],
+      nombre: ['', [Validators.required, Validators.minLength(2)]],
+      apellidos: ['', Validators.required],
+      sexo: ['', Validators.required],
       telefono: [''],
-      diagnostico: [''],
-      motivoConsulta: ['']
+      diagnostic_medic: [''],
+      motivo_consulta: ['']
     });
   }
+  
 
   cargarDatosPaciente() {
     // Mapear los datos del paciente al formulario
     this.formulario.patchValue({
       folio: this.paciente.folio,
-      nombres: this.paciente.nombre,
+      fecha_valoracion:this.paciente.fecha_valoracion,
+      fecha_alta:this.paciente.fecha_alta,
+      nombre: this.paciente.nombre,
       apellidos: this.paciente.apellidos,
-      sexo: this.paciente.genero === 'Femenino' ? 'Femenino' : 'Masculino'
+      sexo: this.paciente.sexo === 'Femenino' ? 'Femenino' : 'Masculino',
+      telefono:this.paciente.telefono,
+      diagnostic_medic:this.paciente.diagnostic_medic,
+      motivo_consulta:this.paciente.motivo_consulta
     });
     
-    this.sexoSeleccionado = this.paciente.genero === 'Femenino' ? 'Femenino' : 'Masculino';
+    this.sexoSeleccionado = this.paciente.sexo === 'Femenino' ? 'Femenino' : 'Masculino';
   }
 
   seleccionarSexo(sexo: string) {
@@ -61,27 +68,32 @@ export class AgregarPacienteComponent implements OnInit {
   }
 
   onGuardar(): void {
-    if (this.formulario.valid) {
-      const datosPaciente = {
-        ...this.formulario.value,
-        // Para mantener compatibilidad con la lista
-        nombre: this.formulario.value.nombres,
-        genero: this.formulario.value.sexo,
-        icono: this.formulario.value.sexo === 'Femenino' ? 'female' : 'male',
-        color: this.formulario.value.sexo === 'Femenino' ? 'text-pink-600' : 'text-blue-600',
-        // Si está editando, mantener el ID original
-        ...(this.modoEdicion && { id: this.paciente.id })
-      };
-      
-      this.guardar.emit(datosPaciente);
+   if (this.formulario.valid) {
+    const paciente: Paciente = this.formulario.value;
+
+    if (this.modoEdicion) {
+      this.Service.update<any>('patients', this.paciente.id, paciente).subscribe({
+        next: () => {
+          alert('Paciente actualizado correctamente');
+          this.guardar.emit(); // ✅ solo notifica
+        },
+        error: (err) => console.error('Error al actualizar', err)
+      });
     } else {
-      // Marcar todos los campos como touched para mostrar errores
-      Object.keys(this.formulario.controls).forEach(key => {
-        this.formulario.get(key)?.markAsTouched();
+      this.Service.create('patients', paciente).subscribe({
+        next: () => {
+          alert('Paciente creado correctamente');
+          this.guardar.emit(); // ✅ solo notifica
+        },
+        error: (err) => console.error('Error al crear', err)
       });
     }
+  } else {
+    Object.keys(this.formulario.controls).forEach(key => {
+      this.formulario.get(key)?.markAsTouched();
+    });
   }
-
+  }
   onCancelar(): void {
     this.cancelar.emit();
   }

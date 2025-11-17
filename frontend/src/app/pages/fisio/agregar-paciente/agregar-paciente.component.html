@@ -59,7 +59,7 @@
           <input 
             type="date" 
             id="fechaValoracion" 
-            formControlName="fechaValoracion"
+            formControlName="fecha_valoracion"
             class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
           >
         </div>
@@ -68,7 +68,7 @@
           <input 
             type="date" 
             id="fechaAlta" 
-            formControlName="fechaAlta"
+            formControlName="fecha_alta"
             class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
           >
         </div>
@@ -81,12 +81,12 @@
           <input 
             type="text" 
             id="nombres" 
-            formControlName="nombres"
+            formControlName="nombre"
             class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
             placeholder="Ingrese los nombres del paciente"
-            [class.border-red-500]="formulario.get('nombres')?.invalid && formulario.get('nombres')?.touched"
+            [class.border-red-500]="formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched"
           >
-          <div *ngIf="formulario.get('nombres')?.invalid && formulario.get('nombres')?.touched" 
+          <div *ngIf="formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched" 
                class="text-red-500 text-xs">
             Los nombres son requeridos
           </div>
@@ -168,7 +168,7 @@
           <textarea 
             id="diagnostico" 
             rows="3" 
-            formControlName="diagnostico"
+            formControlName="diagnostic_medic"
             class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
             placeholder="Ingrese el diagnóstico médico del paciente"
           ></textarea>
@@ -180,7 +180,7 @@
           <textarea 
             id="motivoConsulta" 
             rows="3" 
-            formControlName="motivoConsulta"
+            formControlName="motivo_consulta"
             class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
             placeholder="Ingrese el motivo de la consulta"
           ></textarea>

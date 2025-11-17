@@ -1,31 +1,22 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Paciente } from '../../../core/interfaces/fisio/patients.models';
 
 interface UnidadDeAtencion {
-  unidad: string;
-  nombre: string;
-  fecha: string;
-  folio: string;
-  edad: string;
-  sexo: string;
-  sesion: string;
-  subjetivo: string;
-  objetivo: string;
-  analisis: string;
-  plan: string;
+    paciente_id:number
+    unidad:string
+    nombre:string
+    fecha:string
+    edad:string
+    sesion:string
+    subjetivo:string
+    objetivo:string
+    analisis:string
+    plan:string
 }
 
-interface Paciente {
-  nombre: string;
-  apellidos: string;
-  folio: string;
-  genero: string;
-  icono: string;
-  color: string;
-  fechaRegistro?: Date;
-  telefono?: string;
-}
+
 
 @Component({
   selector: 'app-uni-atencion',
@@ -41,59 +32,44 @@ export class UniAtencionComponent implements OnInit {
 
   botonM: string = 'white';
   botonF: string = 'white';
-  
+  sexo:string='';
+  folio:string='';
   unidadDeAtencion: UnidadDeAtencion = {
-    unidad: '',
-    nombre: '',
-    fecha: '',
-    folio: '',
-    edad: '',
-    sexo: '',
-    sesion: '',
-    subjetivo: '',
-    objetivo: '',
-    analisis: '',
-    plan: ''
+    paciente_id:0,
+    unidad:'',
+    nombre:'',
+    fecha:'',
+    edad:'',
+    sesion:'',
+    subjetivo:'',
+    objetivo:'',
+    analisis:'',
+    plan:''
   };
 
   ngOnInit(): void {
     // Si hay un paciente, prellenar los datos
     if (this.paciente) {
       this.unidadDeAtencion = {
+        paciente_id:this.paciente.id,
         unidad: 'Fisioterapia General',
         nombre: this.paciente.nombre,
         fecha: new Date().toISOString().split('T')[0],
-        folio: this.paciente.folio,
         edad: '',
-        sexo: this.paciente.genero,
         sesion: '1',
         subjetivo: '',
         objetivo: '',
         analisis: '',
         plan: ''
       };
-    } else {
-      // Datos de ejemplo si no hay paciente
-      this.unidadDeAtencion = {
-        unidad: 'Fisioterapia General',
-        nombre: 'Juan Pérez García',
-        fecha: '2024-12-19',
-        folio: 'FIS-2024-001',
-        edad: '35',
-        sexo: 'Masculino',
-        sesion: '1',
-        subjetivo: 'Paciente refiere dolor en región lumbar...',
-        objetivo: 'Limitación en flexión anterior...',
-        analisis: 'Posible lumbalgia mecánica...',
-        plan: 'Terapia manual, ejercicios de fortalecimiento...'
-      };
-    }
-
-    this.configurarSexo(this.unidadDeAtencion.sexo);
+      this.sexo=this.paciente.sexo;
+      this.folio= this.paciente.folio;
+    } 
+    this.configurarSexo(this.sexo);
   }
 
   seleccionarSexo(sexo: string): void {
-    this.unidadDeAtencion.sexo = sexo;
+    this.sexo = sexo;
     this.configurarSexo(sexo);
   }
 

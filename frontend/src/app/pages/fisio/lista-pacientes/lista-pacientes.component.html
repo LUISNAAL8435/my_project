@@ -96,7 +96,7 @@
                     {{paciente.icono}}
                   </span>
                   <span class="capitalize text-xs sm:text-sm">
-                    {{paciente.genero === 'Femenino' ? 'F' : 'M'}}
+                    {{paciente.sexo === 'Femenino' ? 'F' : 'M'}}
                   </span>
                 </span>
               </td>
@@ -156,7 +156,7 @@
       <div class="flex-1 overflow-y-auto">
         <app-agregar-paciente
           [paciente]="pacienteEditando"
-          (guardar)="onGuardarPaciente($event)"
+          (guardar)="onGuardarPaciente()"
           (cancelar)="cerrarModal()">
         </app-agregar-paciente>
       </div>

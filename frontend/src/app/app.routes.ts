@@ -28,7 +28,7 @@ export const routes: Routes = [
       { path: 'pacientes', component: ListaPacientesComponent },
       { path: 'agenda', component: AgendaFisioComponent },
       { path: 'citas', component: CitasComponent },
-      { path: 'historial', component: HistoralComponent },
+      { path: 'historial/:id', component: HistoralComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

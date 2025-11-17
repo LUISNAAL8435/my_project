@@ -1,19 +1,22 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AgregarPacienteComponent } from '../agregar-paciente/agregar-paciente.component';
 import { UniAtencionComponent } from '../uni-atencion/uni-atencion.component';
+import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
+import { Paciente } from '../../../core/interfaces/fisio/patients.models';
+import { Router } from '@angular/router';
 
-interface Paciente {
-  nombre: string;
-  apellidos: string;
-  folio: string;
-  genero: string;
-  icono: string;
-  color: string;
-  fechaRegistro?: Date;
-  telefono?: string;
-}
+//interface Paciente {
+  //nombre: string;
+  //apellidos: string;
+  //folio: string;
+  //genero: string;
+  //icono: string;
+  //color: string;
+  //fechaRegistro?: Date;
+  //telefono?: string;
+//}
 
 interface UnidadDeAtencion {
   unidad: string;
@@ -32,11 +35,11 @@ interface UnidadDeAtencion {
 @Component({
   selector: 'app-lista-pacientes',
   standalone: true,
-  imports: [CommonModule, FormsModule, AgregarPacienteComponent, UniAtencionComponent],
+  imports: [CommonModule, FormsModule, AgregarPacienteComponent,UniAtencionComponent],
   templateUrl: './lista-pacientes.component.html',
   styleUrls: ['./lista-pacientes.component.scss']
 })
-export class ListaPacientesComponent {
+export class ListaPacientesComponent implements OnInit {
   @Output() editar = new EventEmitter<Paciente>();
   @Output() eliminar = new EventEmitter<Paciente>();
   @Output() historial = new EventEmitter<Paciente>();
@@ -44,7 +47,8 @@ export class ListaPacientesComponent {
 
   // Variables para búsqueda
   terminoBusqueda: string = '';
-  pacientesFiltrados: Paciente[] = [];
+  pacientes: any[] = [];
+  pacientesFiltrados: any[] = [];
 
   // Variables para modales
   mostrarModal = false;
@@ -52,64 +56,12 @@ export class ListaPacientesComponent {
   pacienteEditando: Paciente | null = null;
   pacienteUnidadAtencion: Paciente | null = null;
 
-  // Lista completa de pacientes
-  pacientes: Paciente[] = [
-    {
-      nombre: 'Guadalupe de los Ángeles María Victoria',
-      apellidos: 'Huchim Morales',
-      folio: 'F-081',
-      genero: 'Femenino',
-      icono: 'female',
-      color: 'text-pink-600',
-      fechaRegistro: new Date('2024-01-15'),
-      telefono: '555-1234'
-    },
-    {
-      nombre: 'Guadalupe',
-      apellidos: 'Morales',
-      folio: 'F-082',
-      genero: 'Femenino',
-      icono: 'female',
-      color: 'text-pink-600',
-      fechaRegistro: new Date('2024-01-16'),
-      telefono: '555-5678'
-    },
-    {
-      nombre: 'Carlos',
-      apellidos: 'Rodríguez Pérez',
-      folio: 'F-083',
-      genero: 'Masculino',
-      icono: 'male',
-      color: 'text-blue-600',
-      fechaRegistro: new Date('2024-01-17'),
-      telefono: '555-9012'
-    },
-    {
-      nombre: 'Ana María',
-      apellidos: 'Gutiérrez López',
-      folio: 'F-084',
-      genero: 'Femenino',
-      icono: 'female',
-      color: 'text-pink-600',
-      fechaRegistro: new Date('2024-01-18'),
-      telefono: '555-3456'
-    },
-    {
-      nombre: 'Roberto',
-      apellidos: 'Silva Mendoza',
-      folio: 'F-085',
-      genero: 'Masculino',
-      icono: 'male',
-      color: 'text-blue-600',
-      fechaRegistro: new Date('2024-01-19'),
-      telefono: '555-7890'
-    }
-  ];
-
-  constructor() {
-    this.pacientesFiltrados = [...this.pacientes];
+  constructor(private Service:GenericServiceService, private router:Router) {
+    
   }
-
+  ngOnInit() {
+    this.cargarPacientes();
+  }
   // Métodos de búsqueda
   private normalizarTexto(texto: string): string {
     return texto
@@ -164,10 +116,16 @@ export class ListaPacientesComponent {
     this.mostrarModalUnidadAtencion = false;
     this.pacienteUnidadAtencion = null;
   }
-
+//A qui estaremos trabajando
   onGuardarUnidadAtencion(datosUnidadAtencion: any): void {
     // Aquí iría la lógica para guardar la unidad de atención
     console.log('Guardando unidad de atención:', datosUnidadAtencion);
+    this.Service.create('units',datosUnidadAtencion).subscribe({
+      next:()=>{
+          alert('Unidad creado correctamente');
+      },
+        error: (err) => console.error('Error al crear', err)
+    });
     alert('Unidad de atención guardada exitosamente');
     this.cerrarModalUnidadAtencion();
   }
@@ -180,34 +138,36 @@ export class ListaPacientesComponent {
   }
 
   eliminarPaciente(paciente: Paciente): void {
-    if (confirm(`¿Estás seguro de que quieres eliminar a ${paciente.nombre} ${paciente.apellidos}?`)) {
-      this.pacientes = this.pacientes.filter(p => p.folio !== paciente.folio);
-      this.filtrarPacientes();
-      this.eliminar.emit(paciente);
-    }
+  if (confirm(`¿Estás seguro de que quieres eliminar a ${paciente.nombre} ${paciente.apellidos}?`)) {
+    this.Service.delete('patients',paciente.id).subscribe({
+      next: () => {
+        alert('Paciente eliminado correctamente');
+        this.cargarPacientes(); // 🔁 vuelve a cargar desde el backend
+      },
+      error: (err) => {
+        console.error('Error al eliminar paciente:', err);
+        alert('Ocurrió un error al eliminar el paciente.');
+      }
+    });
+  }
   }
 
   verHistorial(paciente: Paciente): void {
-    this.historial.emit(paciente);
+  this.router.navigate(['/fisio/historial', paciente.id], {
+    state: { paciente }
+  });
   }
-
-  onGuardarPaciente(datosPaciente: any): void {
-    if (this.pacienteEditando) {
-      const index = this.pacientes.findIndex(p => p.folio === this.pacienteEditando?.folio);
-      if (index !== -1) {
-        this.pacientes[index] = { ...this.pacientes[index], ...datosPaciente };
-      }
-    } else {
-      const nuevoPaciente: Paciente = {
-        ...datosPaciente,
-        folio: `F-${String(this.pacientes.length + 81).padStart(3, '0')}`,
-        icono: datosPaciente.genero === 'Femenino' ? 'female' : 'male',
-        color: datosPaciente.genero === 'Femenino' ? 'text-pink-600' : 'text-blue-600',
-        fechaRegistro: new Date()
-      };
-      this.pacientes.unshift(nuevoPaciente);
-    }
-    
+  cargarPacientes() {
+    this.Service.getAll<any>('patients').subscribe({
+      next: (data) => {
+        this.pacientes = data;
+        this.pacientesFiltrados = data;
+      },
+      error: (err) => console.error('Error al cargar pacientes', err)
+    });
+  }
+  onGuardarPaciente(): void {
+    this.cargarPacientes();
     this.filtrarPacientes();
     this.cerrarModal();
   }

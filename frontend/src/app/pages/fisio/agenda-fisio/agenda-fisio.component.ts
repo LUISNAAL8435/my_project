@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
 
 @Component({
   selector: 'app-agenda-fisio',
@@ -14,7 +15,7 @@ export class AgendaFisioComponent implements OnInit {
   selectHora: string = '';
   contenedor = 0;
   mes: string = '';
-  selecOptin: string = '';
+  selecOptin: any = null;
   datos: any[] = [];
   agendaa: any[] = [];
   citasFiltradas: any[] = [];
@@ -24,7 +25,7 @@ export class AgendaFisioComponent implements OnInit {
   selectedMonth: number = 0;
   selectedYear: number = 0;
   estado1: boolean = false;
-  
+  pacientes: any[] = [];
   // Variables para filtros
   filtroEstado: string = '';
   filtroPaciente: string = '';
@@ -33,6 +34,7 @@ export class AgendaFisioComponent implements OnInit {
   showEditModal: boolean = false;
   citaEditada: any = {};
   citaOriginal: any = {};
+  agendas: any[] = [];
 
   horas: string[] = [
     '9:00 - 10:00',
@@ -44,7 +46,7 @@ export class AgendaFisioComponent implements OnInit {
     '17:00 - 18:00'
   ];
 
-  constructor() {}
+  constructor(private Service:GenericServiceService) {}
 
   async ngOnInit() {
     this.buscarPaciente();
@@ -52,52 +54,17 @@ export class AgendaFisioComponent implements OnInit {
   }
 
   getAgenda() {
-    // Datos actualizados con nuevos estados
-    this.agendaa = [
-      {
-        id: '1',
-        nombre: 'Juan Pérez García',
-        fecha: new Date('2024-12-15'),
-        hora: '10:00 - 11:00',
-        estado: 'confirmada'
-      },
-      {
-        id: '2', 
-        nombre: 'María López Hernández',
-        fecha: new Date('2024-12-16'),
-        hora: '15:00 - 16:00',
-        estado: 'pendiente'
-      },
-      {
-        id: '3', 
-        nombre: 'Carlos Rodríguez Martínez',
-        fecha: new Date('2024-12-16'),
-        hora: '16:00 - 17:00',
-        estado: 'cancelada'
-      },
-      {
-        id: '4', 
-        nombre: 'Ana García Silva',
-        fecha: new Date('2024-12-17'),
-        hora: '9:00 - 10:00',
-        estado: 'no-presentado'
-      },
-      {
-        id: '5', 
-        nombre: 'Pedro Sánchez Ruiz',
-        fecha: new Date('2024-12-17'),
-        hora: '11:00 - 12:00',
-        estado: 'pendiente'
-      }
-    ];
-    
-    // Inicializar las citas filtradas con todas las citas
-    this.citasFiltradas = [...this.agendaa];
+   this.Service.getById<any>("ScheduleAppointments",1).subscribe({
+    next:(data)=>{
+      this.agendas=data;
+      this.citasFiltradas=data;
+    }
+   })
   }
 
   // Método para aplicar filtros ACTUALIZADO
   aplicarFiltros() {
-    this.citasFiltradas = this.agendaa.filter(cita => {
+    this.citasFiltradas = this.agendas.filter(cita => {
       // Filtro por estado
       let coincideEstado = true;
       if (this.filtroEstado) {
@@ -107,7 +74,7 @@ export class AgendaFisioComponent implements OnInit {
       // Filtro por paciente
       let coincidePaciente = true;
       if (this.filtroPaciente) {
-        coincidePaciente = cita.nombre.toLowerCase().includes(this.filtroPaciente.toLowerCase());
+        coincidePaciente = cita.paciente.toLowerCase().includes(this.filtroPaciente.toLowerCase());
       }
       
       return coincideEstado && coincidePaciente;
@@ -115,23 +82,13 @@ export class AgendaFisioComponent implements OnInit {
   }
 
   buscarPaciente() {
-    this.datos = [
-      {
-        id: '1',
-        nombres: 'Juan',
-        apellidos: 'Pérez García'
+    this.Service.getAll<any>('patients').subscribe({
+      next: (data) => {
+        this.pacientes = data;
+
       },
-      {
-        id: '2',
-        nombres: 'María',
-        apellidos: 'López Hernández'
-      },
-      {
-        id: '3',
-        nombres: 'Carlos',
-        apellidos: 'Rodríguez Martínez'
-      }
-    ];
+      error: (err) => console.error('Error al cargar pacientes', err)
+    });
   }
 
   onDateChange(event: any) {
@@ -157,35 +114,45 @@ export class AgendaFisioComponent implements OnInit {
       alert('Por favor completa todos los campos');
       return;
     }
+    const fechaIso = new Date( this.selectedDate).toISOString().split("T")[0];
 
     // Nueva cita con estado por defecto "pendiente"
     const nuevaCita = {
-      id: Date.now().toString(),
-      nombre: this.selecOptin,
-      fecha: new Date(this.selectedDate),
-      hora: this.selectHora,
-      estado: 'pendiente' // Estado por defecto
+      paciente_id: this.selecOptin.id,
+      fisio_id:1,
+      fecha_cita: fechaIso,
+      hora_cita: this.selectHora,
+      paciente:  `${this.selecOptin.nombre} ${this.selecOptin.apellidos}`,
+      estado_cita: 'pendiente' // Estado por defecto
     };
-
-    this.agendaa.unshift(nuevaCita);
+    console.log("JSON enviado:", nuevaCita);
+    this.Service.create("ScheduleAppointments",nuevaCita).subscribe({
+      next:()=>{
+        alert('Agenda creada correctamente')
+        this.getAgenda();
+      }
+    })
     
     // Actualizar las citas filtradas
     this.aplicarFiltros();
-    
     // Limpiar formulario
     this.selecOptin = '';
     this.selectHora = '';
     this.selectedDate = null;
-    
-    alert('Cita agendada exitosamente');
   }
 
   eliminarAgenda(id: string) {
     const confirmacion = window.confirm('¿Estás seguro de que quieres eliminar esta cita?');
     if (confirmacion) {
-      this.agendaa = this.agendaa.filter(agenda => agenda.id !== id);
-      this.aplicarFiltros();
-      console.log('Cita eliminada:', id);
+      this.Service.delete(`ScheduleAppointments`,id).subscribe({
+        next:()=>{
+          alert('Agenda eliminada');
+          this.getAgenda();
+        },
+        error:(err)=>{
+          alert('Ocurrió un error al eliminar el paciente.');
+        }
+      })
     }
   }
 
@@ -194,36 +161,48 @@ export class AgendaFisioComponent implements OnInit {
     this.citaOriginal = { ...cita };
     this.citaEditada = {
       id: cita.id,
-      nombre: cita.nombre,
-      fecha: this.formatDateForInput(cita.fecha),
-      hora: cita.hora,
-      estado: cita.estado
+      nombre: cita.paciente,
+      fecha: cita.fecha_cita,
+      hora: cita.hora_cita,
+      estado: cita.estado_cita
     };
     this.showEditModal = true;
   }
 
-  guardarEdicion() {
-    if (!this.citaEditada.fecha || !this.citaEditada.nombre || !this.citaEditada.hora) {
-      alert('Por favor completa todos los campos');
-      return;
-    }
-
-    // Encontrar y actualizar la cita en el array
-    const index = this.agendaa.findIndex(cita => cita.id === this.citaEditada.id);
-    if (index !== -1) {
-      this.agendaa[index] = {
-        ...this.agendaa[index],
-        nombre: this.citaEditada.nombre,
-        fecha: new Date(this.citaEditada.fecha),
-        hora: this.citaEditada.hora,
-        estado: this.citaEditada.estado
-      };
-      
-      this.aplicarFiltros();
-      this.showEditModal = false;
-      alert('Cita actualizada exitosamente');
-    }
+guardarEdicion() {
+  if (!this.citaEditada.fecha || !this.citaEditada.nombre || !this.citaEditada.hora) {
+    alert('Por favor completa todos los campos');
+    return;
   }
+
+  const fechaIso = new Date(this.citaEditada.fecha).toISOString().split("T")[0];
+
+  // JSON EXACTO que espera tu endpoint AgendaCreate
+  const payload = {
+    paciente_id: this.citaOriginal.paciente_id,  // EL PACIENTE REAL
+    fisio_id: 1,
+    fecha_cita: fechaIso,
+    hora_cita: this.citaEditada.hora,
+    paciente: this.citaEditada.nombre,
+    estado_cita: this.citaEditada.estado
+  };
+
+  console.log("JSON enviado (UPDATE):", payload);
+
+  // IMPORTANTE: enviar el ID de la cita a actualizar
+  this.Service.update(`ScheduleAppointments`,this.citaEditada.id, payload).subscribe({
+    next: () => {
+      alert('Cita actualizada correctamente');
+      this.getAgenda();        // recarga la lista
+      this.showEditModal = false;
+    },
+    error: (err) => {
+      console.error("Error al actualizar:", err);
+      alert("Error al actualizar la cita");
+    }
+  });
+}
+
 
   cancelarEdicion() {
     this.showEditModal = false;
