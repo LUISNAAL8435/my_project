@@ -7,7 +7,7 @@ from app.schemas.test import (
     TestIsotonicoCreate,
     TestResponse2
 )
-from app.crud.test import create_test_isometrico, create_test_isotonico
+from app.crud.test import create_test_isometrico, create_test_isotonico, get_Test_Isometrico_isotonico
 
 router = APIRouter(prefix="/test", tags=["test"])
 
@@ -20,3 +20,7 @@ def crear_test_isometrico(payload: TestIsometricoCreate, db: Session = Depends(g
 @router.post("/isotonico", response_model=TestResponse2)
 def crear_test_isotonico(payload: TestIsotonicoCreate, db: Session = Depends(get_db)):
     return create_test_isotonico(db, payload)
+
+@router.get("/{paciente_id}")
+def obtener_test(paciente_id: int, db: Session = Depends(get_db)):
+    return get_Test_Isometrico_isotonico(db, paciente_id)

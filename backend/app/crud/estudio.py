@@ -25,3 +25,6 @@ def create_estudio(db:Session,payload:EstudiorCreate):
     db.refresh(item)
     return item
 
+def get_estudio_by_paciente(db: Session, paciente_id: int):
+    return db.query(EstudioSocioEconomico).filter(EstudioSocioEconomico.paciente_id == paciente_id).all()
+

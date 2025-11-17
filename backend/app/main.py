@@ -1,7 +1,7 @@
 # backend/app/main.py
 from fastapi import FastAPI
 from app.db import Base, engine
-from app.api import antecedentes,estudio,test, evaluacion_dolor, peripheral_neurological
+from app.api import antecedentes,estudio,test, evaluacion_dolor, peripheral_neurological, Patient, care_units, ginecologicos, obstetricos, scheduleAppointments
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -24,3 +24,8 @@ app.include_router(estudio.router)
 app.include_router(test.router)
 app.include_router(evaluacion_dolor.router)
 app.include_router(peripheral_neurological.router)
+app.include_router(Patient.router)
+app.include_router(care_units.router)
+app.include_router(ginecologicos.router)
+app.include_router(obstetricos.router)
+app.include_router(scheduleAppointments.router)

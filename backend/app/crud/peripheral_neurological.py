@@ -51,5 +51,8 @@ def create_test2_peripheral(db: Session,payload:peripheralTest1Create):
     db.refresh(item)
     return item
 
+def get_Test_peripheral_isotonico(db:Session, paciente_id:int):
+    return db.query(Peripheral).filter(Peripheral.paciente_id==paciente_id).all()
+
 
 

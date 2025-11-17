@@ -26,8 +26,6 @@ def create_test_isometrico(db: Session, payload: TestIsometricoCreate):
     db.commit()
     db.refresh(item)
     return item
-
-
 # Crear o actualizar test isotónico
 def create_test_isotonico(db: Session, payload: TestIsotonicoCreate):
     existe = db.query(Test).filter_by(
@@ -52,3 +50,6 @@ def create_test_isotonico(db: Session, payload: TestIsotonicoCreate):
     db.commit()
     db.refresh(item)
     return item
+
+def get_Test_Isometrico_isotonico(db:Session, paciente_id:int):
+    return db.query(Test).filter(Test.paciente_id==paciente_id).all()

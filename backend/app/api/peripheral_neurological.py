@@ -8,7 +8,7 @@ from app.schemas.peripheral_neurological import (
     pripheralResponse2
 )
 
-from app.crud.peripheral_neurological import create_test1_peripheral, create_test2_peripheral
+from app.crud.peripheral_neurological import create_test1_peripheral, create_test2_peripheral, get_Test_peripheral_isotonico
 
 router = APIRouter(prefix="/peripheral", tags=["peripheral_neurological"])
 
@@ -21,3 +21,7 @@ def crear_test_isometrico(payload: peripheralTest1Create, db: Session = Depends(
 @router.post("/test2", response_model=pripheralResponse2)
 def crear_test_isotonico(payload: peripheralTest2Create, db: Session = Depends(get_db)):
     return create_test2_peripheral(db, payload)
+
+@router.get("/{paciente_id}")
+def obtener_test(paciente_id: int, db: Session = Depends(get_db)):
+    return get_Test_peripheral_isotonico(db, paciente_id)
