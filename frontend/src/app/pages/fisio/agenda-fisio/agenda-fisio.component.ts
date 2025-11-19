@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../core/services/auth-service.service';
 
 @Component({
   selector: 'app-agenda-fisio',
@@ -12,6 +14,7 @@ import { GenericServiceService } from '../../../services/serviFisio/generic-serv
 })
 export class AgendaFisioComponent implements OnInit {
   selectedDate: Date | null = null;
+  id:number=0;
   selectHora: string = '';
   contenedor = 0;
   mes: string = '';
@@ -46,15 +49,23 @@ export class AgendaFisioComponent implements OnInit {
     '17:00 - 18:00'
   ];
 
-  constructor(private Service:GenericServiceService) {}
+  constructor(private auth:AuthService,private Service:GenericServiceService,private route: ActivatedRoute) {}
 
   async ngOnInit() {
-    this.buscarPaciente();
-    this.getAgenda();
+  const userId = this.auth.userId;
+  
+  if (!userId) {
+    console.error("No hay usuario logueado");
+    return;
+  }else{
+    this.id=userId;
+  }
+    this.buscarPaciente(this.id);
+    this.getAgenda(this.id);
   }
 
-  getAgenda() {
-   this.Service.getById<any>("ScheduleAppointments",1).subscribe({
+  getAgenda(id:number) {
+   this.Service.getById<any>("ScheduleAppointments",this.id).subscribe({
     next:(data)=>{
       this.agendas=data;
       this.citasFiltradas=data;
@@ -81,8 +92,8 @@ export class AgendaFisioComponent implements OnInit {
     });
   }
 
-  buscarPaciente() {
-    this.Service.getAll<any>('patients').subscribe({
+  buscarPaciente(id:number) {
+    this.Service.getById<any>('patients/list',id).subscribe({
       next: (data) => {
         this.pacientes = data;
 
@@ -119,7 +130,7 @@ export class AgendaFisioComponent implements OnInit {
     // Nueva cita con estado por defecto "pendiente"
     const nuevaCita = {
       paciente_id: this.selecOptin.id,
-      fisio_id:1,
+      fisio_id:this.id,
       fecha_cita: fechaIso,
       hora_cita: this.selectHora,
       paciente:  `${this.selecOptin.nombre} ${this.selecOptin.apellidos}`,
@@ -129,7 +140,7 @@ export class AgendaFisioComponent implements OnInit {
     this.Service.create("ScheduleAppointments",nuevaCita).subscribe({
       next:()=>{
         alert('Agenda creada correctamente')
-        this.getAgenda();
+        this.getAgenda(this.id);
       }
     })
     
@@ -147,7 +158,7 @@ export class AgendaFisioComponent implements OnInit {
       this.Service.delete(`ScheduleAppointments`,id).subscribe({
         next:()=>{
           alert('Agenda eliminada');
-          this.getAgenda();
+          this.getAgenda(this.id);
         },
         error:(err)=>{
           alert('Ocurrió un error al eliminar el paciente.');
@@ -180,7 +191,7 @@ guardarEdicion() {
   // JSON EXACTO que espera tu endpoint AgendaCreate
   const payload = {
     paciente_id: this.citaOriginal.paciente_id,  // EL PACIENTE REAL
-    fisio_id: 1,
+    fisio_id: this.id,
     fecha_cita: fechaIso,
     hora_cita: this.citaEditada.hora,
     paciente: this.citaEditada.nombre,
@@ -193,7 +204,7 @@ guardarEdicion() {
   this.Service.update(`ScheduleAppointments`,this.citaEditada.id, payload).subscribe({
     next: () => {
       alert('Cita actualizada correctamente');
-      this.getAgenda();        // recarga la lista
+      this.getAgenda(this.id);        // recarga la lista
       this.showEditModal = false;
     },
     error: (err) => {

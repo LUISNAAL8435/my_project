@@ -174,6 +174,7 @@ constructor(private genericService:GenericServiceService, private router:Router,
   }
 }
 ngOnInit() {
+  console.log(this.id)
   this.cargarAntecedentes();
   this.cargarEstudio(); 
 }
@@ -332,7 +333,7 @@ enviarAntecedentes() {
   ];
 
   grupos.forEach((grupo) => {
-        console.log('📤 Payload que se envía al backend:', JSON.stringify(grupo, null, 2));
+console.log('📤 Payload que se envía al backend:', JSON.stringify(grupo, null, 2));
 this.genericService.create<any>('antecedentes', grupo).subscribe({
   next: res => console.log(`✅ ${grupo.titulo} guardado`, res),
   error: err => console.error(`❌ Error en ${grupo.titulo}`, err)

@@ -2,8 +2,12 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Paciente } from '../../../core/interfaces/fisio/patients.models';
+import { NgFor } from '@angular/common';
+import { AuthService } from '../../../core/services/auth-service.service';
+import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
 
 interface UnidadDeAtencion {
+    id?: number
     paciente_id:number
     unidad:string
     nombre:string
@@ -21,19 +25,22 @@ interface UnidadDeAtencion {
 @Component({
   selector: 'app-uni-atencion',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgFor],
   templateUrl: './uni-atencion.component.html',
   styleUrls: ['./uni-atencion.component.scss']
 })
 export class UniAtencionComponent implements OnInit {
   @Input() paciente: Paciente | null = null;
   @Output() guardar = new EventEmitter<any>();
+  @Output() update = new EventEmitter<any>();
   @Output() cancelar = new EventEmitter<void>();
-
+  @Output() eliminar = new EventEmitter<any>();
+  unidades:any[]=[];
   botonM: string = 'white';
   botonF: string = 'white';
   sexo:string='';
   folio:string='';
+  cont:number=0;
   unidadDeAtencion: UnidadDeAtencion = {
     paciente_id:0,
     unidad:'',
@@ -46,7 +53,7 @@ export class UniAtencionComponent implements OnInit {
     analisis:'',
     plan:''
   };
-
+  constructor(private auth:AuthService,private Service:GenericServiceService ) {}
   ngOnInit(): void {
     // Si hay un paciente, prellenar los datos
     if (this.paciente) {
@@ -56,7 +63,7 @@ export class UniAtencionComponent implements OnInit {
         nombre: this.paciente.nombre,
         fecha: new Date().toISOString().split('T')[0],
         edad: '',
-        sesion: '1',
+        sesion: '',
         subjetivo: '',
         objetivo: '',
         analisis: '',
@@ -66,8 +73,43 @@ export class UniAtencionComponent implements OnInit {
       this.folio= this.paciente.folio;
     } 
     this.configurarSexo(this.sexo);
+    this.getUnidades();
   }
+ editar(datos: any) {
+  this.cont = 1; // activar modo edición
 
+  if (datos) {
+    this.unidadDeAtencion = {
+      id: datos.id,              // id de la unidad (correcto)
+      paciente_id: this.paciente?.id ?? 0, // id del paciente (correcto)
+      unidad: 'Fisioterapia General',
+      nombre: datos.nombre,
+      fecha: datos.fecha,
+      edad: datos.edad,
+      sesion: datos.sesion,
+      subjetivo: datos.subjetivo,
+      objetivo: datos.objetivo,
+      analisis: datos.analisis,
+      plan: datos.plan
+    };
+
+    this.sexo = datos.sexo;
+
+    if (this.paciente) {
+      this.folio = this.paciente.folio;
+    }
+  }
+}
+
+ getUnidades(){
+  if(this.paciente?.id){
+  this.Service.getById<any>('units/list',this.paciente?.id).subscribe({
+    next:(data)=>{
+      this.unidades=data;
+    }
+  })
+}
+ }
   seleccionarSexo(sexo: string): void {
     this.sexo = sexo;
     this.configurarSexo(sexo);
@@ -84,9 +126,16 @@ export class UniAtencionComponent implements OnInit {
   }
 
   onGuardar(): void {
-    this.guardar.emit(this.unidadDeAtencion);
+    if(this.cont==0){
+    this.guardar.emit(this.unidadDeAtencion);}
+    else if(this.cont==1){
+      this.update.emit(this.unidadDeAtencion);
+      this.cont=0;
+    }
   }
-
+onDelete(id:number): void{
+  this.eliminar.emit(id)
+}
   onCancelar(): void {
     this.cancelar.emit();
   }

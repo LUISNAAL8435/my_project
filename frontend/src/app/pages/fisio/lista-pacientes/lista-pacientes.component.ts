@@ -5,7 +5,8 @@ import { AgregarPacienteComponent } from '../agregar-paciente/agregar-paciente.c
 import { UniAtencionComponent } from '../uni-atencion/uni-atencion.component';
 import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
 import { Paciente } from '../../../core/interfaces/fisio/patients.models';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth-service.service';
 
 //interface Paciente {
   //nombre: string;
@@ -55,12 +56,20 @@ export class ListaPacientesComponent implements OnInit {
   mostrarModalUnidadAtencion = false;
   pacienteEditando: Paciente | null = null;
   pacienteUnidadAtencion: Paciente | null = null;
-
-  constructor(private Service:GenericServiceService, private router:Router) {
+  id:number=0;
+  constructor(private auth:AuthService,private Service:GenericServiceService, private router:Router,private route: ActivatedRoute) {
     
   }
   ngOnInit() {
-    this.cargarPacientes();
+  const userId = this.auth.userId;
+  
+  if (!userId) {
+    console.error("No hay usuario logueado");
+    return;
+  }else{
+    this.id=userId;
+  }
+  this.cargarPacientes();
   }
   // Métodos de búsqueda
   private normalizarTexto(texto: string): string {
@@ -129,7 +138,34 @@ export class ListaPacientesComponent implements OnInit {
     alert('Unidad de atención guardada exitosamente');
     this.cerrarModalUnidadAtencion();
   }
+onUpdate(datosUnidadAtencion: any): void {
+  if (!datosUnidadAtencion.id) {
+    console.error("No se recibió el id de la unidad a actualizar");
+    return;
+  }
 
+  this.Service.update(`units`,datosUnidadAtencion.id, datosUnidadAtencion).subscribe({
+    next: () => {
+      alert('Unidad de atención actualizada exitosamente');
+      this.cerrarModalUnidadAtencion();
+    },
+    error: (err) => {
+      console.error('Error actualizando unidad:', err);
+      alert('Ocurrió un error al actualizar.');
+    }
+  });
+}
+OnDelete(id:number): void{
+  if (!id) {
+    console.error("No se recibió el id de la unidad a actualizar");
+    return;
+  }
+  this.Service.delete('units',id).subscribe({
+    next:()=>{
+      alert('Paciente eliminado correctamente');
+    }
+  })
+}
   // Métodos de acciones de pacientes
   editarPaciente(paciente: Paciente): void {
     this.pacienteEditando = paciente;
@@ -137,12 +173,15 @@ export class ListaPacientesComponent implements OnInit {
     this.editar.emit(paciente);
   }
 
-  eliminarPaciente(paciente: Paciente): void {
+eliminarPaciente(paciente: Paciente): void {
   if (confirm(`¿Estás seguro de que quieres eliminar a ${paciente.nombre} ${paciente.apellidos}?`)) {
-    this.Service.delete('patients',paciente.id).subscribe({
+    this.Service.delete('patients', paciente.id).subscribe({
       next: () => {
         alert('Paciente eliminado correctamente');
-        this.cargarPacientes(); // 🔁 vuelve a cargar desde el backend
+
+        // 🔥 SOLUCIÓN: eliminarlo de la lista local
+        this.pacientes = this.pacientes.filter(p => p.id !== paciente.id);
+        this.pacientesFiltrados = this.pacientesFiltrados.filter(p => p.id !== paciente.id);
       },
       error: (err) => {
         console.error('Error al eliminar paciente:', err);
@@ -150,15 +189,16 @@ export class ListaPacientesComponent implements OnInit {
       }
     });
   }
-  }
+}
 
-  verHistorial(paciente: Paciente): void {
-  this.router.navigate(['/fisio/historial', paciente.id], {
+verHistorial(paciente: Paciente): void {
+  this.router.navigate(['/fisio/historial',paciente.id], {
     state: { paciente }
   });
-  }
+}
   cargarPacientes() {
-    this.Service.getAll<any>('patients').subscribe({
+    console.log(this.id)
+    this.Service.getById<any>('patients/list',this.id).subscribe({
       next: (data) => {
         this.pacientes = data;
         this.pacientesFiltrados = data;

@@ -1,19 +1,18 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth-service.service';
 
 @Component({
-  selector: 'app-siderbar',
-  standalone: true,
-  imports: [CommonModule, RouterModule], // Agregar RouterModule
-  templateUrl: './siderbar.html',
-  styleUrls: ['./siderbar.scss']
+  selector: 'app-sidebar-admin',
+  imports: [NgIf,CommonModule, RouterModule],
+  templateUrl: './sidebar-admin.component.html',
+  styleUrl: './sidebar-admin.component.scss'
 })
-export class SiderbarComponent {
+export class SidebarAdminComponent {
   hovering = false;
   activeItem = 'Dashboard';
-  @Input() id:number=0;
   @Output() sidebarStateChange = new EventEmitter<boolean>();
 constructor(private auth:AuthService, private router:Router){}
   setActive(item: string): void {

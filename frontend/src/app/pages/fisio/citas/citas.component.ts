@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../core/services/auth-service.service';
 
 export interface Cita {
   id: string;
@@ -19,23 +21,30 @@ export interface Cita {
 })
 export class CitasComponent implements OnInit {
   // Inputs para recibir datos desde el componente padre
-
+id:number=0;
   private Service=inject(GenericServiceService)
   // Datos de ejemplo para demostración
   citasRealizas:any[]=[];
   citasVencidasList:any[] = [];
 
-  constructor() {}
+  constructor(private auth:AuthService,private route:ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Usar los datos de entrada o los de ejemplo
+  const userId = this.auth.userId;
+  
+  if (!userId) {
+    console.error("No hay usuario logueado");
+    return;
+  }else{
+    this.id=userId;
+  }
      this.getCitasRealizadasEjemplo();
      this.getCitasVencidasEjemplo();
   }
 
   // Métodos para datos de ejemplo (solo para desarrollo/demo)
 private getCitasRealizadasEjemplo() {
-  this.Service.getById<any>("ScheduleAppointments", 1).subscribe({
+  this.Service.getById<any>("ScheduleAppointments", this.id).subscribe({
     next: (data) => {
 
       // Filtrar solo las citas confirmadas
@@ -48,7 +57,7 @@ private getCitasRealizadasEjemplo() {
 }
 
   private getCitasVencidasEjemplo(){
-  this.Service.getById<any>("ScheduleAppointments", 1).subscribe({
+  this.Service.getById<any>("ScheduleAppointments",this.id).subscribe({
     next: (data) => {
 
       const hoy = new Date();

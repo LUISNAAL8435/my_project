@@ -11,13 +11,18 @@ import { CitasComponent } from './pages/fisio/citas/citas.component';
 // Rutas Fisio (tuyas)
 import { HistoralComponent } from './pages/fisio/historal/historal.component';
 import { InfoPrincipalComponent } from './pages/fisio/info-principal/info-principal.component';
+import { HomeFisioComponent } from './pages/admin/home-fisio/home-fisio.component';
+import { CreateAcountComponent } from './pages/admin/create-acount/create-acount.component';
+import { LoginComponent } from './pages/admin/login/login.component';
 
 export const routes: Routes = [
+  { path: '', component: LoginComponent },
+  { path: 'create-account', component: CreateAcountComponent},
   {
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      // Rutas admin (puedes agregar más aquí)
+      { path: 'homeAdmin', component: HomeFisioComponent },
     ]
   },
   {
@@ -32,6 +37,6 @@ export const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },
-  { path: '', redirectTo: 'fisio/home', pathMatch: 'full' },
-  { path: '**', redirectTo: 'fisio/home' }
+  // ruta comodín
+  { path: '**', redirectTo: '' }
 ];

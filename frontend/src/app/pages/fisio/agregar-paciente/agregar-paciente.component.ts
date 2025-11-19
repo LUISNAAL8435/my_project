@@ -12,18 +12,21 @@ import { GenericServiceService } from '../../../services/serviFisio/generic-serv
 })
 export class AgregarPacienteComponent implements OnInit {
   @Input() paciente: any = null; // Si es null = nuevo, si tiene datos = editar
+  @Input() id:number=0;
   @Output() guardar = new EventEmitter<any>();
   @Output() cancelar = new EventEmitter<void>();
 
-  formulario: FormGroup;
+  formulario!: FormGroup;
   modoEdicion: boolean = false;
   sexoSeleccionado: string = '';
 
   constructor(private fb: FormBuilder, private Service:GenericServiceService) {
-    this.formulario = this.crearFormulario();
   }
 
   ngOnInit() {
+    console.error(this.id)
+    this.formulario = this.crearFormulario();
+      this.formulario.patchValue({ admin_id: this.id });
     if (this.paciente) {
       this.modoEdicion = true;
       this.cargarDatosPaciente();
@@ -32,6 +35,7 @@ export class AgregarPacienteComponent implements OnInit {
 
   crearFormulario(): FormGroup {
     return this.fb.group({
+      admin_id:[this.id],
       folio: ['', Validators.required],
       fecha_valoracion: [''],
       fecha_alta: [''],
@@ -70,7 +74,9 @@ export class AgregarPacienteComponent implements OnInit {
   onGuardar(): void {
    if (this.formulario.valid) {
     const paciente: Paciente = this.formulario.value;
-
+    if (!paciente.fecha_alta) {
+      delete paciente.fecha_alta;
+    }
     if (this.modoEdicion) {
       this.Service.update<any>('patients', this.paciente.id, paciente).subscribe({
         next: () => {

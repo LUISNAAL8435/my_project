@@ -2,13 +2,21 @@
         id:number
         folio:string
         fecha_valoracion:Date
-        fecha_alta:Date
+        fecha_alta?:Date
         nombre:string
         apellidos:string
         sexo:string
         telefono:string
         diagnostic_medic:string
         motivo_consulta:string
+  }
+  export interface Fisio{
+    id:number
+    nombre:string
+    apellidos:string
+    gmail:string
+    password?:string
+    rol:string
   }
 
   export interface datosAntecedente{
