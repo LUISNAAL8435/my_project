@@ -3,9 +3,10 @@ from typing import Dict,Optional
 from datetime import date 
 
 class PacientCreate(BaseModel):
+    admin_id: Optional[int] = None
     folio:str
     fecha_valoracion:date
-    fecha_alta:date
+    fecha_alta:Optional[date]=None
     nombre:str
     apellidos:str
     sexo:str
@@ -15,9 +16,10 @@ class PacientCreate(BaseModel):
 
 class PacientResponse(BaseModel):
     id: int
+    admin_id: Optional[int] = None
     folio: str
     fecha_valoracion: date
-    fecha_alta: date
+    fecha_alta: Optional[date] = None
     nombre: str
     apellidos: str
     sexo: str

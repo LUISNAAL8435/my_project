@@ -1,12 +1,16 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from app.models.care_units import Unidad
-from app.schemas.care_units import UnidadCreate, UnidadResponse
+from app.schemas.care_units import UnidadCreate,UnidadUpdate ,UnidadResponse
 
-def create_unidad(db:Session, payload:UnidadCreate):
-    existe = db.query(Unidad).filter_by(paciente_id=payload.paciente_id).first()
+def create_unidad(db: Session, payload: UnidadCreate):
+    existe = db.query(Unidad).filter(
+        Unidad.paciente_id == payload.paciente_id,
+        Unidad.sesion == payload.sesion
+    ).first()
+
     if existe:
-        raise HTTPException(status_code=409, detail="El paciente ya existe con ese folio")
+        raise HTTPException(status_code=409, detail="El paciente ya tiene registrada esa sesión")
 
     item = Unidad(**payload.model_dump())
     db.add(item)
@@ -14,10 +18,10 @@ def create_unidad(db:Session, payload:UnidadCreate):
     db.refresh(item)
     return item
 
-def update_unidad(db: Session, unidad_id: int, payload: UnidadCreate):
+def update_unidad(db: Session, unidad_id: int, payload: UnidadUpdate):
     unidad = db.query(Unidad).filter(Unidad.id == unidad_id).first()
     if not unidad:
-        raise HTTPException(status_code=404, detail="Unidad no encontrado")
+        raise HTTPException(status_code=404, detail="Unidad no encontrada")
 
     for key, value in payload.model_dump().items():
         setattr(unidad, key, value)
@@ -40,6 +44,15 @@ def delete_unidad(db: Session, Unidad_id: int):
 
     # 4️⃣ Retornar mensaje o el objeto eliminado (según prefieras)
     return {"message": f"Paciente con ID {Unidad_id} eliminado correctamente"}
+def get_all_unidades(db:Session, fisio_id:int):
+    user = db.query(Unidad).filter(Unidad.paciente_id == fisio_id).all()
+    # 2️⃣ Si no existe, lanzar error 404
+    if not user:
+        raise HTTPException(status_code=404, detail="user no encontrado")
+
+    # 3️⃣ Si existe, devolver el objeto
+    return user
+   
 def get_all_unidad(db: Session):
     unidad = db.query(Unidad).all()
     return unidad

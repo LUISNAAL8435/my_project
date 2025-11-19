@@ -16,7 +16,7 @@ class UnidadResponse(BaseModel):
     id:int 
     paciente_id:int
     unidad:str
-    fecha:str
+    fecha:date
     edad:str
     sesion:str
     subjetivo:str
@@ -26,3 +26,12 @@ class UnidadResponse(BaseModel):
 
     class Config:
         from_attributes=True
+class UnidadUpdate(BaseModel):
+    unidad: str
+    fecha: date
+    edad: int
+    sesion: int
+    subjetivo: str
+    objetivo: str
+    analisis: str
+    plan: str
