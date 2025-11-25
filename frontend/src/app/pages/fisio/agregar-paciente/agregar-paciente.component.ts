@@ -107,14 +107,12 @@ export class AgregarPacienteComponent implements OnInit {
         next: () => {
           this.guardar.emit();
         },
-        error: () => alert('Error al actualizar el paciente')
       });
     } else {
       this.Service.create('patients', paciente).subscribe({
         next: () => {
           this.guardar.emit();
         },
-        error: () => alert('Error al crear el paciente')
       });
     }
   }

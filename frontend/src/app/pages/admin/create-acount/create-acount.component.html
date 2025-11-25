@@ -1,4 +1,26 @@
 <div class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div
+  *ngIf="showSaveConfirmation"
+  class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300"
+  style="z-index: 50;"
+>
+  <div
+    class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm animate-scaleIn"
+  >
+    <p class="text-gray-600 text-center mb-6">
+       Admin creado correctamente
+    </p>
+
+    <button
+      (click)="ok()"
+      class="w-full py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors duration-200 active:scale-95"
+    >
+      Ok
+    </button>
+  </div>
+</div>
+  
+  
   <div class="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-6 md:p-10 border border-blue-100">
 
     <!-- Botón Regresar -->

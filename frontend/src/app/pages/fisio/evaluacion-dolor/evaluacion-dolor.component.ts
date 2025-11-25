@@ -94,7 +94,6 @@ eliminarDato(id:number){
     },
     error: (err) => {
       console.error("Error al eliminar:", err);
-      alert("Hubo un error al eliminar el registro.");
     }
   });
 }

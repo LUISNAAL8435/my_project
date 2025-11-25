@@ -35,7 +35,9 @@
   <!-- Menú -->
   <nav class="flex flex-col gap-1 mt-1">
     <!-- Dashboard -->
-    <div
+    <a
+      routerLink= "/fisio/dashboard"
+      routerLinkActive="!bg-[#2563eb] !text-[#93c5fd]"
       class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
       [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Dashboard'"
       (click)="setActive('Dashboard')"
@@ -55,7 +57,7 @@
       >
         Dashboard
       </span>
-    </div>
+    </a>
 
     <!-- Pacientes -->
     <a

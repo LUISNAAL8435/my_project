@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: 'create-account', component: CreateAcountComponent},
   {
     path: 'admin',
+    canActivate: [authGuard],
     component: AdminLayoutComponent,
     children: [
       { path: 'homeAdmin',component: HomeFisioComponent },
@@ -29,6 +30,7 @@ export const routes: Routes = [
   },
   {
     path: 'fisio',
+    canActivate: [authGuard],
     component: FisiolayoutComponent,
     children: [
       { path: 'home', component: Home },

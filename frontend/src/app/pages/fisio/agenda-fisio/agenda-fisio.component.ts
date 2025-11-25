@@ -46,7 +46,7 @@ export class AgendaFisioComponent implements OnInit {
   nuevaCitaData: any = null;
   citaAEliminar: any = null;
   citaAActualizar: any = null;
-
+showSaveConfirmation: boolean = false;
   horas: string[] = [
     '9:00 - 10:00',
     '10:00 - 11:00',
@@ -176,10 +176,12 @@ export class AgendaFisioComponent implements OnInit {
         this.getAgenda(this.id);
         this.cancelarEliminacionCita();
       },
-      error: () => alert('Error al eliminar la cita')
+      error: () =>this.showSaveConfirmation=true
     });
   }
-
+ok(){
+  this.showSaveConfirmation=false;
+}
   // CANCELAR ELIMINACIÓN
   cancelarEliminacionCita() {
     this.showDeleteConfirmation = false;

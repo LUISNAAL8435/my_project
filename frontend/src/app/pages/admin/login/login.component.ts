@@ -14,7 +14,7 @@ import { AuthService } from '../../../core/services/auth-service.service';
 export class LoginComponent {
  form!: FormGroup;
   verPassword: boolean = false;
-
+showSaveConfirmation: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -51,10 +51,12 @@ export class LoginComponent {
       }
 
       },
-      error: (err) => alert('Gmail o contraseña incorrectos')
+      error: (err) => this.showSaveConfirmation=true
     });
   }
-
+ok(){
+  this.showSaveConfirmation=false;
+}
   crearCuenta() {
     this.router.navigate(['/create-account']);
   }

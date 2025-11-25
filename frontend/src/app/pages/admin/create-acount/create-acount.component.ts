@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class CreateAcountComponent implements OnInit {
  form!: FormGroup;
   verPassword: boolean = false;
-
+showSaveConfirmation: boolean = false;
   constructor(private fb: FormBuilder,private Service:GenericServiceService,private router: Router) {}
 
   ngOnInit(): void {
@@ -38,13 +38,14 @@ login(){
       const user: Fisio = this.form.value;
       this.Service.create('user',user).subscribe({
         next:()=>{
-          alert('Admin creado')
+          this.showSaveConfirmation=true
           this.router.navigate([''])
         },
         error: (err) => console.error('Error al crear', err)
       })
     }
-
-
   }
+  ok(){
+  this.showSaveConfirmation=false;
+}
 }
