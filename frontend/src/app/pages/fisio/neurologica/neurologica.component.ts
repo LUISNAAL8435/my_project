@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Test1MiembroInferior, Test1MiembroSuperior, TestMiembroInferior, TestMiembroSuperior } from '../../../core/interfaces/fisio/enfermedades.models';
+import { Test1MiembroInferior, EvaluacionMarcha ,Test1MiembroSuperior, TestMiembroInferior, TestMiembroSuperior } from '../../../core/interfaces/fisio/enfermedades.models';
 import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
 import { FormsModule } from '@angular/forms';
 import { Paciente } from '../../../core/interfaces/fisio/patients.models';
@@ -44,6 +44,18 @@ export class NeurologicaComponent implements OnInit {
     s1:{zonas:'borde externo del talon',estado:'normal',alterada:'disminuida'},
     s2:{zonas:'lineal media de la fosa popitlea',estado:'normal',alterada:'disminuida'},
   }
+  evaluacionMarcha:EvaluacionMarcha={
+    dato1:'normal',
+    datod2:'normal',
+    dato3:'normal',
+    datos4:'normal',
+    datos5:'normal',
+    datos6:'normal',
+    dato7:'normal',
+    datos8:'normal',
+    dato9:'normal',
+    datos10:'normal'
+  }
   
   constructor(private genericService:GenericServiceService){}
   ngOnInit(): void {
@@ -78,6 +90,28 @@ obtenerdatos() {
       });
 
     });
+
+    this.genericService.getById<any>('marcha',this.paciente.id).subscribe(res=>{
+      console.log("datos obtenenodos", res)
+      if (res && res[0].datos) {
+        this.evaluacionMarcha = res[0].datos;
+      } else {
+        // si no hay registro, dejar los valores por defecto
+        this.evaluacionMarcha = {
+          dato1:'normal',
+          datod2:'normal',
+          dato3:'normal',
+          datos4:'normal',
+          datos5:'normal',
+          datos6:'normal',
+          dato7:'normal',
+          datos8:'normal',
+          dato9:'normal',
+          datos10:'Normal'
+        };
+      }
+      alert('Datos obtenidos')
+    })
 }
 
 
@@ -123,6 +157,17 @@ obtenerdatos() {
                   next: res => console.log(`✅ ${grupo2.titulo} guardado`, res),
                   error: err => console.error(`❌ Error en ${grupo2.titulo}`, err)
     })
+  })
+
+  const marcha={
+    paciente_id:pacienteId,
+    titulo:"Evualuacion_Marcha",
+    datos:this.evaluacionMarcha
+  }    
+  console.log('📤 Payload que se envía al backend:', JSON.stringify(marcha, null, 2))
+  this.genericService.create<any>('marcha',marcha).subscribe({
+    next:res=>alert('Guardado'),
+    error:err=>alert('Aerror al guardar')
   })
   }
 }

@@ -153,3 +153,16 @@ export interface AntecedentesCompletos {
     s1:DatosTestInferior;
     s2:DatosTestInferior;
   }
+
+  export interface EvaluacionMarcha{
+    dato1:string
+    datod2:string
+    dato3:string
+    datos4:string
+    datos5:string
+    datos6:string
+    dato7:string
+    datos8:string
+    dato9:string
+    datos10:string
+  }

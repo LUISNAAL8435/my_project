@@ -350,4 +350,114 @@
                 </tbody>
             </table>
     </div>
+
+
+    <!--Evaluacion de la marcha-->
+
+    <div class="flex flex-col w-full p-4 rounded-2xl shadow-md overflow-x-auto">
+                <h2 class="text-xs font-semibold sm:text-base md:text-lg flex h-10 w-full items-center justify-center">Evaluación de la marcha</h2>
+        <div class="w-full">
+            <img src="marchaa.jpeg" alt="marcha" width="w-full" height="h-full">
+        </div>
+                <table class="min-w-full border border-gray-300 rounded-lg">
+                    <thead class="bg-gray-100 text-gray-700 uppercase">
+                        <tr>
+                            <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b"></th>
+                            <th class="text-xs sm:text-base md:text-lg px-6 py-3 border-b"></th>                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Absorción de impacto</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor" [(ngModel)]="evaluacionMarcha.dato1" id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="moderada">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Apoyo Completo Monopadal</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor" [(ngModel)]="evaluacionMarcha.datod2"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Propulsión</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                                <select name="dolor" [(ngModel)]="evaluacionMarcha.dato3"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Desplazamiento angular de la pelvis en el plano transversal</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor" [(ngModel)]="evaluacionMarcha.datos4"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Desplazamiento angular de la pelvis en el plano sagital</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor" [(ngModel)]="evaluacionMarcha.datos5"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Desplazamiento angular de la cadera en el plano sagital (FLEXION)</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor" [(ngModel)]="evaluacionMarcha.datos6"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Desplazamiento angular de la cadera en el plano frontal</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor" [(ngModel)]="evaluacionMarcha.dato7"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Desplazamiento angular de la rodilla en el plano sagital (FlEXION)</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dolor"[(ngModel)]="evaluacionMarcha.datos8"  id="intensidad" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Desplazamiento angular de la rodilla en el plano sagital (EXTENSION)</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dato9" [(ngModel)]="evaluacionMarcha.dato9"  id="datos9" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="text-xs sm:text-base md:text-lg p-2 capitalize text-gray-700 font-medium">Desplazamiento del tobillo en el plano sagital</td>
+                            <td class="text-xs sm:text-base md:text-lg p-2">
+                            <select name="dato10" [(ngModel)]="evaluacionMarcha.datos10"  id="datos10" class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="normal">Normal</option>
+                                <option value="Anormal">Anormal</option>
+                            </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+    </div>
 </div>

@@ -21,11 +21,7 @@ export class CreateAcountComponent implements OnInit {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       apellidos: ['', [Validators.required, Validators.minLength(2)]],
-      gmail: ['', [
-        Validators.required,
-        Validators.email,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@gmail\.com$/)
-      ]],
+      gmail: ['', [Validators.required,Validators.email,Validators.pattern(/^[a-zA-Z0-9._%+-]+@gmail\.com$/)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rol: ['admin']
     });

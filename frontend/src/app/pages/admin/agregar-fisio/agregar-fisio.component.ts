@@ -34,6 +34,8 @@ export class AgregarFisioComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       apellidos: ['', Validators.required],
       gmail: ['', [Validators.required, Validators.email]],
+      genero:['', Validators.required],
+      telefono:['',[Validators.required, Validators.minLength(9)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rol: ['fisio']
     });
@@ -77,6 +79,8 @@ export class AgregarFisioComponent implements OnInit {
       nombre:this.fisio.nombre,
       apellidos:this.fisio.apellidos,
       gmail: this.fisio.gmail,
+      genero:this.fisio.genero,
+      telefono:this.fisio.telefono,
       rol: this.fisio.rol
     });
   }
