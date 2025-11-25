@@ -42,6 +42,29 @@
     </div>
   </div>
 
+  <!-- Modal de Confirmación para Eliminar -->
+  <div *ngIf="showDeleteConfirmation" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">
+        Confirmar Eliminación
+      </h3>
+      <p class="text-gray-600 mb-4">
+        ¿Está seguro que desea eliminar al paciente {{pacienteAEliminar?.nombre}} {{pacienteAEliminar?.apellidos}}?
+      </p>
+      
+      <!-- Componente de validaciones genérico para eliminar -->
+      <app-validation-actions
+        [entityType]="'paciente'"
+        [showRegister]="false"
+        [showUpdate]="false"
+        [showDelete]="true"
+        [showCancel]="true"
+        (onDelete)="confirmarEliminacion()"
+        (onCancel)="cancelarEliminacion()">
+      </app-validation-actions>
+    </div>
+  </div>
+
   <!-- Lista de Pacientes - Integrada directamente -->
   <div class="lista-pacientes-container h-full flex flex-col">
     <div class="flex-1 min-h-0 mb-12 max-h-[55vh] lg:max-h-[60vh]">

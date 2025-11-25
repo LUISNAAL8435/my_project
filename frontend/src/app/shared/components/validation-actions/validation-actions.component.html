@@ -1,0 +1,14 @@
+<div class="validation-actions">
+  <button *ngIf="showDelete" (click)="delete()" class="btn btn-danger">
+    Eliminar {{ entityType }}
+  </button>
+  <button *ngIf="showUpdate" (click)="update()" class="btn btn-warning">
+    Actualizar {{ entityType }}
+  </button>
+  <button *ngIf="showRegister" (click)="register()" class="btn btn-success">
+    Registrar {{ entityType }}
+  </button>
+  <button *ngIf="showCancel" (click)="cancel()" class="btn btn-secondary"> <!-- ← AGREGAR *ngIf -->
+    Cancelar
+  </button>
+</div>

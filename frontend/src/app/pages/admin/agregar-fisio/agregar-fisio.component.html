@@ -1,4 +1,26 @@
 <div class="agregar-paciente-container h-full">
+  <!-- Modal de Confirmación Guardar/Actualizar -->
+  <div *ngIf="showSaveConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">
+        {{ modoEdicion ? 'Confirmar Actualización' : 'Confirmar Registro' }}
+      </h3>
+      <p class="text-gray-600 mb-4">
+        ¿Está seguro que desea {{ modoEdicion ? 'actualizar' : 'registrar' }} al fisioterapeuta?
+      </p>
+      <app-validation-actions
+        [entityType]="'fisioterapeuta'"
+        [showRegister]="!modoEdicion"
+        [showUpdate]="modoEdicion"
+        [showDelete]="false"
+        [showCancel]="true"
+        (onRegister)="confirmarGuardar()"
+        (onUpdate)="confirmarGuardar()"
+        (onCancel)="cancelarGuardar()">
+      </app-validation-actions>
+    </div>
+  </div>
+
   <!-- Header con botones pequeños -->
   <div class="bg-blue-50 px-6 py-4 border-b border-blue-200 sticky top-0 z-10">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -11,12 +33,13 @@
         </h1>
       </div>
       <div class="flex gap-2">
+        <!-- SOLO botones Guardar/Actualizar y Cancelar -->
         <button 
           type="button"
-          (click)="onGuardar()"
+          (click)="solicitarGuardar()"
           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition-all font-bold text-sm"
         >
-          {{modoEdicion ? 'Actualizar' : 'Guardar'}} Paciente
+          {{modoEdicion ? 'Actualizar' : 'Guardar'}} Fisioterapeuta
         </button>
         <button 
           type="button"
@@ -65,21 +88,23 @@
           </div>
         </div>
       </div>
+      
       <!--Genero y telefono-->
-     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="space-y-2">
-          <label for="nombres" class="block text-sm font-semibold text-gray-700">Genero</label>
+          <label for="nombres" class="block text-sm font-semibold text-gray-700">Género</label>
           <select formControlName="genero" class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white" name="genero" id="genero">
+            <option value="">Seleccione un género</option>
             <option value="H">Hombre</option>
             <option value="M">Mujer</option>
           </select>
           <div *ngIf="formulario.get('genero')?.invalid && formulario.get('genero')?.touched" 
                class="text-red-500 text-xs">
-            El genero es requerido
+            El género es requerido
           </div>
         </div>
         <div class="space-y-2">
-          <label for="apellidos" class="block text-sm font-semibold text-gray-700">Telefóno</label>
+          <label for="apellidos" class="block text-sm font-semibold text-gray-700">Teléfono</label>
           <input 
             type="text" 
             id="telefono" 
@@ -94,40 +119,43 @@
           </div>
         </div>
       </div>      
-           <!-- Primera fila: Folio -->
+      
+      <!-- Correo electrónico -->
       <div class="space-y-2 w-full">
         <label for="gmail" class="block text-sm font-semibold text-gray-700">Correo electrónico</label>
         <input 
-          type="text" 
+          type="email" 
           id="gmail" 
           formControlName="gmail"
           class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
           placeholder="Correo electrónico"
           [class.border-red-500]="formulario.get('gmail')?.invalid && formulario.get('gmail')?.touched"
-          [readonly]="modoEdicion"
         >
         <div *ngIf="formulario.get('gmail')?.invalid && formulario.get('gmail')?.touched" 
              class="text-red-500 text-xs">
-          El Correo electrónico es requerido
+          El correo electrónico es requerido y debe ser válido
         </div>
       </div>
-                 <!-- Primera fila: Folio -->
+      
+      <!-- Contraseña -->
       <div class="space-y-2 w-full">
-        <label for="passwor" class="block text-sm font-semibold text-gray-700">Contraseña</label>
+        <label for="password" class="block text-sm font-semibold text-gray-700">Contraseña</label>
         <input 
-          type="text" 
-          id="passwor" 
+          type="password" 
+          id="password" 
           formControlName="password"
           class="form-input w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-          placeholder="Ingrese una contraseñña"
-          [class.border-red-500]="formulario.get('passwor')?.invalid && formulario.get('passwor')?.touched"
+          placeholder="Ingrese una contraseña"
+          [class.border-red-500]="formulario.get('password')?.invalid && formulario.get('password')?.touched"
         >
-        <div *ngIf="formulario.get('passwor')?.invalid && formulario.get('passwor')?.touched" 
+        <div *ngIf="formulario.get('password')?.invalid && formulario.get('password')?.touched" 
              class="text-red-500 text-xs">
-           La contraseña es requerido
+          La contraseña es requerida (mínimo 6 caracteres)
         </div>
+        <p *ngIf="modoEdicion" class="text-xs text-gray-500">
+          Deje vacío si no desea cambiar la contraseña
+        </p>
       </div>
-
     </form>
   </div>
 </div>

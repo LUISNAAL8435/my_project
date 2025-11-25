@@ -1,6 +1,23 @@
 <div class="w-full min-h-screen h-auto flex flex-col">
+    <!-- Modales de Confirmación -->
+    <div *ngIf="showSaveConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+            <h3 class="text-lg font-bold text-gray-800 mb-2">Confirmar Guardado</h3>
+            <p class="text-gray-600 mb-4">¿Está seguro que desea guardar los datos?</p>
+            <app-validation-actions
+                [entityType]="'datos'"
+                [showRegister]="true"
+                [showUpdate]="false"
+                [showDelete]="false"
+                [showCancel]="true"
+                (onRegister)="confirmarGuardado()"
+                (onCancel)="cancelarGuardado()">
+            </app-validation-actions>
+        </div>
+    </div>
+
     <app-header-pacient
-    (clickGenerico)="onBotonOk()"
+    (clickGenerico)="solicitarGuardado()"
     [paciente]="paciente"></app-header-pacient>
 
     <!-- 🔹 Barra superior -->
@@ -67,7 +84,7 @@
             <app-select class="flex-1" [title]="''" [label]="label10" [options]="salario" [(valor)]="salarioSelec"></app-select>
         </div>
         <div class="flex flex-col md:flex-row w-full justify-between gap-6">
-            <app-select class="flex-1" [title]="''" [label]="label11" [options]="salud" [(valor)]="salarioSelec"></app-select>
+            <app-select class="flex-1" [title]="''" [label]="label11" [options]="salud" [(valor)]="saludSelec"></app-select>
         </div>
     </div>
 

@@ -3,30 +3,33 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Paciente } from '../../../core/interfaces/fisio/patients.models';
 import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
+import { ValidationActionsComponent } from '../../../shared/components/validation-actions/validation-actions.component';
+
 @Component({
   selector: 'app-agregar-paciente',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ValidationActionsComponent],
   templateUrl: './agregar-paciente.component.html',
   styleUrls: ['./agregar-paciente.component.scss']
 })
 export class AgregarPacienteComponent implements OnInit {
-  @Input() paciente: any = null; // Si es null = nuevo, si tiene datos = editar
-  @Input() id:number=0;
+  @Input() paciente: any = null;
+  @Input() id: number = 0;
   @Output() guardar = new EventEmitter<any>();
   @Output() cancelar = new EventEmitter<void>();
 
   formulario!: FormGroup;
   modoEdicion: boolean = false;
   sexoSeleccionado: string = '';
+  showConfirmation: boolean = false;
+  pendingAction: 'register' | 'update' | null = null;
 
-  constructor(private fb: FormBuilder, private Service:GenericServiceService) {
-  }
+  constructor(private fb: FormBuilder, private Service: GenericServiceService) {}
 
   ngOnInit() {
-    console.error(this.id)
     this.formulario = this.crearFormulario();
-      this.formulario.patchValue({ admin_id: this.id });
+    this.formulario.patchValue({ admin_id: this.id });
+    
     if (this.paciente) {
       this.modoEdicion = true;
       this.cargarDatosPaciente();
@@ -35,7 +38,7 @@ export class AgregarPacienteComponent implements OnInit {
 
   crearFormulario(): FormGroup {
     return this.fb.group({
-      admin_id:[this.id],
+      admin_id: [this.id],
       folio: ['', Validators.required],
       edad: ['', Validators.required],
       fecha_valoracion: [''],
@@ -48,10 +51,8 @@ export class AgregarPacienteComponent implements OnInit {
       motivo_consulta: ['']
     });
   }
-  
 
   cargarDatosPaciente() {
-    // Mapear los datos del paciente al formulario
     this.formulario.patchValue({
       folio: this.paciente.folio,
       edad: this.paciente.edad,
@@ -60,9 +61,9 @@ export class AgregarPacienteComponent implements OnInit {
       nombre: this.paciente.nombre,
       apellidos: this.paciente.apellidos,
       sexo: this.paciente.sexo === 'Femenino' ? 'Femenino' : 'Masculino',
-      telefono:this.paciente.telefono,
-      diagnostic_medic:this.paciente.diagnostic_medic,
-      motivo_consulta:this.paciente.motivo_consulta
+      telefono: this.paciente.telefono,
+      diagnostic_medic: this.paciente.diagnostic_medic,
+      motivo_consulta: this.paciente.motivo_consulta
     });
     
     this.sexoSeleccionado = this.paciente.sexo === 'Femenino' ? 'Femenino' : 'Masculino';
@@ -74,34 +75,50 @@ export class AgregarPacienteComponent implements OnInit {
   }
 
   onGuardar(): void {
-   if (this.formulario.valid) {
+    if (this.formulario.valid) {
+      this.pendingAction = this.modoEdicion ? 'update' : 'register';
+      this.showConfirmation = true;
+    } else {
+      Object.keys(this.formulario.controls).forEach(key => {
+        this.formulario.get(key)?.markAsTouched();
+      });
+    }
+  }
+
+  confirmarAccion(): void {
+    this.showConfirmation = false;
+    this.ejecutarGuardado();
+  }
+
+  cancelarAccion(): void {
+    this.showConfirmation = false;
+    this.pendingAction = null;
+  }
+
+  ejecutarGuardado(): void {
     const paciente: Paciente = this.formulario.value;
+    
     if (!paciente.fecha_alta) {
       delete paciente.fecha_alta;
     }
+
     if (this.modoEdicion) {
       this.Service.update<any>('patients', this.paciente.id, paciente).subscribe({
         next: () => {
-          alert('Paciente actualizado correctamente');
-          this.guardar.emit(); // ✅ solo notifica
+          this.guardar.emit();
         },
-        error: (err) => console.error('Error al actualizar', err)
+        error: () => alert('Error al actualizar el paciente')
       });
     } else {
       this.Service.create('patients', paciente).subscribe({
         next: () => {
-          alert('Paciente creado correctamente');
-          this.guardar.emit(); // ✅ solo notifica
+          this.guardar.emit();
         },
-        error: (err) => console.error('Error al crear', err)
+        error: () => alert('Error al crear el paciente')
       });
     }
-  } else {
-    Object.keys(this.formulario.controls).forEach(key => {
-      this.formulario.get(key)?.markAsTouched();
-    });
   }
-  }
+
   onCancelar(): void {
     this.cancelar.emit();
   }
