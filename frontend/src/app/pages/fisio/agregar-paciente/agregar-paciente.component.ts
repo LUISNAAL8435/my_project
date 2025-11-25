@@ -37,6 +37,7 @@ export class AgregarPacienteComponent implements OnInit {
     return this.fb.group({
       admin_id:[this.id],
       folio: ['', Validators.required],
+      edad: ['', Validators.required],
       fecha_valoracion: [''],
       fecha_alta: [''],
       nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -53,6 +54,7 @@ export class AgregarPacienteComponent implements OnInit {
     // Mapear los datos del paciente al formulario
     this.formulario.patchValue({
       folio: this.paciente.folio,
+      edad: this.paciente.edad,
       fecha_valoracion:this.paciente.fecha_valoracion,
       fecha_alta:this.paciente.fecha_alta,
       nombre: this.paciente.nombre,

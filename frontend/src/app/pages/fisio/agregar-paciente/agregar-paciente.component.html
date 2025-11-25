@@ -34,7 +34,8 @@
     <form [formGroup]="formulario" class="w-full space-y-6">
       
       <!-- Primera fila: Folio -->
-      <div class="space-y-2 w-full">
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="space-y-2">
         <label for="folio" class="block text-sm font-semibold text-gray-700">Folio</label>
         <input 
           type="text" 
@@ -51,7 +52,16 @@
         </div>
         <p *ngIf="modoEdicion" class="text-xs text-gray-500">El folio no se puede modificar</p>
       </div>
-
+              <div class="space-y-2">
+          <label for="fechaAlta" class="block text-sm font-semibold text-gray-700">Edad</label>
+          <input 
+            type="text" 
+            id="edad" 
+            formControlName="edad"
+            class="form-input w-50 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+          >
+        </div>
+</div>
       <!-- Segunda fila: 2 columnas - Fechas -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="space-y-2">

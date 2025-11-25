@@ -1,6 +1,7 @@
     export interface Paciente{
         id:number
         folio:string
+        edad:string
         fecha_valoracion:Date
         fecha_alta?:Date
         nombre:string

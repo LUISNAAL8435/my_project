@@ -15,6 +15,7 @@ import { HomeFisioComponent } from './pages/admin/home-fisio/home-fisio.componen
 import { CreateAcountComponent } from './pages/admin/create-acount/create-acount.component';
 import { LoginComponent } from './pages/admin/login/login.component';
 import { DashboardFisioComponent } from './pages/fisio/dashboard-fisio/dashboard-fisio.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -23,7 +24,7 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'homeAdmin', component: HomeFisioComponent },
+      { path: 'homeAdmin',component: HomeFisioComponent },
     ]
   },
   {
@@ -36,7 +37,7 @@ export const routes: Routes = [
       { path: 'agenda', component: AgendaFisioComponent },
       { path: 'citas', component: CitasComponent },
       { path: 'historial/:id', component: HistoralComponent },
-      { path: '', redirectTo: 'home', pathMatch: 'full' }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
   // ruta comodín

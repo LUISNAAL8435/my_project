@@ -62,7 +62,7 @@ export class UniAtencionComponent implements OnInit {
         unidad: 'Fisioterapia General',
         nombre: this.paciente.nombre,
         fecha: new Date().toISOString().split('T')[0],
-        edad: '',
+        edad: this.paciente.edad,
         sesion: '',
         subjetivo: '',
         objetivo: '',
@@ -82,7 +82,7 @@ export class UniAtencionComponent implements OnInit {
     this.unidadDeAtencion = {
       id: datos.id,              // id de la unidad (correcto)
       paciente_id: this.paciente?.id ?? 0, // id del paciente (correcto)
-      unidad: 'Fisioterapia General',
+      unidad: datos.unidad,
       nombre: datos.nombre,
       fecha: datos.fecha,
       edad: datos.edad,
