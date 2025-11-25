@@ -1,0 +1,143 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 p-6">
+  
+  <!-- Header -->
+  <div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 p-4 sm:p-6">
+  
+  <!-- Header -->
+  <div class="mb-6 sm:mb-8">
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Dashboard</h1>
+    <p class="text-slate-600 mt-1 sm:mt-2 text-sm sm:text-base">Resumen de tu actividad</p>
+  </div>
+
+  <!-- Tarjetas de Estadísticas -->
+  <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+    
+    <!-- Total Pacientes -->
+    <div class="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 shadow-[0_4px_12px_rgba(59,130,246,0.1)] border border-blue-100">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-slate-500 text-xs sm:text-sm font-medium">Pacientes Totales</p>
+          <p class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mt-1 sm:mt-2">{{ pacientes.length }}</p>
+        </div>
+        <div class="size-8 sm:size-10 lg:size-12 bg-blue-500/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+          <span class="material-icons text-blue-600 text-sm sm:text-base lg:text-lg">people</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Citas Hoy -->
+    <div class="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 shadow-[0_4px_12px_rgba(59,130,246,0.1)] border border-blue-100">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-slate-500 text-xs sm:text-sm font-medium">Citas Hoy</p>
+          <p class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mt-1 sm:mt-2">{{ getCitasHoyCount() }}</p>
+        </div>
+        <div class="size-8 sm:size-10 lg:size-12 bg-green-500/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+          <span class="material-icons text-green-600 text-sm sm:text-base lg:text-lg">event_available</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Próximas Citas -->
+    <div class="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 shadow-[0_4px_12px_rgba(59,130,246,0.1)] border border-blue-100">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-slate-500 text-xs sm:text-sm font-medium">Próximas Citas</p>
+          <p class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800 mt-1 sm:mt-2">{{ getProximasCitasCount() }}</p>
+        </div>
+        <div class="size-8 sm:size-10 lg:size-12 bg-orange-500/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+          <span class="material-icons text-orange-600 text-sm sm:text-base lg:text-lg">schedule</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+    
+    <!-- Agenda de Hoy -->
+    <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-[0_4px_12px_rgba(59,130,246,0.1)] border border-blue-100">
+      <div class="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 class="text-lg sm:text-xl font-semibold text-slate-800">Agenda de Hoy</h2>
+        <span class="material-icons text-blue-600 text-sm sm:text-base">calendar_today</span>
+      </div>
+      
+      <div *ngIf="getCitasHoy().length === 0" class="text-center py-6 sm:py-8 text-slate-500">
+        <span class="material-icons text-3xl sm:text-4xl mb-2 text-slate-300">event_busy</span>
+        <p class="text-sm sm:text-base">No hay citas para hoy</p>
+      </div>
+
+      <div *ngFor="let cita of getCitasHoy()" 
+           class="flex items-center justify-between p-3 sm:p-4 border-b border-slate-100 last:border-b-0 hover:bg-slate-50 rounded-lg transition-colors">
+        <div class="flex-1 min-w-0">
+          <p class="font-medium text-slate-800 text-sm sm:text-base truncate">{{ cita.paciente }}</p>
+          <p class="text-xs sm:text-sm text-slate-500">{{ cita.hora_cita }}</p>
+        </div>
+        <span [class]="getEstadoCitaClass(cita.estado_cita)" 
+              class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ml-2">
+          {{ cita.estado_cita }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Gráfico de Género -->
+    <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-[0_4px_12px_rgba(59,130,246,0.1)] border border-blue-100">
+      <div class="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 class="text-lg sm:text-xl font-semibold text-slate-800">Distribución por Género</h2>
+        <span class="material-icons text-blue-600 text-sm sm:text-base">pie_chart</span>
+      </div>
+      
+      <div *ngIf="pacientes.length === 0" class="text-center py-6 sm:py-8 text-slate-500">
+        <span class="material-icons text-3xl sm:text-4xl mb-2 text-slate-300">person_outline</span>
+        <p class="text-sm sm:text-base">No hay datos para mostrar</p>
+      </div>
+
+      <div *ngIf="pacientes.length > 0" class="flex flex-col items-center">
+        <!-- Gráfico circular simple -->
+        <div class="relative w-32 h-32 sm:w-40 sm:h-40 mb-4">
+          <div class="absolute inset-0 rounded-full border-8"
+               [style.borderColor]="'#3B82F6'"
+               [style.transform]="'rotate(' + (getHombresPercentage() * 3.6) + 'deg)'"
+               [class]="getHombresPercentage() === 100 ? 'border-blue-500' : 'border-blue-500 border-r-transparent'">
+          </div>
+          <div *ngIf="getMujeresPercentage() > 0" 
+               class="absolute inset-0 rounded-full border-8 border-pink-500 border-l-transparent border-b-transparent"
+               [style.transform]="'rotate(' + (getHombresPercentage() * 3.6) + 'deg)'">
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center">
+              <p class="text-lg sm:text-xl font-bold text-slate-800">{{ pacientes.length }}</p>
+              <p class="text-xs text-slate-500">total</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leyenda -->
+        <div class="grid grid-cols-2 gap-4 w-full max-w-xs">
+          <div class="flex items-center gap-2">
+            <div class="size-4 bg-blue-500 rounded"></div>
+            <div>
+              <p class="text-sm font-medium text-slate-800">Hombres</p>
+              <p class="text-xs text-slate-500">{{ getHombresCount() }} ({{ getHombresPercentage() }}%)</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="size-4 bg-pink-500 rounded"></div>
+            <div>
+              <p class="text-sm font-medium text-slate-800">Mujeres</p>
+              <p class="text-xs text-slate-500">{{ getMujeresCount() }} ({{ getMujeresPercentage() }}%)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="fixed inset-0 bg-white/80 flex items-center justify-center z-50">
+    <div class="text-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="mt-4 text-slate-600">Cargando dashboard...</p>
+    </div>
+  </div>
+</div>

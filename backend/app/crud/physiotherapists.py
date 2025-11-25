@@ -11,6 +11,10 @@ def create_user(db: Session, payload: UsersCreate):
     existe = db.query(User).filter_by(gmail=payload.gmail).first()
     if existe:
         raise HTTPException(status_code=409, detail="El usuario ya existe con ese gmail")
+    
+    print("PASSWORD:", payload.password)
+    print("TYPE:", type(payload.password))
+    print("BYTE LENGTH:", len(str(payload.password).encode("utf-8")))
 
     data = payload.model_dump()      # convertir Pydantic --> dict
     data["password"] = hash_password(payload.password)   # aquí sí puedes usar []

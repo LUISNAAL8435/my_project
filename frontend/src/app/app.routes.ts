@@ -14,6 +14,7 @@ import { InfoPrincipalComponent } from './pages/fisio/info-principal/info-princi
 import { HomeFisioComponent } from './pages/admin/home-fisio/home-fisio.component';
 import { CreateAcountComponent } from './pages/admin/create-acount/create-acount.component';
 import { LoginComponent } from './pages/admin/login/login.component';
+import { DashboardFisioComponent } from './pages/fisio/dashboard-fisio/dashboard-fisio.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -31,6 +32,7 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: Home },
       { path: 'pacientes', component: ListaPacientesComponent },
+      { path: 'dashboard', component: DashboardFisioComponent }, // ← AGREGAR ESTA LÍNEA
       { path: 'agenda', component: AgendaFisioComponent },
       { path: 'citas', component: CitasComponent },
       { path: 'historial/:id', component: HistoralComponent },
