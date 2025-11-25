@@ -20,28 +20,7 @@
 
   <!-- Menú -->
   <nav class="flex flex-col gap-1 mt-1">
-    <!-- Dashboard -->
-    <div
-      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
-      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Dashboard'"
-      (click)="setActive('Dashboard')"
-    >
-      <span class="material-icons text-[24px]">dashboard</span>
-      <span
-        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
-        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
-      >
-        Dashboard
-      </span>
-
-      <!-- Tooltip colapsado -->
-      <span
-        *ngIf="!hovering"
-        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
-      >
-        Dashboard
-      </span>
-    </div>
+    
 
     <!-- Pacientes -->
     <a
