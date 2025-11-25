@@ -8,21 +8,21 @@ La plataforma permite crear cuentas para los administradores que están a cargo 
 La plataforma les permitirá a los residentes iniciar sesión y entrar en su perfil, en su perfil podrán registrar a sus pacientes, podrán llevar el control de sus actividades, podrán registrar todos los datos de sus pacientes, tener un mejor control de la información de sus clientes, podrán agendar citas.
 ### 👤 Administrador
 
-Crea cuentas de fisioterapeutas.
+- Crea cuentas de fisioterapeutas.
 
-Gestiona accesos.
+- Gestiona accesos.
 
 ### 🧑‍⚕️ Fisioterapeuta
 
-Inicia sesión con su cuenta asignada.
+- Inicia sesión con su cuenta asignada.
 
-Registra pacientes.
+- Registra pacientes.
 
-Agenda y consulta citas.
+- Agenda y consulta citas.
 
-Realiza evaluaciones de dolor, marcha, movilidad, etc.
+- Realiza evaluaciones de dolor, marcha, movilidad, etc.
 
-Administra y consulta el historial clínico de sus pacientes.
+- Administra y consulta el historial clínico de sus pacientes.
 
 ## 🚀 Características principales
 
@@ -59,44 +59,44 @@ Administra y consulta el historial clínico de sus pacientes.
 
 Este proyecto requiere una versión específica de Node.js compatible con Angular 19:
 
-Node.js: ^18.19.1 || ^20.11.1 || >=22.0.0
+- Node.js: ^18.19.1 || ^20.11.1 || >=22.0.0
 
-Es decir, debes usar alguna de estas versiones:
+- Es decir, debes usar alguna de estas versiones:
 
-Node 18.19.1 o superior dentro de la serie 18
+- Node 18.19.1 o superior dentro de la serie 18
 
-Node 20.11.1 o superior dentro de la serie 20
+- Node 20.11.1 o superior dentro de la serie 20
 
 Node 22 o superior
 - npm **10.9.3**
 
 ### Backend
 
-FastAPI
+- FastAPI
 
-Python 3.11.9
+- Python 3.11.9
 
-SQLAlchemy / SQLModel
+- SQLAlchemy / SQLModel
 
-Uvicorn
+- Uvicorn
 
 ### Base de datos
 
-PostgreSQL
+- PostgreSQL
 
-Contenedor Docker
+- Contenedor Docker
 
 ## 🏗 Arquitectura del proyecto
 
 El proyecto sigue una arquitectura de 3 capas:
 
-Frontend Angular
+- Frontend Angular
 
-API REST FastAPI
+- API REST FastAPI
 
-Base de datos PostgreSQL en Docker
+- Base de datos PostgreSQL en Docker
 
-Comunicación: Frontend → FastAPI → PostgreSQL
+- Comunicación: Frontend → FastAPI → PostgreSQL
 
 ## 📁 Estructura de carpetas
 
@@ -115,7 +115,7 @@ my-project/
 ## ▶️ Instalación y ejecución en Linux (Ubuntu)
 ### 1 Clonar el repositorio
 ```bash
-git clone https://github.com/usuario/my-project.git
+git clone https://github.com/LUISNAAL8435/my_project.git
 cd my-project
 ```
 
