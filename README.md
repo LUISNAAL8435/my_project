@@ -113,6 +113,73 @@ my-project/
 │── docker-compose.yml   # Orquestación de servicios
 
 ## ▶️ Instalación y ejecución en Linux (Ubuntu)
+### 1 Clonar el repositorio
 ```bash
 git clone https://github.com/usuario/my-project.git
 cd my-project
+```
+
+### 2 Instalar Node.js con nvm
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+nvm intall 22.19.0
+nvm use 22.19.0
+```
+
+### 🔧 Backend – FastAPI
+#### Crear entorno virtual
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
+
+### Base de datos – Docker PostgreSQL
+#### Instalar Docker (si no está instalado)
+```bash
+sudo apt update
+sudo apt install docker.io docker-compose -y
+```
+### Subir PostgreSQL con Docker
+
+#### Asegúrate de estar en la carpeta principal del proyecto:
+```bash
+cd ../
+sudo docker-compose up -d
+```
+### 🚀 Ejecutar Backend
+```bash
+cd backend
+source venv/bin/activate
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+### Backend disponible en:
+👉 http://localhost:8000
+
+👉 Documentación automática Swagger: http://localhost:8000/docs
+
+### Ejecutar el Frontend Angular
+```bash
+cd frontend
+npm install
+npx ng serve
+```
+
+### Frontend disponible en:
+👉 http://localhost:4200
+
+## 👥 Autores
+- Luis Enrique Ku Naal
+- Guadalupe de los Angeles Huchim Morales
+- Jesús Eduardo Ávila Chim
+- Luis Enrique Zib Pech
+
+
+
+
+
