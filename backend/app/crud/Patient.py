@@ -10,6 +10,7 @@ from app.models.obstetricos import Obstetricos
 from app.models.peripheral_neurological import Peripheral
 from app.models.scheduleAppointments import Agenda
 from app.models.test import Test
+from app.models.gait_evaluation import Marcha
 from app.schemas.Patient import PacientCreate,PacientResponse
 
 def create_paciente(db:Session, payload:PacientCreate):
@@ -51,6 +52,7 @@ def delete_paciente(db: Session, paciente_id: int):
     db.query(Peripheral).filter(Peripheral.paciente_id == paciente_id).delete()
     db.query(Agenda).filter(Agenda.paciente_id == paciente_id).delete()
     db.query(Test).filter(Test.paciente_id == paciente_id).delete()
+    db.query(Marcha).filter(Marcha.paciente_id == paciente_id).delete()
     # 3️⃣ Eliminar el paciente de la base de datos
     db.delete(paciente)
     db.commit()

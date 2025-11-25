@@ -6,6 +6,7 @@ class Paciente(Base):
     id = Column(Integer, primary_key=True, index=True)
     admin_id = Column(Integer, nullable=True)
     folio=Column(String, nullable=False)
+    edad=Column(String, nullable=False)
     fecha_valoracion = Column(Date, nullable=False)
     fecha_alta = Column(Date, nullable=True)
     nombre=Column(String, nullable=False)

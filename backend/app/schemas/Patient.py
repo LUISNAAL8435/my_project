@@ -5,6 +5,7 @@ from datetime import date
 class PacientCreate(BaseModel):
     admin_id: Optional[int] = None
     folio:str
+    edad:str
     fecha_valoracion:date
     fecha_alta:Optional[date]=None
     nombre:str
@@ -18,6 +19,7 @@ class PacientResponse(BaseModel):
     id: int
     admin_id: Optional[int] = None
     folio: str
+    edad:str
     fecha_valoracion: date
     fecha_alta: Optional[date] = None
     nombre: str
