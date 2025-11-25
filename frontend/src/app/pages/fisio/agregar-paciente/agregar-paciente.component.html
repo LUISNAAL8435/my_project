@@ -10,20 +10,42 @@
           {{modoEdicion ? 'Actualice los datos del paciente' : 'Capture los datos del paciente'}}
         </h1>
       </div>
-      <div class="flex gap-2">
+      
+      <!-- Componente de validaciones genérico -->
+      <app-validation-actions
+        [entityType]="'paciente'"
+        [showRegister]="!modoEdicion"
+        [showUpdate]="modoEdicion"
+        [showDelete]="false"
+        [showCancel]="true"
+        (onRegister)="onGuardar()"
+        (onUpdate)="onGuardar()"
+        (onCancel)="onCancelar()">
+      </app-validation-actions>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmación -->
+  <div *ngIf="showConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">
+        Confirmar {{ pendingAction === 'register' ? 'Registro' : 'Actualización' }}
+      </h3>
+      <p class="text-gray-600 mb-4">
+        ¿Está seguro que desea {{ pendingAction === 'register' ? 'registrar' : 'actualizar' }} el paciente?
+      </p>
+      <div class="flex gap-3 justify-end">
         <button 
-          type="button"
-          (click)="onGuardar()"
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition-all font-bold text-sm"
-        >
-          {{modoEdicion ? 'Actualizar' : 'Guardar'}} Paciente
-        </button>
-        <button 
-          type="button"
-          (click)="onCancelar()"
-          class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:ring-2 focus:ring-gray-300 transition-all font-bold text-sm"
+          (click)="cancelarAccion()"
+          class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all font-medium"
         >
           Cancelar
+        </button>
+        <button 
+          (click)="confirmarAccion()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium"
+        >
+          Confirmar
         </button>
       </div>
     </div>

@@ -16,7 +16,7 @@
 
   position: sticky;
   top: 0;
-  height: 100vh; /* Cambiado a 100vh */
+  height: 100vh;
   width: var(--w-collapsed);
   background: linear-gradient(180deg, var(--bg-from) 0%, var(--bg-to) 100%);
   color: var(--txt);
@@ -32,6 +32,14 @@
     width: var(--w-expanded);
     background: linear-gradient(180deg, var(--bg-hover-from) 0%, var(--bg-hover-to) 100%);
   }
+}
+
+/* Estilos para la imagen del logo */
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene la proporción de la imagen */
+  border-radius: 8px; /* Mismo radio que el contenedor */
 }
 
 /* Asegurar que el contenedor padre también tenga altura completa */

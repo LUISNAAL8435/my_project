@@ -6,16 +6,30 @@
 >
 
   <!-- Logo -->
-  <div class="flex items-center gap-3 px-2 py-2 rounded-2xl mb-2 transition-all duration-200">
-    <div class="size-10 bg-white/10 rounded-xl flex items-center justify-center font-bold text-lg shadow-[0_4px_12px_rgba(59,130,246,0.25)]">
-      F
-    </div>
-    <span
-      class="font-extrabold text-[16px] tracking-wide whitespace-nowrap transition-all duration-200"
-      [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+  <div class="flex flex-col items-center justify-start mt-6 mb-6 h-32 w-full relative">
+    <!-- Logo grande solo visible al expandir -->
+    <div
+      class="w-28 h-28 bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200"
+      [ngClass]="hovering ? 'opacity-100 scale-100' : 'opacity-0 pointer-events-none'"
     >
-      Fisiocenter
+      <img src="FisioCenter.png" alt="FisioCenter" class="w-20 h-20 object-contain" />
+    </div>
+
+    <!-- Nombre debajo del logo -->
+    <span
+      class="mt-3 text-white font-extrabold text-lg text-center transition-all duration-200"
+      [ngClass]="hovering ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'"
+    >
+      FisioCenter
     </span>
+
+    <!-- Logo pequeño visible siempre cuando está colapsado -->
+    <div
+      class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200 absolute top-0 left-1/2 -translate-x-1/2"
+      [ngClass]="hovering ? 'hidden' : 'flex'"
+    >
+      <img src="FisioCenter.png" alt="FisioCenter" class="w-8 h-8 object-contain" />
+    </div>
   </div>
 
   <!-- Menú -->

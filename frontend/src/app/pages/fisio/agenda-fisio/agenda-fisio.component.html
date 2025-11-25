@@ -8,6 +8,84 @@
       </div>
     </div>
 
+    <!-- Modal de Confirmación para Agregar Cita - z-index: 50 -->
+    <div *ngIf="showAddConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+      <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+        <h3 class="text-lg font-bold text-gray-800 mb-2">
+          Confirmar Cita
+        </h3>
+        <p class="text-gray-600 mb-4">
+          ¿Está seguro que desea agendar la cita para 
+          <strong>{{nuevaCitaData?.paciente}}</strong> el 
+          <strong>{{nuevaCitaData?.fecha_cita | date:'dd/MM/yyyy'}}</strong> a las 
+          <strong>{{nuevaCitaData?.hora_cita}}</strong>?
+        </p>
+        
+        <!-- Componente de validaciones genérico -->
+        <app-validation-actions
+          [entityType]="'cita'"
+          [showRegister]="true"
+          [showUpdate]="false"
+          [showDelete]="false"
+          [showCancel]="true"
+          (onRegister)="confirmarAgregarCita()"
+          (onCancel)="cancelarAgregarCita()">
+        </app-validation-actions>
+      </div>
+    </div>
+
+    <!-- Modal de Confirmación para Eliminar Cita - z-index: 50 -->
+    <div *ngIf="showDeleteConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+      <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+        <h3 class="text-lg font-bold text-gray-800 mb-2">
+          Confirmar Eliminación
+        </h3>
+        <p class="text-gray-600 mb-4">
+          ¿Está seguro que desea eliminar la cita de 
+          <strong>{{citaAEliminar?.paciente}}</strong> programada para el 
+          <strong>{{citaAEliminar?.fecha_cita | date:'dd/MM/yyyy'}}</strong> a las 
+          <strong>{{citaAEliminar?.hora_cita}}</strong>?
+        </p>
+        
+        <!-- Componente de validaciones genérico -->
+        <app-validation-actions
+          [entityType]="'cita'"
+          [showRegister]="false"
+          [showUpdate]="false"
+          [showDelete]="true"
+          [showCancel]="true"
+          (onDelete)="confirmarEliminacionCita()"
+          (onCancel)="cancelarEliminacionCita()">
+        </app-validation-actions>
+      </div>
+    </div>
+
+    <!-- Modal de Confirmación para Actualizar Cita - z-index: 60 (MÁS ALTO) -->
+    <div *ngIf="showUpdateConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 60;">
+      <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+        <h3 class="text-lg font-bold text-gray-800 mb-2">
+          Confirmar Actualización
+        </h3>
+        <p class="text-gray-600 mb-4">
+          ¿Está seguro que desea actualizar la cita de 
+          <strong>{{citaAActualizar?.nombre}}</strong> para el 
+          <strong>{{citaAActualizar?.fecha | date:'dd/MM/yyyy'}}</strong> a las 
+          <strong>{{citaAActualizar?.hora}}</strong>?
+        </p>
+        
+        <!-- Componente de validaciones genérico -->
+        <app-validation-actions
+          [entityType]="'cita'"
+          [showRegister]="false"
+          [showUpdate]="true"
+          [showDelete]="false"
+          [showCancel]="true"
+          (onUpdate)="confirmarActualizacionCita()"
+          (onCancel)="cancelarActualizacionCita()">
+        </app-validation-actions>
+      </div>
+    </div>
+
     <!-- Contenedor de Agendar Cita - ARRIBA -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4">
       <!-- Header del formulario -->
@@ -149,7 +227,7 @@
                   <div class="flex gap-1 flex-shrink-0">
                     <!-- Botón Eliminar -->
                     <button 
-                      (click)="eliminarAgenda(agendass.id)"
+                      (click)="eliminarAgenda(agendass)"
                       class="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors flex-shrink-0"
                       title="Eliminar cita"
                     >
@@ -187,8 +265,8 @@
     </div>
   </div>
 
-  <!-- Modal de Edición -->
-  <div *ngIf="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+  <!-- Modal de Edición - z-index: 50 -->
+  <div *ngIf="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
       <!-- Header del modal -->
       <div class="p-4 border-b border-gray-200 bg-blue-600 rounded-t-lg">
@@ -261,7 +339,7 @@
           Cancelar
         </button>
         <button 
-          (click)="guardarEdicion()"
+          (click)="confirmarEdicion()"
           [disabled]="!citaEditada.fecha || !citaEditada.nombre || !citaEditada.hora"
           [class.opacity-50]="!citaEditada.fecha || !citaEditada.nombre || !citaEditada.hora"
           [class.cursor-not-allowed]="!citaEditada.fecha || !citaEditada.nombre || !citaEditada.hora"

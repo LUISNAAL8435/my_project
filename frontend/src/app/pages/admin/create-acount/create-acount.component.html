@@ -1,7 +1,15 @@
 <div class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-indigo-50 to-white">
   <div class="w-full max-w-2xl bg-white shadow-xl rounded-xl p-6 md:p-10">
 
-    <h1 class="text-3xl font-extrabold text-slate-800 mb-6">Crear cuenta</h1>
+    <!-- Contenedor título + logo -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-extrabold text-slate-800">Crear cuenta</h1>
+
+      <!-- Logo al costado derecho -->
+      <div class="w-20 h-20 rounded-full border-4 border-blue-500 flex items-center justify-center shadow-md">
+        <img src="FisioCenter.png" alt="FisioCenter" class="w-16 h-16 object-contain" />
+      </div>
+    </div>
 
     <form [formGroup]="form" (ngSubmit)="enviar()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -69,8 +77,6 @@
           Login
         </button>
       </div>
-
     </form>
-
   </div>
 </div>

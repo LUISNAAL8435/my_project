@@ -3,21 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AgregarPacienteComponent } from '../agregar-paciente/agregar-paciente.component';
 import { UniAtencionComponent } from '../uni-atencion/uni-atencion.component';
+import { ValidationActionsComponent } from '../../../shared/components/validation-actions/validation-actions.component';
 import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
 import { Paciente } from '../../../core/interfaces/fisio/patients.models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service.service';
-
-//interface Paciente {
-  //nombre: string;
-  //apellidos: string;
-  //folio: string;
-  //genero: string;
-  //icono: string;
-  //color: string;
-  //fechaRegistro?: Date;
-  //telefono?: string;
-//}
 
 interface UnidadDeAtencion {
   unidad: string;
@@ -36,7 +26,13 @@ interface UnidadDeAtencion {
 @Component({
   selector: 'app-lista-pacientes',
   standalone: true,
-  imports: [CommonModule, FormsModule, AgregarPacienteComponent,UniAtencionComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    AgregarPacienteComponent,
+    UniAtencionComponent,
+    ValidationActionsComponent
+  ],
   templateUrl: './lista-pacientes.component.html',
   styleUrls: ['./lista-pacientes.component.scss']
 })
@@ -46,32 +42,38 @@ export class ListaPacientesComponent implements OnInit {
   @Output() historial = new EventEmitter<Paciente>();
   @Output() atencion = new EventEmitter<Paciente>();
 
-  // Variables para búsqueda
   terminoBusqueda: string = '';
   pacientes: any[] = [];
   pacientesFiltrados: any[] = [];
 
-  // Variables para modales
   mostrarModal = false;
   mostrarModalUnidadAtencion = false;
   pacienteEditando: Paciente | null = null;
   pacienteUnidadAtencion: Paciente | null = null;
-  id:number=0;
-  constructor(private auth:AuthService,private Service:GenericServiceService, private router:Router,private route: ActivatedRoute) {
-    
-  }
+  id: number = 0;
+
+  showDeleteConfirmation = false;
+  pacienteAEliminar: Paciente | null = null;
+
+  constructor(
+    private auth: AuthService,
+    private Service: GenericServiceService, 
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
   ngOnInit() {
-  const userId = this.auth.userId;
-  
-  if (!userId) {
-    console.error("No hay usuario logueado");
-    return;
-  }else{
-    this.id=userId;
+    const userId = this.auth.userId;
+    
+    if (!userId) {
+      alert("No hay usuario logueado");
+      return;
+    } else {
+      this.id = userId;
+    }
+    this.cargarPacientes();
   }
-  this.cargarPacientes();
-  }
-  // Métodos de búsqueda
+
   private normalizarTexto(texto: string): string {
     return texto
       .toLowerCase()
@@ -103,7 +105,6 @@ export class ListaPacientesComponent implements OnInit {
     }
   }
 
-  // Métodos del modal de registro/edición
   abrirModalRegistro(): void {
     this.pacienteEditando = null;
     this.mostrarModal = true;
@@ -114,7 +115,6 @@ export class ListaPacientesComponent implements OnInit {
     this.pacienteEditando = null;
   }
 
-  // Métodos del modal de unidad de atención
   abrirModalUnidadAtencion(paciente: Paciente): void {
     this.pacienteUnidadAtencion = paciente;
     this.mostrarModalUnidadAtencion = true;
@@ -125,87 +125,86 @@ export class ListaPacientesComponent implements OnInit {
     this.mostrarModalUnidadAtencion = false;
     this.pacienteUnidadAtencion = null;
   }
-//A qui estaremos trabajando
+
   onGuardarUnidadAtencion(datosUnidadAtencion: any): void {
-    // Aquí iría la lógica para guardar la unidad de atención
-    console.log('Guardando unidad de atención:', datosUnidadAtencion);
-    this.Service.create('units',datosUnidadAtencion).subscribe({
-      next:()=>{
-          alert('Unidad creado correctamente');
+    this.Service.create('units', datosUnidadAtencion).subscribe({
+      next: () => {
+        alert('Unidad creada correctamente');
       },
-        error: (err) => console.error('Error al crear', err)
+      error: () => alert('Error al crear la unidad')
     });
-    alert('Unidad de atención guardada exitosamente');
     this.cerrarModalUnidadAtencion();
   }
-onUpdate(datosUnidadAtencion: any): void {
-  if (!datosUnidadAtencion.id) {
-    console.error("No se recibió el id de la unidad a actualizar");
-    return;
+
+  onUpdate(datosUnidadAtencion: any): void {
+    if (!datosUnidadAtencion.id) {
+      return;
+    }
+
+    this.Service.update(`units`, datosUnidadAtencion.id, datosUnidadAtencion).subscribe({
+      next: () => {
+        this.cerrarModalUnidadAtencion();
+      },
+      error: () => alert('Ocurrió un error al actualizar')
+    });
   }
 
-  this.Service.update(`units`,datosUnidadAtencion.id, datosUnidadAtencion).subscribe({
-    next: () => {
-      alert('Unidad de atención actualizada exitosamente');
-      this.cerrarModalUnidadAtencion();
-    },
-    error: (err) => {
-      console.error('Error actualizando unidad:', err);
-      alert('Ocurrió un error al actualizar.');
+  OnDelete(id: number): void {
+    if (!id) {
+      return;
     }
-  });
-}
-OnDelete(id:number): void{
-  if (!id) {
-    console.error("No se recibió el id de la unidad a actualizar");
-    return;
+    this.Service.delete('units', id).subscribe({
+      next: () => {
+      },
+      error: () => alert('Error al eliminar la unidad')
+    });
   }
-  this.Service.delete('units',id).subscribe({
-    next:()=>{
-      alert('Paciente eliminado correctamente');
-    }
-  })
-}
-  // Métodos de acciones de pacientes
+
   editarPaciente(paciente: Paciente): void {
     this.pacienteEditando = paciente;
     this.mostrarModal = true;
     this.editar.emit(paciente);
   }
 
-eliminarPaciente(paciente: Paciente): void {
-  if (confirm(`¿Estás seguro de que quieres eliminar a ${paciente.nombre} ${paciente.apellidos}?`)) {
-    this.Service.delete('patients', paciente.id).subscribe({
-      next: () => {
-        alert('Paciente eliminado correctamente');
+  eliminarPaciente(paciente: Paciente): void {
+    this.pacienteAEliminar = paciente;
+    this.showDeleteConfirmation = true;
+  }
 
-        // 🔥 SOLUCIÓN: eliminarlo de la lista local
-        this.pacientes = this.pacientes.filter(p => p.id !== paciente.id);
-        this.pacientesFiltrados = this.pacientesFiltrados.filter(p => p.id !== paciente.id);
-      },
-      error: (err) => {
-        console.error('Error al eliminar paciente:', err);
-        alert('Ocurrió un error al eliminar el paciente.');
-      }
+  confirmarEliminacion(): void {
+    if (this.pacienteAEliminar) {
+      this.Service.delete('patients', this.pacienteAEliminar.id).subscribe({
+        next: () => {
+          this.pacientes = this.pacientes.filter(p => p.id !== this.pacienteAEliminar!.id);
+          this.pacientesFiltrados = this.pacientesFiltrados.filter(p => p.id !== this.pacienteAEliminar!.id);
+          this.cancelarEliminacion();
+        },
+        error: () => alert('Ocurrió un error al eliminar el paciente')
+      });
+    }
+  }
+
+  cancelarEliminacion(): void {
+    this.showDeleteConfirmation = false;
+    this.pacienteAEliminar = null;
+  }
+
+  verHistorial(paciente: Paciente): void {
+    this.router.navigate(['/fisio/historial', paciente.id], {
+      state: { paciente }
     });
   }
-}
 
-verHistorial(paciente: Paciente): void {
-  this.router.navigate(['/fisio/historial',paciente.id], {
-    state: { paciente }
-  });
-}
   cargarPacientes() {
-    console.log(this.id)
-    this.Service.getById<any>('patients/list',this.id).subscribe({
+    this.Service.getById<any>('patients/list', this.id).subscribe({
       next: (data) => {
         this.pacientes = data;
         this.pacientesFiltrados = data;
       },
-      error: (err) => console.error('Error al cargar pacientes', err)
+      error: () => alert('Error al cargar pacientes')
     });
   }
+
   onGuardarPaciente(): void {
     this.cargarPacientes();
     this.filtrarPacientes();

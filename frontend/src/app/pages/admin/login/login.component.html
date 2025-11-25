@@ -1,5 +1,13 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    
+    <!-- Logo arriba del título -->
+    <div class="flex flex-col items-center mb-6">
+      <div class="w-24 h-24 rounded-full border-4 border-blue-500 flex items-center justify-center shadow-md">
+        <img src="FisioCenter.png" alt="FisioCenter" class="w-20 h-20 object-contain" />
+      </div>
+    </div>
+
     <h2 class="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h2>
 
     <form [formGroup]="form" (ngSubmit)="entrar()" class="space-y-4">
@@ -39,4 +47,3 @@
     </form>
   </div>
 </div>
-

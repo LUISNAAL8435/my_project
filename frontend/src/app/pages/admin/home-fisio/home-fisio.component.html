@@ -1,4 +1,25 @@
 <div class="buscador-pacientes-container px-4 sm:px-6 lg:px-8 py-4 h-screen flex flex-col">
+  <!-- Modal de Confirmación Eliminar -->
+  <div *ngIf="showDeleteConfirmation" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">
+        Confirmar Eliminación
+      </h3>
+      <p class="text-gray-600 mb-4">
+        ¿Está seguro que desea eliminar al fisioterapeuta {{fisioAEliminar?.nombre}} {{fisioAEliminar?.apellidos}}?
+      </p>
+      <app-validation-actions
+        [entityType]="'fisioterapeuta'"
+        [showRegister]="false"
+        [showUpdate]="false"
+        [showDelete]="true"
+        [showCancel]="true"
+        (onDelete)="confirmarEliminacion()"
+        (onCancel)="cancelarEliminacion()">
+      </app-validation-actions>
+    </div>
+  </div>
+
   <!-- Encabezado con fondo sin bordes -->
   <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 mb-4">
     <div class="flex flex-col sm:flex-row sm:items-center">
@@ -26,10 +47,12 @@
   <!-- Barra de búsqueda simplificada -->
   <div class="w-full mb-4 flex-shrink-0">
     <div class="space-y-2 max-w-2xl mx-auto">
-      <label class="block text-sm font-medium text-gray-700 text-center">BuscarFisioterapeutas...</label>
+      <label class="block text-sm font-medium text-gray-700 text-center">Buscar Fisioterapeutas...</label>
       <div class="relative">
         <input 
           type="text" 
+          [(ngModel)]="terminoBusqueda"
+          (input)="filtrarPacientes()"
           placeholder="Buscar por nombre, apellidos o folio"
           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all pr-12 bg-white text-center lg:text-left text-sm"
         >
@@ -40,7 +63,7 @@
     </div>
   </div>
 
-  <!-- Lista de Pacientes - Integrada directamente -->
+  <!-- Lista de Fisioterapeutas - Integrada directamente -->
   <div class="lista-pacientes-container h-full flex flex-col">
     <div class="flex-1 min-h-0 mb-12 max-h-[55vh] lg:max-h-[60vh]">
         <div class="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-auto">
@@ -84,28 +107,28 @@
                   <button  
                   (click)="editarPaciente(paciente)"
                     class="p-1 sm:p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center justify-center border border-blue-200"
-                    title="Editar paciente"
+                    title="Editar fisioterapeuta"
                   >
                     <span class="material-icons text-sm sm:text-lg">edit</span>
                   </button>
                   <button 
-                    (click)="eliminarPaciente(paciente)" 
+                    (click)="solicitarEliminacion(paciente)" 
                     class="p-1 sm:p-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center border border-red-200"
-                    title="Eliminar paciente"
+                    title="Eliminar fisioterapeuta"
                   >
                     <span class="material-icons text-sm sm:text-lg">delete</span>
                   </button>
                 <button 
                 (click)="abrirCitas(paciente.id)" 
-                    class="p-1 sm:p-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center border border-red-200"
-                    title="Citas paciente"
+                    class="p-1 sm:p-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors flex items-center justify-center border border-green-200"
+                    title="Citas fisioterapeuta"
                   >
                     <span class="material-icons text-sm sm:text-lg">list</span>
                   </button>
                 <button
                 (click)="abrirPacientes(paciente.id)"  
-                    class="p-1 sm:p-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center border border-red-200"
-                    title="Citas paciente"
+                    class="p-1 sm:p-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors flex items-center justify-center border border-purple-200"
+                    title="Pacientes del fisioterapeuta"
                   >
                     <span class="material-icons text-sm sm:text-lg">calendar_today</span>
                   </button>
@@ -118,7 +141,7 @@
         <!-- Mensaje cuando no hay resultados -->
         <div *ngIf="pacientesFiltrados.length === 0" class="text-center py-8">
           <span class="material-icons text-gray-400 text-4xl mb-2">search_off</span>
-          <p class="text-gray-500 text-sm">No se encontraron pacientes que coincidan con ""</p>
+          <p class="text-gray-500 text-sm">No se encontraron fisioterapeutas que coincidan con "{{terminoBusqueda}}"</p>
           <p class="text-gray-400 text-xs mt-1">Intenta con otro término de búsqueda</p>
         </div>
       </div>
@@ -140,7 +163,8 @@
       </div>
     </div>
   </div>
-  <!-- MODAL DE REGISTRO/EDICIÓN -->
+  
+  <!-- MODAL DE CITAS -->
   <div *ngIf="mostrarCita" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
       <!-- Contenido del formulario -->
@@ -152,7 +176,8 @@
       </div>
     </div>
   </div>
-    <!-- MODAL DE REGISTRO/EDICIÓN -->
+  
+  <!-- MODAL DE PACIENTES -->
   <div *ngIf="mostrarListPacient" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
       <!-- Contenido del formulario -->
@@ -160,7 +185,6 @@
         <app-pacientes-list
         (cancelar)="cerrarModal()"
         [id]="this.id_fisio">
-
         </app-pacientes-list>
       </div>
     </div>
