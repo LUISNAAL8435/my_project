@@ -7,6 +7,8 @@ class UsersCreate(BaseModel):
     nombre: str
     apellidos: str
     gmail: str
+    genero:Optional[str]=None
+    telefono:Optional[str]=None
     password: str
     rol: str
 
@@ -17,6 +19,8 @@ class UsersResponse(BaseModel):
     nombre: str
     apellidos: str
     gmail: str
+    genero:Optional[str]=None
+    telefono:Optional[str]=None
     rol: str
 
     class Config:
@@ -26,6 +30,8 @@ class UsersUpdate(BaseModel):
     apellidos: Optional[str] = None
     gmail: Optional[str] = None
     password: Optional[str] = None
+    genero:Optional[str]=None
+    telefono:Optional[str]=None
     rol: Optional[str] = None
 class UsersLogin(BaseModel):
     gmail: str

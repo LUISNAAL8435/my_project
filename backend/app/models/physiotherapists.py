@@ -12,5 +12,7 @@ class User(Base):
     nombre = Column(String, nullable=False)
     apellidos = Column(String, nullable=False)
     gmail = Column(String, nullable=False, unique=True)
+    genero = Column(String, nullable=True)
+    telefono = Column(String, nullable=True)
     password = Column(String, nullable=False)
     rol = Column(String, nullable=False)
