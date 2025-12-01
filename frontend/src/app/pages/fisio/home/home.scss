@@ -1,0 +1,71 @@
+// Variables CSS personalizadas
+:host {
+  --sidebar-width-collapsed: 72px;
+  --sidebar-width-expanded: 240px;
+  --transition-duration: 0.3s;
+}
+
+.home-container {
+  // Aseguramos que ocupe toda la altura
+  min-height: 100vh;
+  
+  // Mejora en el rendimiento de animaciones
+  transform: translateZ(0);
+}
+
+.main-content {
+  // Transición suave cuando el sidebar se expande/contrae
+  transition: margin-left var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // Mejoras de rendimiento
+  will-change: margin-left;
+  
+  // Scroll suave
+  scroll-behavior: smooth;
+}
+
+// Cuando el sidebar está expandido
+.sidebar-expanded ~ .main-content {
+  margin-left: var(--sidebar-width-expanded);
+}
+
+// Cuando el sidebar está colapsado  
+.sidebar-collapsed ~ .main-content {
+  margin-left: var(--sidebar-width-collapsed);
+}
+
+// Loading states
+.content-area {
+  position: relative;
+  
+  &.loading {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+// Mejoras de accesibilidad
+@media (prefers-reduced-motion: reduce) {
+  .main-content,
+  .sidebar-container {
+    transition: none;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .sidebar-container {
+    border-right-width: 2px;
+    border-right-color: #fff;
+  }
+}

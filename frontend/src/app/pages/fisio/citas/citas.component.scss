@@ -1,0 +1,49 @@
+// Estilos específicos del componente Citas
+// que no se pueden lograr fácilmente con Tailwind
+
+:host {
+  display: block;
+}
+
+// Personalización del scroll para las listas de citas
+.citas-scroll {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+    
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
+}
+
+// Asegurar que los contenedores tengan el comportamiento correcto
+.citas-container {
+  min-height: 200px;
+}
+
+// Estilos para estados específicos
+.cita-realizada {
+  border-left: 4px solid #2563eb; // blue-600
+}
+
+.cita-vencida {
+  border-left: 4px solid #dc2626; // red-600
+}
+
+// Responsive adicional si es necesario
+@media (max-width: 768px) {
+  .mobile-divider {
+    border-bottom: 2px solid #3b82f6; // blue-500
+    border-right: none !important;
+  }
+}

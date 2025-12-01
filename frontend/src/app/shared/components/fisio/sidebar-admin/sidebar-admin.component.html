@@ -1,0 +1,110 @@
+<div
+  class="sticky top-0 z-50 flex h-screen flex-col border-r border-white/10 bg-gradient-to-b from-[#1e3a8a] to-[#0f172a] text-white shadow-[0_10px_30px_rgba(59,130,246,0.25)] transition-all duration-200 ease-in-out p-3"
+  [ngClass]="hovering ? 'w-[240px] from-[#1d4ed8] to-[#1e1b4b]' : 'w-[72px]'"
+  (mouseenter)="hovering = true"
+  (mouseleave)="hovering = false"
+>
+
+  <!-- Logo -->
+  <div class="flex flex-col items-center justify-start mt-6 mb-6 h-32 w-full relative">
+    <!-- Logo grande solo visible al expandir -->
+    <div
+      class="w-28 h-28 bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200"
+      [ngClass]="hovering ? 'opacity-100 scale-100' : 'opacity-0 pointer-events-none'"
+    >
+      <img src="FisioCenter.png" alt="FisioCenter" class="w-20 h-20 object-contain" />
+    </div>
+
+    <!-- Nombre debajo del logo -->
+    <span
+      class="mt-3 text-white font-extrabold text-lg text-center transition-all duration-200"
+      [ngClass]="hovering ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'"
+    >
+      FisioCenter
+    </span>
+
+    <!-- Logo pequeño visible siempre cuando está colapsado -->
+    <div
+      class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200 absolute top-0 left-1/2 -translate-x-1/2"
+      [ngClass]="hovering ? 'hidden' : 'flex'"
+    >
+      <img src="FisioCenter.png" alt="FisioCenter" class="w-8 h-8 object-contain" />
+    </div>
+  </div>
+
+  <!-- Menú -->
+  <nav class="flex flex-col gap-1 mt-1">
+    <!-- Dashboard -->
+    <div
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Dashboard'"
+      (click)="setActive('Dashboard')"
+    >
+      <span class="material-icons text-[24px]">dashboard</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Dashboard
+      </span>
+
+      <!-- Tooltip colapsado -->
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Dashboard
+      </span>
+    </div>
+
+    <!-- Fisioterapeutas -->
+    <a
+      routerLink="/admin/homeAdmin"
+      routerLinkActive="!bg-[#2563eb] !text-[#93c5fd]"
+      [routerLinkActiveOptions]="{ exact: false }"
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Pacientes'"
+      (click)="setActive('Pacientes')"
+    >
+      <span class="material-icons text-[24px]">people</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Fisioterapeutas
+      </span>
+
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Fisioterapeutas
+      </span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <div class="flex flex-col gap-1 mt-auto pt-2 border-t border-dashed border-white/10">
+    <!-- Cerrar Sesión -->
+    <div
+      class="group grid grid-cols-[40px_1fr] items-center gap-2 rounded-xl py-2.5 px-3 relative transition-all duration-200 hover:bg-white/10 cursor-pointer"
+      [class.!bg-[#2563eb]!text-[#93c5fd]]="activeItem === 'Cerrar Sesión'"
+      (click)="cerrarSesion()"
+    >
+      <span class="material-icons text-[24px]">logout</span>
+      <span
+        class="font-semibold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200"
+        [ngClass]="hovering ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'"
+      >
+        Cerrar Sesión
+      </span>
+
+      <span
+        *ngIf="!hovering"
+        class="absolute left-[calc(72px+8px)] top-1/2 -translate-y-1/2 bg-[#1e293b] text-[#e0f2fe] border border-blue-500/20 px-2 py-1 rounded-lg text-[12px] shadow-[0_10px_30px_rgba(59,130,246,0.25)] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+      >
+        Cerrar Sesión
+      </span>
+    </div>
+  </div>
+</div>

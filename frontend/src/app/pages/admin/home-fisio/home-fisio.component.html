@@ -1,0 +1,192 @@
+<div class="buscador-pacientes-container px-4 sm:px-6 lg:px-8 py-4 h-screen flex flex-col">
+  <!-- Modal de Confirmación Eliminar -->
+  <div *ngIf="showDeleteConfirmation" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">
+        Confirmar Eliminación
+      </h3>
+      <p class="text-gray-600 mb-4">
+        ¿Está seguro que desea eliminar al fisioterapeuta {{fisioAEliminar?.nombre}} {{fisioAEliminar?.apellidos}}?
+      </p>
+      <app-validation-actions
+        [entityType]="'fisioterapeuta'"
+        [showRegister]="false"
+        [showUpdate]="false"
+        [showDelete]="true"
+        [showCancel]="true"
+        (onDelete)="confirmarEliminacion()"
+        (onCancel)="cancelarEliminacion()">
+      </app-validation-actions>
+    </div>
+  </div>
+
+  <!-- Encabezado con fondo sin bordes -->
+  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 mb-4">
+    <div class="flex flex-col sm:flex-row sm:items-center">
+      <div class="hidden sm:block flex-1"></div>
+      
+      <!-- Título centrado -->
+      <div class="mb-4 sm:mb-0 text-center">
+        <h2 class="text-2xl font-bold text-gray-800">Buscar Fisioterapeutas</h2>
+        <p class="text-sm text-gray-600 mt-1">Gestiona y busca fisioterapeutas en el sistema</p>
+      </div>
+      
+      <!-- Botón a la derecha -->
+      <div class="sm:flex-1 sm:flex sm:justify-end">
+        <button
+        (click)="abrirModalRegistro()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-semibold flex items-center gap-2 justify-center text-sm w-full sm:w-auto"
+        >
+          <span class="material-icons text-lg">add</span>
+          Nuevo Fisioterapeuta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda simplificada -->
+  <div class="w-full mb-4 flex-shrink-0">
+    <div class="space-y-2 max-w-2xl mx-auto">
+      <label class="block text-sm font-medium text-gray-700 text-center">Buscar Fisioterapeutas...</label>
+      <div class="relative">
+        <input 
+          type="text" 
+          [(ngModel)]="terminoBusqueda"
+          (input)="filtrarPacientes()"
+          placeholder="Buscar por nombre, apellidos o folio"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all pr-12 bg-white text-center lg:text-left text-sm"
+        >
+        <span class="material-icons absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">
+          search
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de Fisioterapeutas - Integrada directamente -->
+  <div class="lista-pacientes-container h-full flex flex-col">
+    <div class="flex-1 min-h-0 mb-12 max-h-[55vh] lg:max-h-[60vh]">
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-auto">
+            <div class="min-w-[600px]">
+        <table class="w-full">
+          <!-- Header de la tabla -->
+          <thead class="sticky top-0 z-10 bg-blue-600 border-b border-blue-700">
+            <tr>
+              <th class="px-3 py-3 text-center text-sm font-medium text-white w-1/5">Nombre</th>
+              <th class="px-3 py-3 text-center text-sm font-medium text-white w-1/5">Apellidos</th>
+              <th class="px-3 py-3 text-center text-sm font-medium text-white w-1/5">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            <tr *ngFor="let paciente of pacientesFiltrados; let i = index" 
+                class="hover:bg-gray-50 transition-colors">
+              
+              <!-- Nombre -->
+              <td class="px-3 py-3 text-center align-middle w-1/5">
+                <div class="font-medium text-gray-900 break-words mx-auto max-w-[120px] sm:max-w-none"
+                   [title]="paciente.nombre">
+                  <span class="text-xs sm:text-sm leading-tight">
+                    {{paciente.nombre}}
+                  </span>
+                </div>
+              </td>
+              
+              <!-- Apellidos -->
+              <td class="px-3 py-3 text-center align-middle w-1/5">
+                <div class="text-gray-900 break-words mx-auto max-w-[120px] sm:max-w-none"
+                   [title]="paciente.apellidos">
+                  <span class="text-xs sm:text-sm leading-tight">
+                    {{paciente.apellidos}}
+                  </span>
+                </div>
+              </td>
+              
+              <!-- Acciones -->
+              <td class="px-3 py-3 text-center align-middle w-1/4">
+                <div class="flex flex-wrap gap-1 sm:gap-2 justify-center">
+                  <button  
+                  (click)="editarPaciente(paciente)"
+                    class="p-1 sm:p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center justify-center border border-blue-200"
+                    title="Editar fisioterapeuta"
+                  >
+                    <span class="material-icons text-sm sm:text-lg">edit</span>
+                  </button>
+                  <button 
+                    (click)="solicitarEliminacion(paciente)" 
+                    class="p-1 sm:p-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center border border-red-200"
+                    title="Eliminar fisioterapeuta"
+                  >
+                    <span class="material-icons text-sm sm:text-lg">delete</span>
+                  </button>
+                <button 
+                (click)="abrirCitas(paciente.id)" 
+                    class="p-1 sm:p-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors flex items-center justify-center border border-green-200"
+                    title="Citas fisioterapeuta"
+                  >
+                    <span class="material-icons text-sm sm:text-lg">list</span>
+                  </button>
+                <button
+                (click)="abrirPacientes(paciente.id)"  
+                    class="p-1 sm:p-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors flex items-center justify-center border border-purple-200"
+                    title="Pacientes del fisioterapeuta"
+                  >
+                    <span class="material-icons text-sm sm:text-lg">calendar_today</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mensaje cuando no hay resultados -->
+        <div *ngIf="pacientesFiltrados.length === 0" class="text-center py-8">
+          <span class="material-icons text-gray-400 text-4xl mb-2">search_off</span>
+          <p class="text-gray-500 text-sm">No se encontraron fisioterapeutas que coincidan con "{{terminoBusqueda}}"</p>
+          <p class="text-gray-400 text-xs mt-1">Intenta con otro término de búsqueda</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- MODAL DE REGISTRO/EDICIÓN -->
+  <div *ngIf="mostrarModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+      <!-- Contenido del formulario -->
+      <div class="flex-1 overflow-y-auto">
+        <app-agregar-fisio
+        [fisio]="pacienteEditando"
+        [id]="this.id"
+        (guardar)="onGuardarPaciente()"
+        (cancelar)="cerrarModal()">
+        </app-agregar-fisio>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MODAL DE CITAS -->
+  <div *ngIf="mostrarCita" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+      <!-- Contenido del formulario -->
+      <div class="flex-1 overflow-y-auto">
+        <app-list-citas
+        (cancelar)="cerrarModal()"
+        [id]="this.id_fisio">
+        </app-list-citas>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MODAL DE PACIENTES -->
+  <div *ngIf="mostrarListPacient" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+      <!-- Contenido del formulario -->
+      <div class="flex-1 overflow-y-auto">
+        <app-pacientes-list
+        (cancelar)="cerrarModal()"
+        [id]="this.id_fisio">
+        </app-pacientes-list>
+      </div>
+    </div>
+  </div>
+</div>

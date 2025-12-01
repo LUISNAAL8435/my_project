@@ -1,0 +1,148 @@
+<div class="flex flex-col md:flex-row w-full h-full justify-center gap-4">
+    <div class="flex flex-col w-full md:border">
+        <h2 class=" flex bg-[#17295c] text-[white] font-semibold h-10 w-full items-center justify-center border border-gray-300">ANTECEDENTES OBSTÉTRICOS</h2>
+
+        <div class="flex flex-col w-full p-2 space-y-2">
+            <p>Vida sexual</p>
+            <div class="flex px-4">
+                <input type="text" [(ngModel)]="obstericos.vida_sexual" placeholder="Ejemplo: 20 años" class="border text-center border-gray-300 rounded-lg p-1 w-[20] focus:outline-none focus:ring focus:ring-blue-200">
+            </div>
+        </div>
+        <div class="flex flex-col w-full p-2 space-y-2">
+            <p>Metodos de protección</p>
+            <div class="flex px-4">
+                <select name="protec" [(ngModel)]="obstericos.metodo_proteccion" id="metodo" class="border border-gray-300 rounded-lg p-1 w-[220px] focus:outline-none focus:ring focus:ring-blue-200">
+                    <option value="Métodos de Barrera">Métodos de Barrera</option>
+                    <option value="Métodos Anticonceptivos">Métodos Anticonceptivos</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>Enfermedades de transmisión sexual</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="obstericos.enfermedades_transmision_sexual.resultado" type="checkbox">
+                <div *ngIf="obstericos.enfermedades_transmision_sexual.resultado">
+                <input type="text" [(ngModel)]="obstericos.enfermedades_transmision_sexual.respuesta" class="border text-center border-gray-300 rounded-lg p-1 w-[280px] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar cual">
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>¿Actualmente estas embarazada?</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="obstericos.actualmente_embarazada.resultado" type="checkbox">
+                <div *ngIf="obstericos.actualmente_embarazada.resultado">
+                <input [(ngModel)]="obstericos.actualmente_embarazada.respuesta" type="text" class="border text-center border-gray-300 rounded-lg p-1 w-[280px] text-centerfocus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar cuanto tiempo">
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>¿Tipos de partos?</p>
+            <div class="flex gap-2">
+                <div class="flex flex-col items-center w-[150px]">
+                <p>Parto natural</p>
+                <input [(ngModel)]="obstericos.parto_natural.resultado" type="checkbox">
+                </div>
+                <div *ngIf="obstericos.parto_natural.resultado">
+                <input [(ngModel)]="obstericos.parto_natural.respuesta" type="text" class="w-[80px] text-center border border-gray-300 rounded-lg p-1 w-[350px] focus:outline-none focus:ring focus:ring-blue-200 text-center"  placeholder="cuantas">
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <div class="flex flex-col items-center w-[150px]">
+                <p>Parto por cesaria</p>
+                <input [(ngModel)]="obstericos.parto_cesaria.resultado" type="checkbox">
+                </div>
+                <div *ngIf="obstericos.parto_cesaria.resultado">
+                <input [(ngModel)]="obstericos.parto_cesaria.respuesta" type="text" class="w-[80px] text-center border border-gray-300 rounded-lg p-1 w-[350px] focus:outline-none focus:ring focus:ring-blue-200 text-center" placeholder="cuantas">
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>¿Tuvo complicación(es) durante el/los parto(s)?</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="obstericos.complicacion_en_parto.resultado" type="checkbox">
+                <div *ngIf="obstericos.complicacion_en_parto.resultado">
+                <input [(ngModel)]="obstericos.complicacion_en_parto.respuesta" type="text" class="border text-center border-gray-300 rounded-lg p-1 w-[2800px] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar cual">
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>¿Lactancia(Tiempo,uso de formula)?</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="obstericos.lactancia.resultado" type="checkbox">
+                <div *ngIf="obstericos.lactancia.resultado">
+                <input [(ngModel)]="obstericos.lactancia.respuesta" type="text" class="border text-center border-gray-300 rounded-lg p-1 w-[280px] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar cuanto tiempo">
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>¿Abortó?</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="obstericos.aborto.resultado" type="checkbox">
+                <div *ngIf="obstericos.aborto.resultado">
+                <input [(ngModel)]="obstericos.aborto.respuesta" type="text" class="border text-center border-gray-300 rounded-lg p-1 w-[280px] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar cuantos">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="flex flex-col w-full border">
+        <h2 class="flex bg-[#17295c] text-[white] font-semibold h-10 w-full items-center justify-center border border-gray-300">ANTECEDENTES GINECOLÓGICOS</h2>
+
+        <div class="flex flex-col w-full p-2 space-y-2">
+            <p>Primera menarca</p>
+            <div class="flex gap-6 px-4">
+                <input [(ngModel)]="ginecologicos.primera_menarca" type="text" class="border text-center border-gray-300 rounded-lg p-1 w-[20] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Ejemplo: 20 años">
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>FUM (Fecha de la última menstruación)</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="ginecologicos.fecha_ultima_menstruacion" type="date" class="border border-gray-300 text-center rounded-lg p-1 w-[280px] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar cual">
+            </div>
+        </div>
+        <div class="flex w-full p-2">
+            <div class="flex flex-col space-y-2 p-2">
+            <p>Período de sangrado</p>
+            <div class="flex w-full gap-4 px-4">
+                <input [(ngModel)]="ginecologicos.periodo_sangrado" type="text" placeholder="Ejemplo: 7 días" class="border text-center border-gray-300 rounded-lg p-1 w-[150px] focus:outline-none focus:ring focus:ring-blue-200">
+            </div>
+            </div>
+            <div class="flex flex-col space-y-2 p-2">
+            <p>Tipo de Flujo</p>
+            <select [(ngModel)]="ginecologicos.tipo_flujo" name="flujo" id="tipoflujo" class="border border-gray-300 rounded-lg p-1 w-[100px] focus:outline-none focus:ring focus:ring-blue-200">
+                <option value="Leve">Leve</option>
+                <option value="Moderado">Moderado</option>
+                <option value="Abundante">Abundante</option>
+            </select>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>¿Medicamentos?</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="ginecologicos.medicamentos.resultado" type="checkbox">
+                <div *ngIf="ginecologicos.medicamentos.resultado">
+                <input [(ngModel)]="ginecologicos.medicamentos.respuesta" type="text" class="border text-center border-gray-300 rounded-lg p-1 w-[280px] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar cual">
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-full space-y-2 p-2">
+            <p>¿Menopausia?</p>
+            <div class="flex w-full gap-6 px-4">
+                <input [(ngModel)]="ginecologicos.menopausia.resultado" type="checkbox">
+                <div *ngIf="ginecologicos.menopausia.resultado">
+                <input [(ngModel)]="ginecologicos.menopausia.respuesta" type="text" class="border text-center border-gray-300 rounded-lg p-1 w-[280px] focus:outline-none focus:ring focus:ring-blue-200" placeholder="Mencionar si tiene sintomas">
+                </div>
+            </div>
+        </div>
+        <div class="flex w-full p-2">
+            <div class="flex-1 w-full flex-col space-y-2">
+            <p>Dismenorrea:</p>
+            <textarea [(ngModel)]="ginecologicos.dismenorrea" name="dismenorrea"  class="border h-40 border-gray-300 rounded-lg p-1 focus:outline-none focus:ring focus:ring-blue-200" id="id_dismenorrea" placeholder="sintomas"></textarea>
+            </div>
+            <div class="flex-1 w-full flex-col space-y-2">
+            <p>Amenorrea:</p>
+            <textarea [(ngModel)]="ginecologicos.amenorrea" name="amenorrea" class="border h-40 border-gray-300 rounded-lg p-1 focus:outline-none focus:ring focus:ring-blue-200" id="id_amenorrea" placeholder="sintomas"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

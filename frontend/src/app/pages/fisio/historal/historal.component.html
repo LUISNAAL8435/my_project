@@ -1,0 +1,107 @@
+<div class="w-full min-h-screen h-auto flex flex-col">
+    <!-- Modales de Confirmación -->
+    <div *ngIf="showSaveConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+            <h3 class="text-lg font-bold text-gray-800 mb-2">Confirmar Guardado</h3>
+            <p class="text-gray-600 mb-4">¿Está seguro que desea guardar los datos?</p>
+            <app-validation-actions
+                [entityType]="'datos'"
+                [showRegister]="true"
+                [showUpdate]="false"
+                [showDelete]="false"
+                [showCancel]="true"
+                (onRegister)="confirmarGuardado()"
+                (onCancel)="cancelarGuardado()">
+            </app-validation-actions>
+        </div>
+    </div>
+
+    <app-header-pacient
+    (clickGenerico)="solicitarGuardado()"
+    [paciente]="paciente"></app-header-pacient>
+
+    <!-- 🔹 Barra superior -->
+    <div class="flex w-full h-[60px] border items-center justify-between px-6 py-4 bg-white shadow
+            overflow-x-auto md:overflow-x-visible whitespace-nowrap scrollbar-hide gap-2">
+        <a (click)="Mostrarcontenido(1)" class="cursor-pointer bg-[#17295c] rounded-2xl font-semibold text-xs sm:text-sm md:text-base text-[white] hover:underline border px-4 py-2 inline-block">
+            Estudio socioeconómico
+        </a>
+        <a (click)="Mostrarcontenido(2)" class="cursor-pointer bg-[#17295c] rounded-2xl font-semibold text-xs sm:text-sm md:text-base text-[white] hover:underline border px-4 py-2 inline-block">
+            Antecedentes
+        </a>
+        <a (click)="Mostrarcontenido(0)" class="cursor-pointer font-semibold text-xs sm:text-sm md:text-base text-[white] hover:underline bg-[#17295c] rounded-2xl px-4 py-2 inline-block">
+            Historial
+        </a>
+        <a (click)="Mostrarcontenido(3)" class="cursor-pointer bg-[#17295c] rounded-2xl font-semibold text-xs sm:text-sm md:text-base text-[white] hover:underline border px-4 py-2 inline-block">
+            Test
+        </a>
+        <a (click)="Mostrarcontenido(4)" class="cursor-pointer bg-[#17295c] rounded-2xl font-semibold text-xs sm:text-sm md:text-base text-[white] hover:underline border px-4 py-2 inline-block">
+            Evaluación dolor
+        </a>
+        <a (click)="Mostrarcontenido(5)" class="cursor-pointer bg-[#17295c] rounded-2xl font-semibold text-xs sm:text-sm md:text-base text-[white] hover:underline border px-4 py-2 inline-block">
+            Neurológica periférica
+        </a>
+    </div>
+
+    <!-- 🔹 Contenedor Estudio -->
+    <div *ngIf="contenedor === 0" class="px-10 md:px-40 py-6 w-full shadow space-y-4">
+        <div>
+        <app-tablehistory [title]="titulo" [data]="antecedentes" (formChange)="onFormChange($event)"></app-tablehistory>
+        </div>
+        <div>
+        <app-tablehistory [title]="titulo2" [data]="antecedentes2" (formChange)="onFormChange($event)"></app-tablehistory>
+        </div>
+        <div>
+        <app-tablehistory [title]="titulo3" [data]="antecedentes3" (formChange)="onFormChange($event)"></app-tablehistory>
+        </div>
+    </div>
+
+    <!-- 🔹 Contenedor Historial -->
+    <div *ngIf="contenedor === 1" class="px-10 md:px-20 py-6 flex flex-col w-full space-y-5 shadow">
+
+        <div class="flex flex-col md:flex-row w-full justify-between gap-6">
+            <app-select class="flex-1" [title]="titulo4" [label]="label1" [(valor)]="grupoFamliarSelec" [options]="opcionesGruppoFamiliar"></app-select>
+            <app-select class="flex-1" [title]="titulo4" [label]="label4" [options]="productivas" [(valor)]="productivasSelec"></app-select>
+        </div>
+
+        <!-- Segunda fila -->
+        <div class="flex flex-col md:flex-row w-full justify-between gap-6">
+            <app-select class="flex-1" [title]="titulo4" [label]="label3" [options]="ninos" [(valor)]="ninosSelec"></app-select>
+            <app-select class="flex-1" [title]="titulo4" [label]="label2" [options]="adultos" [(valor)]="adultosSelec"></app-select>
+        </div>
+
+        <!-- Tercera fila -->
+        <div class="flex flex-col md:flex-row w-full justify-between gap-6">
+            <app-select class="flex-1" [title]="titulo6" [label]="label5" [options]="vivienda" [(valor)]="vivendaSelec"></app-select>
+            <app-select class="flex-1" [title]="titulo6" [label]="label6" [options]="cuartos" [(valor)]="CuartosSelec"></app-select>
+        </div>
+        <div class="flex flex-col md:flex-row w-full justify-between gap-6">
+            <app-select class="flex-1" [title]="titulo6" [label]="label7" [options]="Servicio" [(valor)]="serviciosSelec"></app-select>
+            <app-select class="flex-1" [title]="titulo7" [label]="label8" [options]="Transporte" [(valor)]="transporteSelec"></app-select>
+        </div>
+        <div class="flex flex-col md:flex-row w-full justify-between gap-6">
+            <app-select class="flex-1" [title]="''" [label]="label9" [options]="ocupacion" [(valor)]="ocupacionSelec"></app-select>
+            <app-select class="flex-1" [title]="''" [label]="label10" [options]="salario" [(valor)]="salarioSelec"></app-select>
+        </div>
+        <div class="flex flex-col md:flex-row w-full justify-between gap-6">
+            <app-select class="flex-1" [title]="''" [label]="label11" [options]="salud" [(valor)]="saludSelec"></app-select>
+        </div>
+    </div>
+
+    <div *ngIf="contenedor === 2" class="px-1 md:px-20 py-6 w-full shadow">
+        <app-socioeconomic-study #ginecolog
+        [paciente]="paciente"></app-socioeconomic-study>
+    </div>
+    <div *ngIf="contenedor === 3" class="px-5 md:px-20 flex flex-col w-full px-20 py-6 shadow">
+        <app-test #test
+        [paciente]="paciente"></app-test>
+    </div>
+    <div *ngIf="contenedor === 4" class="px-3 md:px-20 flex flex-col w-full py-6 shadow">
+        <app-evaluacion-dolor #evaluation
+        [paciente]="paciente"></app-evaluacion-dolor>
+    </div>
+    <div *ngIf="contenedor === 5" class="px-3 md:px-20 flex flex-col w-full py-6 shadow">
+        <app-neurologica #neurologica
+        [paciente]="paciente"></app-neurologica>
+    </div>
+</div>

@@ -1,73 +1,63 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormBuilder, Validators,FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { LogoComponent } from '../../fisio/logo/logo.component';// Ajusta la ruta según tu estructura
+import { GenericServiceService } from '../../../services/serviFisio/generic-service.service';
+import { AuthService } from '../../../core/services/auth-service.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html', // ← Debe apuntar a login.component.html
-  imports: [FormsModule, LogoComponent]
+  imports: [ReactiveFormsModule, CommonModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  email: string = '';
-  contrasena: string = '';
-  nombre: string = '';
-  rol: string = '';
-  adminUid: string = '';
+ form!: FormGroup;
+  verPassword: boolean = false;
+showSaveConfirmation: boolean = false;
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private Service:GenericServiceService,
+    private auth: AuthService
+  ) {}
 
-  // Credenciales genéricas para testing
-  private readonly CREDENCIALES_VALIDAS = [
-    { email: 'admin@fisiocenter.com', password: 'admin123', nombre: 'Administrador' },
-    { email: 'fisio@fisiocenter.com', password: 'fisio123', nombre: 'Fisioterapeuta' },
-    { email: 'usuario@fisiocenter.com', password: 'user123', nombre: 'Usuario' },
-    { email: 'test@test.com', password: 'test', nombre: 'Usuario Test' }
-  ];
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      gmail: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
-  constructor(private router: Router) {}
+  togglePassword() {
+    this.verPassword = !this.verPassword;
+  }
 
-  async iniciarSesion() {
-    console.log('Intentando login con:', this.email, this.contrasena);
-    
-    // Validar credenciales genéricas
-    const credencialValida = this.CREDENCIALES_VALIDAS.find(
-      cred => cred.email === this.email && cred.password === this.contrasena
-    );
-
-    if (credencialValida) {
-      // Login exitoso
-      localStorage.setItem('emailUsuario', credencialValida.nombre);
-      console.log('Login exitoso, redirigiendo al home...');
-      this.router.navigate(['/home']);
-    } else {
-      // Login fallido
-      console.log('Credenciales incorrectas');
-      alert('Credenciales incorrectas. Usa: test@test.com / test');
+  entrar() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
-  }
 
-  irArecuperar() {
-    this.router.navigate(['recuperar']);
-  }
+    this.Service.create<any>('auth/login',this.form.value).subscribe({
+      next: (user) => {
+        console.log('Usuario logueado:', user);
+        this.auth.login(user);
+        // Redirigir a perfil usando su id
+        if(user.rol==='admin'){
+        this.router.navigate(['/admin/homeAdmin']);
+      }else{
+        this.router.navigate(['/fisio'])
+      }
 
-  irAotrapagina() {
-    this.router.navigate(['registro']);
+      },
+      error: (err) => this.showSaveConfirmation=true
+    });
   }
-
-  // Método para autocompletar credenciales de prueba (opcional)
-  autocompletarCredenciales(tipo: string) {
-    switch(tipo) {
-      case 'admin':
-        this.email = 'admin@fisiocenter.com';
-        this.contrasena = 'admin123';
-        break;
-      case 'fisio':
-        this.email = 'fisio@fisiocenter.com';
-        this.contrasena = 'fisio123';
-        break;
-      case 'test':
-        this.email = 'test@test.com';
-        this.contrasena = 'test';
-        break;
-    }
+ok(){
+  this.showSaveConfirmation=false;
+}
+  crearCuenta() {
+    this.router.navigate(['/create-account']);
   }
 }

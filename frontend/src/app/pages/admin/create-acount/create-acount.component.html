@@ -1,0 +1,131 @@
+<div class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div
+  *ngIf="showSaveConfirmation"
+  class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300"
+  style="z-index: 50;"
+>
+  <div
+    class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm animate-scaleIn"
+  >
+    <p class="text-gray-600 text-center mb-6">
+       Admin creado correctamente
+    </p>
+
+    <button
+      (click)="ok()"
+      class="w-full py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors duration-200 active:scale-95"
+    >
+      Ok
+    </button>
+  </div>
+</div>
+  
+  
+  <div class="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-6 md:p-10 border border-blue-100">
+
+    <!-- Botón Regresar -->
+    <div class="mb-6">
+      <button (click)="login()" 
+              class="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors group">
+        <img src="https://img.icons8.com/ios-glyphs/20/3b82f6/back.png" alt="regresar" class="w-4 h-4">
+        <span class="font-semibold group-hover:underline">Regresar al Login</span>
+      </button>
+    </div>
+
+    <h1 class="text-2xl font-bold text-slate-800 mb-2 text-center">Crear Cuenta</h1>
+    <p class="text-gray-600 text-center mb-8">Registro de nuevo usuario</p>
+
+    <form [formGroup]="form" (ngSubmit)="enviar()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Nombre -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <img src="https://img.icons8.com/ios-glyphs/20/6b7280/user.png" alt="nombre" class="w-5 h-5">
+          </div>
+          <input type="text" formControlName="nombre"
+                 class="w-full border border-gray-300 pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                 placeholder="Tu nombre">
+        </div>
+        <small *ngIf="form.get('nombre')?.touched && form.get('nombre')?.invalid"
+               class="text-red-500 text-xs mt-1 block">Mínimo 2 caracteres.</small>
+      </div>
+
+      <!-- Apellidos -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Apellidos</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <img src="https://img.icons8.com/ios-glyphs/20/6b7280/contacts.png" alt="apellidos" class="w-5 h-5">
+          </div>
+          <input type="text" formControlName="apellidos"
+                 class="w-full border border-gray-300 pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                 placeholder="Tus apellidos">
+        </div>
+        <small *ngIf="form.get('apellidos')?.touched && form.get('apellidos')?.invalid"
+               class="text-red-500 text-xs mt-1 block">Mínimo 2 caracteres.</small>
+      </div>
+
+      <!-- Gmail -->
+      <div class="md:col-span-2">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Correo Electrónico</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <img src="https://img.icons8.com/ios-glyphs/20/6b7280/email.png" alt="email" class="w-5 h-5">
+          </div>
+          <input type="email" formControlName="gmail"
+                 class="w-full border border-gray-300 pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                 placeholder="tunombre@gmail.com">
+        </div>
+        <small *ngIf="form.get('gmail')?.touched && form.get('gmail')?.invalid"
+               class="text-red-500 text-xs mt-1 block">Ingrese un Gmail válido</small>
+      </div>
+
+      <!-- Password -->
+      <div class="md:col-span-2">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <img src="https://img.icons8.com/ios-glyphs/20/6b7280/lock.png" alt="contraseña" class="w-5 h-5">
+          </div>
+          <input [type]="verPassword ? 'text' : 'password'"
+                 formControlName="password"
+                 class="w-full border border-gray-300 pl-10 pr-12 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                 placeholder="Mínimo 6 caracteres">
+          <button type="button"
+                  (click)="togglePassword()"
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center hover:bg-gray-100 rounded-r-xl transition-colors">
+            <img 
+              [src]="verPassword ? 'https://img.icons8.com/ios-glyphs/20/6b7280/hide.png' : 'https://img.icons8.com/ios-glyphs/20/6b7280/visible.png'" 
+              [alt]="verPassword ? 'ocultar' : 'mostrar'" 
+              class="w-5 h-5"
+            >
+          </button>
+        </div>
+        <small *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+               class="text-red-500 text-xs mt-1 block">Mínimo 6 caracteres.</small>
+      </div>
+
+      <!-- Botones -->
+      <div class="md:col-span-2 flex flex-col md:flex-row gap-4 mt-6">
+        <button type="submit"
+                class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-[0_4px_12px_rgba(59,130,246,0.25)] hover:shadow-[0_6px_20px_rgba(59,130,246,0.35)]">
+          Crear Cuenta
+        </button>
+        <button type="button"
+                (click)="login()"
+                class="flex-1 border-2 border-blue-500 text-blue-600 py-3 rounded-xl font-semibold hover:bg-blue-50 transition-all">
+          Iniciar Sesión
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Footer -->
+    <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+      <p class="text-sm text-gray-600">Sistema de Gestión de Fisioterapia</p>
+    </div>
+
+  </div>
+</div>

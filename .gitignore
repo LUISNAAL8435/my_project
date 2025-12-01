@@ -24,3 +24,5 @@ Thumbs.db
 # ---- DOCKER ----
 docker-compose.override.yml
 docker/*.log
+__pycache__/
+*.pyc

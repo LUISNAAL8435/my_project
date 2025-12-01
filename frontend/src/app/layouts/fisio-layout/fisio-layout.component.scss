@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.app-layout {
+  height: 100vh;
+  overflow: hidden; // Mantener esto para el layout general
+}
+
+.main-content {
+  height: 100vh;
+  overflow-y: auto; // CAMBIO: Permitir scroll vertical
+  overflow-x: hidden; // Mantener oculto el scroll horizontal
+  width: calc(100vw - 72px);
+  transition: width 0.2s ease-in-out;
+  
+  // Cuando el sidebar está expandido
+  .sidebar-expanded & {
+    width: calc(100vw - 240px);
+  }
+}
+
+// Scroll personalizado para el área de contenido
+.main-content ::ng-deep * {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}

@@ -1,0 +1,261 @@
+<div class="w-full">
+  <!-- Modales de Confirmación -->
+  <!-- Modal Guardar -->
+  <div *ngIf="showSaveConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">Confirmar Guardado</h3>
+      <p class="text-gray-600 mb-4">¿Está seguro que desea guardar la unidad de atención?</p>
+      <app-validation-actions
+        [entityType]="'unidad de atención'"
+        [showRegister]="true"
+        [showUpdate]="false"
+        [showDelete]="false"
+        [showCancel]="true"
+        (onRegister)="confirmarGuardar()"
+        (onCancel)="cancelarGuardar()">
+      </app-validation-actions>
+    </div>
+  </div>
+
+  <!-- Modal Actualizar -->
+  <div *ngIf="showUpdateConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">Confirmar Actualización</h3>
+      <p class="text-gray-600 mb-4">¿Está seguro que desea actualizar la unidad de atención?</p>
+      <app-validation-actions
+        [entityType]="'unidad de atención'"
+        [showRegister]="false"
+        [showUpdate]="true"
+        [showDelete]="false"
+        [showCancel]="true"
+        (onUpdate)="confirmarActualizar()"
+        (onCancel)="cancelarActualizar()">
+      </app-validation-actions>
+    </div>
+  </div>
+
+  <!-- Modal Eliminar -->
+  <div *ngIf="showDeleteConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="z-index: 50;">
+    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-bold text-gray-800 mb-2">Confirmar Eliminación</h3>
+      <p class="text-gray-600 mb-4">¿Está seguro que desea eliminar esta unidad de atención?</p>
+      <app-validation-actions
+        [entityType]="'unidad de atención'"
+        [showRegister]="false"
+        [showUpdate]="false"
+        [showDelete]="true"
+        [showCancel]="true"
+        (onDelete)="confirmarEliminar()"
+        (onCancel)="cancelarEliminar()">
+      </app-validation-actions>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div>
+    <!-- Header simple -->
+    <div class="text-center py-4 bg-blue-600 text-white w-full mb-6">
+      <h2 class="text-xl font-bold">UNIDAD DE ATENCIÓN DE FISIOTERAPIA</h2>
+      <p class="text-sm mt-1 opacity-90">Complete los datos de la unidad de atención</p>
+    </div>
+    
+    <!-- Primera fila: 4 columnas -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+      <div class="space-y-1"> 
+        <label class="block text-sm font-semibold text-gray-700">Unidad</label>
+        <input 
+          [(ngModel)]="unidadDeAtencion.unidad" 
+          type="text" 
+          placeholder="Unidad"
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+        >
+      </div>
+      
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Fecha</label>
+        <input 
+          [(ngModel)]="unidadDeAtencion.fecha" 
+          type="date"
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+        >
+      </div>
+
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Folio</label>
+        <input 
+          [(ngModel)]="folio" 
+          type="text" 
+          placeholder="Folio"
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+        >
+      </div>
+      
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Sesión</label>
+        <input 
+          [(ngModel)]="unidadDeAtencion.sesion" 
+          type="text" 
+          placeholder="Sesión"
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+        >
+      </div>
+    </div>
+
+    <!-- Segunda fila: 3 columnas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Nombre</label>
+        <input 
+          [(ngModel)]="unidadDeAtencion.nombre" 
+          type="text" 
+          placeholder="Nombre"
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+        >
+      </div>
+
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Sexo</label>
+        <div class="flex space-x-2 mt-2">
+          <button 
+            (click)="seleccionarSexo('Masculino')"
+            [class.bg-blue-600]="botonM === 'blue'"
+            [class.text-white]="botonM === 'blue'"
+            [class.border-blue-600]="botonM === 'blue'"
+            [class.bg-gray-100]="botonM !== 'blue'"
+            [class.text-gray-700]="botonM !== 'blue'"
+            [class.border-gray-300]="botonM !== 'blue'"
+            class="flex-1 px-3 py-2 border rounded text-sm transition-all hover:bg-gray-200"
+          >
+            M
+          </button>
+          <button 
+            (click)="seleccionarSexo('Femenino')"
+            [class.bg-pink-600]="botonF === 'blue'"
+            [class.text-white]="botonF === 'blue'"
+            [class.border-pink-600]="botonF === 'blue'"
+            [class.bg-gray-100]="botonF !== 'blue'"
+            [class.text-gray-700]="botonF !== 'blue'"
+            [class.border-gray-300]="botonF !== 'blue'"
+            class="flex-1 px-3 py-2 border rounded text-sm transition-all hover:bg-gray-200"
+          >
+            F
+          </button>
+        </div>
+      </div>
+      
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Edad</label>
+        <input 
+          [(ngModel)]="unidadDeAtencion.edad" 
+          type="text" 
+          placeholder="Edad"
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+        >
+      </div>
+    </div>
+
+    <!-- Campos de texto grandes -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Subjetivo</label>
+        <textarea 
+          [(ngModel)]="unidadDeAtencion.subjetivo" 
+          rows="4"
+          placeholder="Subjetivo..."
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
+        ></textarea>
+      </div>
+
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Objetivo</label>
+        <textarea 
+          [(ngModel)]="unidadDeAtencion.objetivo" 
+          rows="4"
+          placeholder="Objetivo..."
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Segunda fila de textareas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Análisis</label>
+        <textarea 
+          [(ngModel)]="unidadDeAtencion.analisis" 
+          rows="4"
+          placeholder="Análisis..."
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
+        ></textarea>
+      </div>
+
+      <div class="space-y-1">
+        <label class="block text-sm font-semibold text-gray-700">Plan</label>
+        <textarea 
+          [(ngModel)]="unidadDeAtencion.plan" 
+          rows="4"
+          placeholder="Plan..."
+          class="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none bg-white"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!--Lista de Unidades-->
+  <div>
+    <!-- Header simple -->
+    <div class="text-center py-4 bg-blue-600 text-white w-full mb-6">
+      <h2 class="text-xl font-bold">UNIDADES DE ATENCIÓN DE FISIOTERAPIA REGISTRADAS</h2>
+    </div>
+    
+    <div 
+      *ngFor="let datos of unidades" 
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-white border-2 border-blue-500 rounded-lg p-4 hover:bg-blue-50 transition-colors gap-4"
+    >
+      <!-- Información -->
+      <div>
+        <div class="font-semibold text-gray-800 text-lg">
+          Sesión: {{ datos.sesion }}
+        </div>
+        <div class="text-sm text-gray-600 mt-1">
+          Fecha: {{ datos.fecha | date:'dd/MM/yyyy' }}
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex gap-2 justify-end sm:justify-center">
+        <button  
+          (click)="editar(datos)"
+          class="p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center justify-center border border-blue-200"
+          title="Editar unidad"
+        >
+          <span class="material-icons text-lg">edit</span>
+        </button>
+
+        <button
+          (click)="solicitarEliminar(datos.id)"  
+          class="p-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center border border-red-200"
+          title="Eliminar unidad"
+        >
+          <span class="material-icons text-lg">delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones al final -->
+  <div class="flex gap-3 justify-end pt-4 border-t border-gray-200">
+    <button 
+      (click)="solicitarGuardar()"
+      class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-all font-semibold text-sm"
+    >
+      Guardar
+    </button>
+    <button 
+      (click)="onCancelar()"
+      class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-all font-semibold text-sm"
+    >
+      Cancelar
+    </button>
+  </div>
+</div>
